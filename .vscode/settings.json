@@ -1,0 +1,26 @@
+{
+  "workbench.colorCustomizations": {
+    "sideBar.background": "#330",
+    "tab.inactiveBackground": "#330",
+    "tab.activeBackground": "#660"
+  },
+
+  // "eslint.validate": ["javascript", "svelte"],
+
+  "files.exclude": {
+    "**/node_modules": true
+  },
+
+  // // REF https://www.techiediaries.com/enable-json-comments-vs-code
+  // "files.associations": {
+  //   ".eslintrc.json": "jsonc",
+  //   "*.yml": "yaml"
+  // },
+
+  // "[sass]": {
+  //   "editor.defaultFormatter": "syler.sass-indented"
+  // },
+
+  // decouple zoom
+  "window.zoomLevel": 0
+}
