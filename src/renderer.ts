@@ -26,8 +26,7 @@
  * ```
  */
 
-import './index.scss';
+import './index.sass';
 
 console.log('👋 This message is being logged by "renderer.ts", included via Vite');
-console.log('howdy, renderer 789');
-
+console.log('howdy, renderer 345789');
