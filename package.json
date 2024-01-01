@@ -1,5 +1,5 @@
 {
-  "name": "neopic-e-name",
+  "name": "neopic",
   "productName": "neopic-e-product",
   "version": "0.1.0",
   "description": "electron based neopic",
@@ -9,7 +9,8 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "lint": "eslint --ext .ts,.tsx ."
+    "lint": "eslint --ext .ts,.tsx .",
+    "clean": "npx --yes rimraf node_modules .vite out .cache .next .nuxt .npm"
   },
   "engines": {
     "node": ">=20"

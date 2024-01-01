@@ -8,6 +8,7 @@ import { VitePlugin } from '@electron-forge/plugin-vite';
 
 const config: ForgeConfig = {
   packagerConfig: {
+    executableName: "neopic",
     asar: true,
   },
   rebuildConfig: {},
