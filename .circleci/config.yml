@@ -1,33 +1,89 @@
 version: 2.1
-jobs:
+
+orbs:
+  node: circleci/node@5.1.0
+  win: circleci/windows@5.0
+  mac: circleci/macos@1.1.0
+
+
+workflows: # ================================================
+  version: 2
   build:
+    jobs:
+      - build-linux:
+          filters:
+            branches:
+              only: master
+      - build-macos:
+          filters:
+            branches:
+              only: masterDEACTIVATED
+      - build-windows:
+          filters:
+            branches:
+              only: masterDEACTIVATED
+
+jobs: # ======================================================
+  build-linux:
     working_directory: ~/repo
     docker:
       - image: cimg/node:20.10.0
-      # REF https://circleci.com/developer/images/image/cimg/node
     steps:
-      - checkout
       - run:
-          name: Update NPM
-          command: "sudo npm install -g npm"
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-      - run:
-          name: Install Dependencies
-          command: npm install
-      - run:
-          name: Install dpkg and fakeroot
+          name: sanity test
           command: |
-            sudo apt-get update -y
-            sudo apt-get install -y dpkg fakeroot
-
-      - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-          paths:
-            - ./node_modules
-      - run:
-          name: Generate Builds
-          command: npm run make
-
+            pwd
+            echo "pwd: $PWD   node version: $(node --version)  shell: $SHELL"
+            echo "Jaa, Nee" > ~/repo/out/make/linux.exe
+      # - checkout
+      # - run:
+      #     name: Update NPM
+      #     command: "sudo npm install -g npm"
+      # - restore_cache:
+      #     key: dependency-cache-{{ checksum "package.json" }}
+      # - run:
+      #     name: Install Dependencies
+      #     command: npm install
+      # - run:
+      #     name: Install dpkg and fakeroot
+      #     command: |
+      #       sudo apt-get update -y
+      #       sudo apt-get install -y dpkg fakeroot
+      # - save_cache:
+      #     key: dependency-cache-{{ checksum "package.json" }}
+      #     paths:
+      #       - ./node_modules
+      # - run:
+      #     name: Generate Builds
+      #     command: npm run make
       - store_artifacts:
           path: ~/repo/out/make
+
+  build-macos:
+    working_directory: ~/repo
+    macos:
+      xcode: 15.1.0
+    steps:
+      - run:
+          name: sanity test mac
+          command: |
+            pwd
+            echo "pwd: $PWD   node version: $(node --version)  shell: $SHELL"
+            echo "Jaa, Nee" > ~/repo/out/make/mac.exe
+      - store_artifacts:
+          path: ~/repo/out/make
+
+  build-windows:
+    executor:
+      name: win/default
+      shell: bash
+    steps:
+      - run: mkdir -p ./build
+      - run:
+          name: sanity test win
+          command: |
+            pwd
+            echo "pwd: $PWD   node version: $(node --version)  shell: $SHELL"
+            echo "Jaa, Nee" > ./build/win.exe
+      - store_artifacts:
+          path: build
