@@ -26,14 +26,14 @@ workflows: # ================================================
 commands: # ================================================
   steps-before:
     steps:
+      # checkout must be before mkdir, mkdir must be before sanity test 😬
+      - checkout
       - run: mkdir -p ./out
       - run:
           name: sanity test
           command: |
             echo "pwd: $PWD   node version: $(node --version)  shell: $SHELL   uname: $(uname)"
             echo "Jaa, Nee" > ./out/some-artifact.exe
-      - checkout
-
 
 jobs: # ======================================================
   build-linux:
