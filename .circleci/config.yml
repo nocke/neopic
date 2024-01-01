@@ -25,17 +25,16 @@ workflows: # ================================================
 
 jobs: # ======================================================
   build-linux:
-    working_directory: ~/repo
     docker:
       - image: cimg/node:20.10.0
     steps:
-      - run: mkdir -p ~/repo
+      - run: mkdir -p ./out
       - run:
           name: sanity test
           command: |
             pwd
             echo "pwd: $PWD   node version: $(node --version)  shell: $SHELL"
-            echo "Jaa, Nee" > ~/repo/out/make/linux.exe
+            echo "Jaa, Nee" > ./out/linux.exe
       # - checkout
       # - run:
       #     name: Update NPM
@@ -58,10 +57,9 @@ jobs: # ======================================================
       #     name: Generate Builds
       #     command: npm run make
       - store_artifacts:
-          path: ~/repo/out/make
+          path: out
 
   build-macos:
-    working_directory: ~/repo
     macos:
       xcode: 15.1.0
     steps:
@@ -70,21 +68,21 @@ jobs: # ======================================================
           command: |
             pwd
             echo "pwd: $PWD   node version: $(node --version)  shell: $SHELL"
-            echo "Jaa, Nee" > ~/repo/out/make/mac.exe
+            echo "Jaa, Nee" > ~/repo/mac.exe
       - store_artifacts:
-          path: ~/repo/out/make
+          path: out
 
   build-windows:
     executor:
       name: win/default
       shell: bash
     steps:
-      - run: mkdir -p ./build
+      - run: mkdir -p ./out
       - run:
           name: sanity test win
           command: |
             pwd
             echo "pwd: $PWD   node version: $(node --version)  shell: $SHELL"
-            echo "Jaa, Nee" > ./build/win.exe
+            echo "Jaa, Nee" > ./out/win.exe
       - store_artifacts:
-          path: build
+          path: out
