@@ -93,3 +93,6 @@ out/
 
 # separate folders for examination
 TESTBUILDS/
+
+# TEMPTEMP
+package-lock.json
