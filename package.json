@@ -1,7 +1,7 @@
 {
   "name": "neopic",
   "productName": "neopic-e-product",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "electron based neopic",
   "main": ".vite/build/main.js",
   "scripts": {
@@ -11,7 +11,6 @@
     "publish": "electron-forge publish",
     "lint": "eslint --ext .ts,.tsx .",
     "clean": "npx --yes rimraf node_modules .vite out .cache .next .nuxt .npm",
-
     "preversion": "git diff-index --quiet HEAD -- || (echo 'Uncommitted changes! Please commit or stash them.' && exit 1)",
     "postversion": "git push && git push --tags"
   },
