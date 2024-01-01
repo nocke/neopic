@@ -14,7 +14,7 @@ const config: ForgeConfig = {
   rebuildConfig: {},
   makers: [
     new MakerSquirrel({
-      name: "neopic-windows",
+      name: "neopic",
       authors: "Frank Author"
     }),
     new MakerDMG({}),
