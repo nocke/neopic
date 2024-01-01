@@ -12,7 +12,9 @@ const config: ForgeConfig = {
   },
   rebuildConfig: {},
   makers: [
-    new MakerSquirrel({}),
+    new MakerSquirrel({
+      name: "neopic-windows"
+    }),
     new MakerDMG({}),
     new MakerZIP({}, ['linux', 'darwin']),
     new MakerRpm({}),

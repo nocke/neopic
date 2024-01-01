@@ -90,3 +90,6 @@ typings/
 
 # Electron-Forge
 out/
+
+# separate folders for examination
+TESTBUILDS/

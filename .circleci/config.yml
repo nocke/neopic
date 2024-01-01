@@ -28,12 +28,12 @@ commands: # ================================================
     steps:
       # checkout must be before mkdir, mkdir must be before sanity test 😬
       - checkout
-      - run: mkdir -p ./out
+      - run: mkdir -p ./out/make
       - run:
           name: sanity test
           command: |
             echo "pwd: $PWD   node version: $(node --version)  shell: $SHELL   uname: $(uname)"
-            echo "Jaa, Nee" > ./out/some-artifact.exe
+            echo "sample content" > ./out/make/some-artifact.exe
 
 jobs: # ======================================================
   build-linux:
@@ -55,7 +55,7 @@ jobs: # ======================================================
             - ./node_modules
       - run: npm run make
       - store_artifacts:
-          path: out
+          path: out/make
 
   build-macos:
     macos:
@@ -76,7 +76,7 @@ jobs: # ======================================================
             - ./node_modules
       - run: npm run make
       - store_artifacts:
-          path: out
+          path: out/make
 
   build-windows:
     executor:
@@ -97,4 +97,4 @@ jobs: # ======================================================
             - ./node_modules
       - run: npm run make
       - store_artifacts:
-          path: out
+          path: out/make
