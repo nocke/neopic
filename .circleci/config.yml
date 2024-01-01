@@ -26,12 +26,12 @@ workflows: # ================================================
 commands: # ================================================
   steps-before:
     steps:
+      - run: mkdir -p ./out
       - run:
           name: sanity test
           command: |
-            echo "pwd: $PWD   node version: $(node --version)  shell: $SHELL"
+            echo "pwd: $PWD   node version: $(node --version)  shell: $SHELL   uname: $(uname)"
             echo "Jaa, Nee" > ./out/some-artifact.exe
-      - run: mkdir -p ./out
       - checkout
 
 
@@ -53,7 +53,7 @@ jobs: # ======================================================
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - ./node_modules
-      - run: npm run make
+      - run: npm run make -- --platform linux
       - store_artifacts:
           path: out
 
@@ -68,12 +68,13 @@ jobs: # ======================================================
       - run:
           name: Install dpkg and fakeroot
           command: |
-            echo TODO
+            brew update
+            brew install dpkg fakeroot
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - ./node_modules
-      - run: npm run make
+      - run: npm run make -- --platform darwin
       - store_artifacts:
           path: out
 
@@ -94,6 +95,6 @@ jobs: # ======================================================
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - ./node_modules
-      - run: npm run make
+      - run: npm run make -- --platform win32
       - store_artifacts:
           path: out
