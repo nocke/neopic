@@ -13,7 +13,7 @@ export default defineConfig({
 			assetFileNames: `assets/renderer.[ext]`
 		  }
 		},
-		outDir: '.vite/build'
+		outDir: '.vite/renderer/main_window'
 	  },
 
 
