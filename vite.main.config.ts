@@ -4,14 +4,14 @@ export default defineConfig({
 
   build: {
     rollupOptions: {
-      input: 'src/main.ts',
+      input: 'index.html',
       output: {
         entryFileNames: `main.js`,
         chunkFileNames: `main.js`,
         assetFileNames: `assets/main.[ext]`
       }
     },
-    outDir: '.vite/build'
+    outDir: '.vite/renderer/main_window'
   },
 
   resolve: {

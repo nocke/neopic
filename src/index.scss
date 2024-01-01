@@ -1,0 +1,14 @@
+
+$primary-color: #333;
+
+body {
+  color: $primary-color;
+  font-family: Ubuntu, sans-serif;
+  content: 'FRANK';
+
+  margin: auto;
+  max-width: 38rem;
+  padding: 2rem;
+
+  background: rgba( blue, .2);
+}
