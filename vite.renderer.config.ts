@@ -1,4 +1,20 @@
 import { defineConfig } from 'vite';
 
-// https://vitejs.dev/config
-export default defineConfig({});
+export default defineConfig({
+	plugins: [
+
+	],
+	build: {
+		rollupOptions: {
+		  input: 'src/renderer.ts',
+		  output: {
+			entryFileNames: `renderer.js`,
+			chunkFileNames: `renderer.js`,
+			assetFileNames: `assets/renderer.[ext]`
+		  }
+		},
+		outDir: '.vite/build'
+	  },
+
+
+});

@@ -1,4 +1,19 @@
 import { defineConfig } from 'vite';
 
-// https://vitejs.dev/config
-export default defineConfig({});
+export default defineConfig({
+	plugins: [
+
+	],
+	build: {
+		rollupOptions: {
+			input: 'src/preload.ts',
+			output: {
+				entryFileNames: `preload.js`,
+				chunkFileNames: `preload.js`,
+				assetFileNames: `assets/preload.[ext]`
+			}
+		  },
+		outDir: '.vite/build',
+	},
+
+});
