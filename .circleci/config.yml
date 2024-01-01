@@ -23,39 +23,37 @@ workflows: # ================================================
             branches:
               only: master
 
+commands: # ================================================
+  steps-before:
+    steps:
+      - run:
+          name: sanity test
+          command: |
+            echo "pwd: $PWD   node version: $(node --version)  shell: $SHELL"
+            echo "Jaa, Nee" > ./out/some-artifact.exe
+      - run: mkdir -p ./out
+      - checkout
+
+
 jobs: # ======================================================
   build-linux:
     docker:
       - image: cimg/node:20.10.0
     steps:
-      - run: mkdir -p ./out
+      - steps-before
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run: npm install
       - run:
-          name: sanity test
+          name: Install OS specific
           command: |
-            pwd
-            echo "pwd: $PWD   node version: $(node --version)  shell: $SHELL"
-            echo "Jaa, Nee" > ./out/linux.exe
-      # - checkout
-      # - run:
-      #     name: Update NPM
-      #     command: "sudo npm install -g npm"
-      # - restore_cache:
-      #     key: dependency-cache-{{ checksum "package.json" }}
-      # - run:
-      #     name: Install Dependencies
-      #     command: npm install
-      # - run:
-      #     name: Install dpkg and fakeroot
-      #     command: |
-      #       sudo apt-get update -y
-      #       sudo apt-get install -y dpkg fakeroot
-      # - save_cache:
-      #     key: dependency-cache-{{ checksum "package.json" }}
-      #     paths:
-      #       - ./node_modules
-      # - run:
-      #     name: Generate Builds
-      #     command: npm run make
+            sudo apt-get update -y
+            sudo apt-get install -y dpkg fakeroot
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run: npm run make
       - store_artifacts:
           path: out
 
@@ -63,12 +61,19 @@ jobs: # ======================================================
     macos:
       xcode: 15.1.0
     steps:
+      - steps-before
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run: npm install
       - run:
-          name: sanity test mac
+          name: Install dpkg and fakeroot
           command: |
-            pwd
-            echo "pwd: $PWD   node version: $(node --version)  shell: $SHELL"
-            echo "Jaa, Nee" > ~/repo/mac.exe
+            echo TODO
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run: npm run make
       - store_artifacts:
           path: out
 
@@ -77,12 +82,18 @@ jobs: # ======================================================
       name: win/default
       shell: bash
     steps:
-      - run: mkdir -p ./out
+      - steps-before
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run: npm install
       - run:
-          name: sanity test win
+          name: Install dpkg and fakeroot
           command: |
-            pwd
-            echo "pwd: $PWD   node version: $(node --version)  shell: $SHELL"
-            echo "Jaa, Nee" > ./out/win.exe
+            echo TODO
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run: npm run make
       - store_artifacts:
           path: out
