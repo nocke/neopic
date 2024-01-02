@@ -11,8 +11,13 @@
     "publish": "electron-forge publish",
     "lint": "eslint --ext .ts,.tsx .",
     "clean": "npx --yes rimraf node_modules .vite out .cache .next .nuxt .npm",
+
+    "precircleci": "git diff-index --quiet HEAD -- || (echo 'Uncommitted changes! Please commit or stash them.' && exit 1)",
+    "circleci": "git tag -f circleci-$(git rev-parse --short=7 HEAD) && git push bitbucket --tags",
+
     "preversion": "git diff-index --quiet HEAD -- || (echo 'Uncommitted changes! Please commit or stash them.' && exit 1)",
     "postversion": "git push && git push --tags",
+
     "vite:build-main": "vite build --config vite.main.config.ts",
     "vite:build-preload": "vite build --config vite.preload.config.ts",
     "vite:build-renderer": "vite build --config vite.renderer.config.ts"
@@ -20,6 +25,7 @@
   "engines": {
     "node": ">=20"
   },
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "bitbucket.org:fnocke/neopic-e.git"
@@ -44,6 +50,7 @@
     "electron": "28.1.0",
     "eslint": "^8.0.1",
     "eslint-plugin-import": "^2.25.0",
+    "sass": "^1.69.6",
     "svelte": "^4.2.8",
     "ts-node": "^10.0.0",
     "typescript": "~4.5.4"
