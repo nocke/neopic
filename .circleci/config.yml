@@ -14,14 +14,20 @@ workflows: # ================================================
           filters:
             branches:
               only: master
+            tags:
+              only: /^circleci-/
       - build-macos:
           filters:
             branches:
               only: master
+            tags:
+              only: /^circleci-/
       - build-windows:
           filters:
             branches:
               only: master
+            tags:
+              only: /^circleci-/
 
 commands: # ================================================
   steps-before:
