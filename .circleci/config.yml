@@ -12,14 +12,20 @@ workflows: # ================================================
     jobs:
       - build-linux:
           filters:
+            branches:
+              ignore: /.*/
             tags:
               only: /^circleci-/
       - build-macos:
           filters:
+            branches:
+              ignore: /.*/
             tags:
               only: /^circleci-/
       - build-windows:
           filters:
+            branches:
+              ignore: /.*/
             tags:
               only: /^circleci-/
 
@@ -42,7 +48,7 @@ jobs: # ======================================================
     steps:
       - steps-before
       - restore_cache:
-          key: dependency-linux-{{ checksum "package.json" }}
+          key: dependency-A-linux-{{ checksum "package.json" }}
       - run: npm install
       - run:
           name: Install OS specific
@@ -51,7 +57,7 @@ jobs: # ======================================================
             sudo apt-get install -y dpkg fakeroot rpm
             # rpm only needed for MakerRpm
       - save_cache:
-          key: dependency-linux-{{ checksum "package.json" }}
+          key: dependency-A-linux-{{ checksum "package.json" }}
           paths:
             - ./node_modules
       - run: npm run make
@@ -64,7 +70,7 @@ jobs: # ======================================================
     steps:
       - steps-before
       - restore_cache:
-          key: dependency-macos-{{ checksum "package.json" }}
+          key: dependency-A-macos-{{ checksum "package.json" }}
       - run: npm install
       - run:
           name: Install dpkg and fakeroot
@@ -72,7 +78,7 @@ jobs: # ======================================================
             brew update
             brew install dpkg fakeroot
       - save_cache:
-          key: dependency-macos-{{ checksum "package.json" }}
+          key: dependency-A-macos-{{ checksum "package.json" }}
           paths:
             - ./node_modules
       - run: npm run make
@@ -86,14 +92,10 @@ jobs: # ======================================================
     steps:
       - steps-before
       - restore_cache:
-          key: dependency-windows-{{ checksum "package.json" }}
+          key: dependency-A-windows-{{ checksum "package.json" }}
       - run: npm install
-      - run:
-          name: Install dpkg and fakeroot
-          command: |
-            echo TODO
       - save_cache:
-          key: dependency-windows-{{ checksum "package.json" }}
+          key: dependency-A-windows-{{ checksum "package.json" }}
           paths:
             - ./node_modules
       - run: npm run make
