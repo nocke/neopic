@@ -1,8 +1,8 @@
 {
   "workbench.colorCustomizations": {
-    "sideBar.background": "#330",
-    "tab.inactiveBackground": "#330",
-    "tab.activeBackground": "#660"
+    "sideBar.background": "#18182A",
+    "tab.inactiveBackground": "#202030",
+    "tab.activeBackground": "#558"
   },
 
   // "eslint.validate": ["javascript", "svelte"],
@@ -17,9 +17,9 @@
   //   "*.yml": "yaml"
   // },
 
-  // "[sass]": {
-  //   "editor.defaultFormatter": "syler.sass-indented"
-  // },
+  "[sass]": {
+    "editor.defaultFormatter": "syler.sass-indented"
+  },
 
   // decouple zoom
   "window.zoomLevel": 0
