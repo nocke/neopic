@@ -1,3 +1,4 @@
+import path from 'path'
 import type { ForgeConfig } from '@electron-forge/shared-types'
 import { MakerSquirrel } from '@electron-forge/maker-squirrel'
 import { MakerZIP } from '@electron-forge/maker-zip'
@@ -9,18 +10,28 @@ import { VitePlugin } from '@electron-forge/plugin-vite'
 const config: ForgeConfig = {
     packagerConfig: {
         executableName: 'neopic',
-        asar: true
+        asar: true,
+        icon: path.join(__dirname, 'src/img/icons/icon')
     },
     rebuildConfig: {},
     makers: [
         new MakerSquirrel({
             name: 'neopic',
-            authors: 'Frank Author'
+            authors: 'Frank Author',
+            setupIcon: path.join(__dirname, 'src/img/icons/icon.ico')
         }),
         new MakerDMG({}),
         new MakerZIP({}, ['linux', 'darwin']),
-        new MakerRpm({}),
-        new MakerDeb({})
+        new MakerRpm({
+            options: {
+                icon: path.join(__dirname, 'src/img/icons/icon_512×512.png')
+            }
+        }),
+        new MakerDeb({
+            options: {
+                icon: path.join(__dirname, 'src/img/icons/icon_512×512.png')
+            }
+        })
     ],
     plugins: [
         new VitePlugin({
