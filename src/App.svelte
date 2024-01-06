@@ -1,8 +1,17 @@
 <script>
   let name = 'Svelte';
+
+  import { onMount } from 'svelte'
+
+  import Header from './components/Header.svelte'
+
+  onMount(async () => {
+    console.log('svelte mounted')
+  })
 </script>
 
 <main>
+  <Header></Header>
   <h1>Hello {name}!</h1>
 </main>
 

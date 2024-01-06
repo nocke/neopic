@@ -1,13 +1,11 @@
 import App from './App.svelte';
-import './index.sass';
+import './sass/global.sass';
 
 console.log('👋 This message is being logged by "renderer.ts", included via Vite');
-console.log('howdy, renderer 345789');
-
 
 const target = document.body;
 if (target) {
-  const app = new App({
+  /* const app = */ new App({
     target,
     props: {
       // Your props here
