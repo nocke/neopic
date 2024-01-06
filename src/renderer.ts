@@ -1,17 +1,17 @@
-import App from './App.svelte';
-import './sass/global.sass';
+import App from './App.svelte'
+import './sass/global.sass'
 
-console.log('👋 This message is being logged by "renderer.ts", included via Vite');
+console.log('👋 This message is being logged by "renderer.ts", included via Vite')
 
-const target = document.body;
+const target = document.body
 if (target) {
-  /* const app = */ new App({
-    target,
-    props: {
-      // Your props here
-    }
-  });
+    // eslint-disable-next-line no-new
+    new App({
+        target,
+        props: {
+            // Your props here
+        }
+    })
 } else {
-  console.error('No <main> element found to mount the Svelte app');
+    console.error('No <main> element found to mount the Svelte app')
 }
-

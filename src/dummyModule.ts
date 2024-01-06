@@ -1,7 +1,7 @@
 export const sayHi: () => void = () => {
-    console.log("Hi!");
+    console.log('Hi!')
 }
 
-export const truth: number = 42;
+export const truth = 42
 
-export default { sayHi, truth };
+export default { sayHi, truth }
