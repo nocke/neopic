@@ -5,7 +5,8 @@ orbs:
   win: circleci/windows@5.0
   mac: circleci/macos@1.1.0
 
-
+1. to 3.
+circleci recognizes the push, just says "no workflow", and I
 workflows: # ================================================
   version: 2
   build:
@@ -14,8 +15,6 @@ workflows: # ================================================
           filters:
             branches:
               ignore: /.*/
-            tags:
-              only: /^circleci-/
       - build-macos:
           filters:
             branches:
