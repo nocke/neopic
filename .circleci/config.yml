@@ -12,7 +12,7 @@ workflows:
             branches:
               ignore: /.*/
             tags:
-              only: /^circleci-/
+              only: /^circleci.*/
 
 
 
