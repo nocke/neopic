@@ -5,11 +5,19 @@
     "tab.activeBackground": "#558"
   },
 
-  // "eslint.validate": ["javascript", "svelte"],
+  "eslint.validate": ["javascript", "typescript", "svelte"],
+  "eslint.options": {
+    "extensions": [".js", ".ts", ".mts", ".svelte"]
+  },
+  "eslint.workingDirectories": [{ "directory": "./src", "changeProcessCWD": true }],
+  "eslint.probe": ["javascript", "typescript", "html", "svelte"],
 
   "files.exclude": {
     "**/node_modules": true
   },
+
+  "svelte.plugin.svelte.diagnostics.enable": false,
+  "workbench.settings.enableNaturalLanguageSearch": false,
 
   // // REF https://www.techiediaries.com/enable-json-comments-vs-code
   // "files.associations": {
