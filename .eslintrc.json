@@ -1,0 +1,27 @@
+{
+  "extends": [
+    "standard",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:svelte/recommended"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "overrides": [
+    {
+      "files": ["*.svelte"],
+      "rules": {
+        "react/jsx-uses-react": "off",
+        "react/react-in-jsx-scope": "off"
+      },
+      "processor": "svelte/svelte"
+    }
+  ],
+  "rules": {
+    "indent": ["error", 4, { "SwitchCase": 1 }],
+    "no-tabs": "error",
+    "no-unused-vars": "error",
+    "quote-props": ["error", "as-needed"]
+  }
+}
