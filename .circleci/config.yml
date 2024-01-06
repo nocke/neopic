@@ -16,18 +16,35 @@ workflows:
               ignore: /.*/
             tags:
               only: /^circleci-.*/
-      - build-windows:
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^circleci-.*/
       - build-macos:
           filters:
             branches:
               ignore: /.*/
             tags:
               only: /^circleci-.*/
+      - build-windows:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^circleci-.*/
+
+
+# Reuse a sequence of steps
+# See: https://circleci.com/docs/configuration-reference/#workflows
+commands:
+  steps-before:
+    steps:
+      # checkout must be before mkdir, mkdir must be before sanity test 😬
+      - checkout
+      - run: mkdir -p ./out/make
+      - run:
+          name: sanity test
+          command: |
+            echo "pwd: $PWD   node version: $(node --version)  shell: $SHELL   uname: $(uname)"
+            echo "sample content" > ./out/make/some-artifact.exe
+
+
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
@@ -36,18 +53,59 @@ jobs:
     docker:
       - image: cimg/node:20.10.0
     steps:
-      - run: "echo \"pwd: $PWD $(node --version)   shell: $SHELL   uname: $(uname)\""
+      - steps-before
+      - restore_cache:
+          key: dependency-B-linux-{{ checksum "package.json" }}
+      - run: npm install
+      - run:
+          name: Install OS specific
+          command: |
+            sudo apt-get update -y
+            sudo apt-get install -y dpkg fakeroot rpm
+            # rpm only needed for MakerRpm
+      - save_cache:
+          key: dependency-B-linux-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run: npm run make
+      - store_artifacts:
+          path: out/make
+
+  build-macos:
+    macos:
+      xcode: 15.1.0
+    steps:
+      - run: xcodebuild -version
+      - steps-before
+      - restore_cache:
+          key: dependency-B-macos-{{ checksum "package.json" }}
+      - run: npm install
+      - run:
+          name: Install dpkg and fakeroot
+          command: |
+            brew update
+            brew install dpkg fakeroot
+      - save_cache:
+          key: dependency-B-macos-{{ checksum "package.json" }}
+          paths:
+          - ./node_modules
+      - run: npm run make
+      - store_artifacts:
+          path: out/make
 
   build-windows:
     executor:
       name: win/default
       shell: bash
     steps:
-      - run: "echo \"pwd: $PWD $(node --version)   shell: $SHELL   uname: $(uname)\""
-
-  build-macos:
-    macos:
-      xcode: 15.1.0
-    steps:
-      - run: "echo \"pwd: $PWD $(node --version)   shell: $SHELL   uname: $(uname)\""
-      - run: xcodebuild -version
+      - steps-before
+      - restore_cache:
+          key: dependency-B-windows-{{ checksum "package.json" }}
+      - run: npm install
+      - save_cache:
+          key: dependency-B-windows-{{ checksum "package.json" }}
+          paths:
+          - ./node_modules
+      - run: npm run make
+      - store_artifacts:
+          path: out/make
