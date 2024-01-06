@@ -2,6 +2,9 @@
 # See: https://circleci.com/docs/configuration-reference
 version: 2.1
 
+orbs:
+  win: circleci/windows@5.0
+
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
 workflows:
@@ -13,11 +16,44 @@ workflows:
               ignore: /.*/
             tags:
               only: /^circleci-.*/
+      - build-linux:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^circleci-.*/
+      - build-macos:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^circleci-.*/
 
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
 jobs:
+  build-linux:
+    docker:
+      - image: cimg/node:20.10.0
+    steps:
+      - run: "echo \"pwd: $PWD $(node --version)   shell: $SHELL   uname: $(uname)\""
+
+  build-windows:
+    executor:
+      name: win/default
+      shell: bash
+    steps:
+      - run: "echo \"pwd: $PWD $(node --version)   shell: $SHELL   uname: $(uname)\""
+
+  build-macos:
+    macos:
+      xcode: 15.1.0
+    steps:
+      - run: xcodebuild -version
+
+
+
   say-hello:
     # Specify the execution environment. You can specify an image from Docker Hub or use one of our convenience images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/configuration-reference/#executor-job
