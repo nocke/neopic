@@ -1,5 +1,5 @@
 import App from './components/App.svelte'
-import './sass/global.sass'
+import './components/_global.sass'
 
 console.log('👋 This message is being logged by "renderer.ts", included via Vite')
 
