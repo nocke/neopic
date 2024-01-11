@@ -1,5 +1,5 @@
 <script>
-  let name = 'Svelte';
+  const name = 'Svelte'
 
   import { onMount } from 'svelte'
 
@@ -21,6 +21,6 @@
     padding: 1em;
     max-width: 240px;
     margin: 0 auto;
-	border: 8px dashed purple;
+    border: 8px dashed purple;
   }
 </style>
