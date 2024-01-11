@@ -1,5 +1,5 @@
 export const sayHi: () => void = () => {
-    console.log('Hi!')
+  console.log('Hi!')
 }
 
 export const truth = 42

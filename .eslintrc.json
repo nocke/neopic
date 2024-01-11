@@ -9,14 +9,35 @@
   "parserOptions": {
     "sourceType": "module"
   },
-  "extends": ["standard", "plugin:svelte/recommended"],
+  "globals": {
+    "MAIN_WINDOW_VITE_DEV_SERVER_URL": "readonly",
+    "MAIN_WINDOW_VITE_NAME": "readonly"
+  },
+  "extends": [
+    "standard",
+    "plugin:svelte/recommended"
+  ],
   "parser": "@typescript-eslint/parser",
   "overrides": [
     {
-      "files": ["*.svelte"],
+      "files": [
+        "*.svelte"
+      ],
       "parser": "svelte-eslint-parser"
+    },
+    // no whining on unused (global) vars in central styles file
+    {
+      "files": [
+        "src/types.d.ts"
+      ],
+      "rules": {
+        "no-unused-vars": "off"
+      }
     }
   ],
   "rules": {
+    "no-tabs": "error",
+    "indent": ["error", 2],
+    "linebreak-style": ["error", "unix"]
   }
 }
