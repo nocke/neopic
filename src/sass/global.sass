@@ -1,6 +1,8 @@
-$primary-color: #333
+// global styles — do not in import into components
+@import 'common'
 
 body
+  display: flex // start of flex-chain
   margin: 0
   position: absolute
   top: 0
@@ -10,5 +12,5 @@ body
   background: black
   font-family: Ubuntu, sans-serif
   color: white
-  border: 8px dashed yellow
+  border: 8px dashed $primary-color
 

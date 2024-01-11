@@ -3,7 +3,7 @@
 
   import { onMount } from 'svelte'
 
-  import Header from './components/Header.svelte'
+  import Header from './Header.svelte'
 
   onMount(async () => {
     console.log('svelte mounted')
@@ -15,12 +15,4 @@
   <h1>Hello {name}!</h1>
 </main>
 
-<style>
-  main {
-    text-align: center;
-    padding: 1em;
-    max-width: 240px;
-    margin: 0 auto;
-    border: 8px dashed purple;
-  }
-</style>
+<style src="./App.sass" lang="sass"></style>
