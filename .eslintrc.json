@@ -37,7 +37,21 @@
   ],
   "rules": {
     "no-tabs": "error",
-    "indent": ["error", 2],
-    "linebreak-style": ["error", "unix"]
+    "indent": [
+      "error",
+      2
+    ],
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "space-before-function-paren": [
+      "error",
+      {
+        "anonymous": "always",
+        "named": "never",
+        "asyncArrow": "always"
+      }
+    ]
   }
 }
