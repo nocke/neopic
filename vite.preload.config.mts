@@ -5,6 +5,8 @@ export default defineConfig({
 
   ],
   build: {
+    target: 'node20',
+    ssr: true, // prevents 'externalized for browser' complaints
     rollupOptions: {
       input: 'src/preload/preload.ts',
       output: {

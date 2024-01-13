@@ -7,7 +7,7 @@ import { defineConfig } from 'vite'
 
 const build = {
   target: 'node20',
-  ssr: true, // prevents,
+  ssr: true, // prevents 'externalized for browser' complaints
   rollupOptions: {
     input: 'src/main/main.ts',
     output: {
