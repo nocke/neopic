@@ -12,8 +12,10 @@
   "eslint.workingDirectories": [{ "directory": "./src", "changeProcessCWD": true }],
   "eslint.probe": ["javascript", "typescript", "html", "svelte"],
 
-  "files.exclude": {
-    "**/node_modules": true
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/.vite": true,
+    "**/dist": true
   },
 
   "svelte.plugin.svelte.diagnostics.enable": false,
@@ -22,7 +24,7 @@
   // REF www.techiediaries.com/enable-json-comments-vs-code
   "files.associations": {
     ".eslintrc.json": "jsonc",
-    "tsconfig.json": "jsonc",
+    "tsconfig.json": "jsonc"
     // "*.yml": "yaml"
   },
 
