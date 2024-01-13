@@ -37,7 +37,7 @@ const createWindow = () => {
 
   // ===========================================================
   ipcMain.handle('list-home-dir', async () => {
-    console.log('ja nee')
+    console.log('render: list-home-dir 4')
     // try {
     //   const homeDir = os.homedir()
     //   return fs.promises.readdir(homeDir)

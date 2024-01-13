@@ -12,5 +12,11 @@
     "moduleResolution": "node",
     "resolveJsonModule": true
   },
-  "include": ["src"]
+  // "include": ["src"]
+  // could be more preformant (less scanning)
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.svelte"
+  ],
 }
