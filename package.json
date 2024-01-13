@@ -16,9 +16,9 @@
     "circleci": "git tag -f circleci-$(git rev-parse --short=7 HEAD) && git push bitbucket --tags",
     "preversion": "git diff-index --quiet HEAD -- || (echo 'Uncommitted changes! Please commit or stash them.' && exit 1)",
     "postversion": "git push && git push --tags",
-    "vite:build-main": "vite build --config vite.main.config.ts",
-    "vite:build-preload": "vite build --config vite.preload.config.ts",
-    "vite:build-renderer": "vite build --config vite.renderer.config.ts"
+    "vite:build-main": "vite build --config vite.main.config.mts",
+    "vite:build-preload": "vite build --config vite.preload.config.mts",
+    "vite:build-renderer": "vite build --config vite.renderer.config.mts"
   },
   "engines": {
     "node": ">=20"
