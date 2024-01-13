@@ -22,6 +22,7 @@
   // REF www.techiediaries.com/enable-json-comments-vs-code
   "files.associations": {
     ".eslintrc.json": "jsonc",
+    "tsconfig.json": "jsonc",
     // "*.yml": "yaml"
   },
 
