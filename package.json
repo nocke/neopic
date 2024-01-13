@@ -7,10 +7,12 @@
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
+    "package:debug": "cross-env DEBUG=*:* electron-forge package | tee package_debug.log",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "lint": "eslint --ext .js,.ts,.mts,.svelte . --cache",
     "lint:fix": "eslint --ext .js,.ts,.mts,.svelte . --fix",
+    "clean:small": "npx --yes rimraf .vite dist out .cache .next .nuxt .npm",
     "clean": "npx --yes rimraf node_modules .vite dist out .cache .next .nuxt .npm",
     "precircleci": "git diff-index --quiet HEAD -- || (echo 'Uncommitted changes! Please commit or stash them.' && exit 1)",
     "circleci": "git tag -f circleci-$(git rev-parse --short=7 HEAD) && git push bitbucket --tags",
