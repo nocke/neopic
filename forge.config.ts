@@ -18,8 +18,14 @@ const config: ForgeConfig = {
     ignore: [
       '/tsconfig.json',
       '/README.md',
+      '/*.config.?ts',
+      '/.eslint*',
       '/.vscode',
       '/.circleci',
+      '/.editorconfig',
+      '/.git*',
+      '/vite.*.config.mts',
+      '/*.log',
     ]
   },
   rebuildConfig: {},
