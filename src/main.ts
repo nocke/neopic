@@ -1,6 +1,9 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
 import path from 'path'
 import dummyModule from './dummyModule'
+
+import fs from 'fs'
+import os from 'os'
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -9,6 +12,7 @@ if (require('electron-squirrel-startup')) {
 
 dummyModule.sayHi()
 console.log(`the truth is ${dummyModule.truth}`)
+console.log('os homedir: ', os.homedir)
 
 const createWindow = () => {
   // Create the browser window.
@@ -30,7 +34,19 @@ const createWindow = () => {
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools()
-}
+
+  // ===========================================================
+  ipcMain.handle('list-home-dir', async () => {
+    console.log('ja nee')
+    // try {
+    //   const homeDir = os.homedir()
+    //   return fs.promises.readdir(homeDir)
+    // } catch (error) {
+    //   console.error('Error listing home directory:', error)
+    //   throw error
+    // }
+  })
+} // createWindow
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
