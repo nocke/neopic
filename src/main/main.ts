@@ -1,6 +1,6 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
 import path from 'path'
-import dummyModule from './dummyModule'
+import dummyModule from '../dummyModule'
 
 import fs from 'fs'
 import os from 'os'

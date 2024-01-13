@@ -6,7 +6,7 @@ export default defineConfig({
   ],
   build: {
     rollupOptions: {
-      input: 'src/preload.ts',
+      input: 'src/preload/preload.ts',
       output: {
         entryFileNames: 'preload.js',
         chunkFileNames: 'preload.js',
