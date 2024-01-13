@@ -25,6 +25,9 @@
       "files": [
         "*.svelte"
       ],
+      "rules": {
+        "@typescript-eslint/no-non-null-assertion": "off"
+      },
       "parser": "svelte-eslint-parser"
     },
     // no whining on unused (global) vars in central styles file
@@ -57,7 +60,19 @@
     ],
     // tolerate but do not enfore comma-dangle
     "comma-dangle": "off",
-    "no-multiple-empty-lines": ["warn", { "max": 3, "maxBOF": 1, "maxEOF": 1 }],
-    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
+    "no-multiple-empty-lines": [
+      "warn",
+      {
+        "max": 3,
+        "maxBOF": 1,
+        "maxEOF": 1
+      }
+    ],
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ]
   }
 }
