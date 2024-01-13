@@ -88,9 +88,9 @@ typings/
 # Vite
 .vite/
 dist/
-
 # Electron-Forge
 out/
+.examDir
 
 # separate folders for examination
 TESTBUILDS/

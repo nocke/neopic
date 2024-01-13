@@ -11,7 +11,13 @@ const config: ForgeConfig = {
   packagerConfig: {
     executableName: 'neopic',
     asar: true,
-    icon: path.join(__dirname, 'src/img/icons/icon')
+    icon: path.join(__dirname, 'src/img/icons/icon'),
+    ignore: [
+      '/tsconfig.json',
+      '/README.md',
+      '/.vscode',
+      '/.circleci',
+    ]
   },
   rebuildConfig: {},
   makers: [
