@@ -34,14 +34,11 @@
       "parserOptions": {
         "parser": "@typescript-eslint/parser"
       }
-      // "rules": {
-      //   "@typescript-eslint/no-non-null-assertion": "off"
-      // },
     },
-    // no whining on unused (global) vars in central styles file
+    // no complaints on unused (global) vars in central .d.ts files
     {
       "files": [
-        "src/types.d.ts"
+        "src/*.d.ts"
       ],
       "rules": {
         "no-unused-vars": "off"
