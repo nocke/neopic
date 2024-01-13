@@ -25,9 +25,9 @@
       "files": [
         "*.svelte"
       ],
-      "rules": {
-        "@typescript-eslint/no-non-null-assertion": "off"
-      },
+      // "rules": {
+      //   "@typescript-eslint/no-non-null-assertion": "off"
+      // },
       "parser": "svelte-eslint-parser"
     },
     // no whining on unused (global) vars in central styles file

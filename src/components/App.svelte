@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import Header from './Header.svelte'
+       import Header from './Header.svelte'
 
   const name = 'Svelte'
 
@@ -12,13 +12,13 @@
   })
 
   async function listDir() {
-    const joe: any = '12345'
-    let joeNumber: number = <number><unknown>joe
-    // test failure joeNumber = 'abc'
+     // const joe: string = '12345'
+    // let joeNumber: number=<number><unknown>joe
+    // // test failure joeNumber = 'abc'
 
-    console.log('list Directory (renderer)', joe, joeNumber)
-    const files = await window.electron.ipcRenderer.invoke('list-home-dir');
-    console.log( files.join('\n') )
+    console.log('list Directory (renderer)', joe)
+    const files=await window.electron.ipcRenderer.invoke  ('list-home-dir');
+    console.log( files.join('\n')   );
   }
 </script>
 
