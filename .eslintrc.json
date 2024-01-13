@@ -15,9 +15,11 @@
   },
   "extends": [
     "standard",
-    "plugin:svelte/recommended"
+    "plugin:svelte/recommended",
+    "plugin:@typescript-eslint/recommended"
   ],
   "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
   "overrides": [
     {
       "files": [
@@ -52,6 +54,10 @@
         "named": "never",
         "asyncArrow": "always"
       }
-    ]
+    ],
+    // tolerate but do not enfore comma-dangle
+    "comma-dangle": "off",
+    "no-multiple-empty-lines": ["warn", { "max": 3, "maxBOF": 1, "maxEOF": 1 }],
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
   }
 }
