@@ -38,13 +38,13 @@ const createWindow = () => {
   // ===========================================================
   ipcMain.handle('list-home-dir', async () => {
     console.log('render: list-home-dir 4')
-    // try {
-    //   const homeDir = os.homedir()
-    //   return fs.promises.readdir(homeDir)
-    // } catch (error) {
-    //   console.error('Error listing home directory:', error)
-    //   throw error
-    // }
+    try {
+      const homeDir = os.homedir()
+      return fs.promises.readdir(homeDir)
+    } catch (error) {
+      console.error('Error listing home directory:', error)
+      throw error
+    }
   })
 } // createWindow
 

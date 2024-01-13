@@ -9,13 +9,10 @@
     console.log('svelte mounted')
   })
 
-  function listDir() {
+  async function listDir() {
     console.log('list Directory (renderer)')
-    window.electron.ipcRenderer.invoke('list-home-dir').then(()=> console.log('no result yet (renderer)'))
-
-    // files => {
-    //   console.log(files)
-    // })
+    const files = await window.electron.ipcRenderer.invoke('list-home-dir')
+    console.log(JSON.stringify(files, null))
   }
 </script>
 
