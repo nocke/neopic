@@ -12,7 +12,7 @@
   })
 
   async function listDir() {
-     // const joe: string = '12345'
+      const joe: any = '12345'
     // let joeNumber: number=<number><unknown>joe
     // // test failure joeNumber = 'abc'
 
