@@ -5,20 +5,19 @@
   const name = 'Svelte'
 
   onMount(async () => {
-      console.log('svelte mounted')
+    console.log('svelte mounted')
     setTimeout(() => {
       document.getElementById('listDirButton')?.click()
     }, 1000)
   })
 
   async function listDir() {
-      const joe: any = '12345'
-    // let joeNumber: number=<number><unknown>joe
-    // // test failure joeNumber = 'abc'
+    let joe = 12345
+    joe = 'bert'
 
     console.log('list Directory (renderer)', joe)
-    const files=await window.electron.ipcRenderer.invoke  ('list-home-dir');
-    console.log( files.join('\n')   );
+    const files = await window.electron.ipcRenderer.invoke('list-home-dir')
+    console.log(files.join('\n'))
   }
 </script>
 
