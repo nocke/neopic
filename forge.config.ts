@@ -7,10 +7,13 @@ import { MakerDMG } from '@electron-forge/maker-dmg'
 import { MakerRpm } from '@electron-forge/maker-rpm'
 import { VitePlugin } from '@electron-forge/plugin-vite'
 
+// there's one more thing, depending on asar ↓
+const asar = false
+
 const config: ForgeConfig = {
   packagerConfig: {
     executableName: 'neopic',
-    asar: true,
+    asar,
     icon: path.join(__dirname, 'src/img/icons/icon'),
     ignore: [
       '/tsconfig.json',
@@ -59,12 +62,16 @@ const config: ForgeConfig = {
           config: 'vite.renderer.config.mts'
         }
       ]
-    }),
-    {
-      name: '@electron-forge/plugin-auto-unpack-natives',
-      config: {}
-    }
+    })
   ]
+}
+
+if (asar) {
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  config.plugins!.push({
+    name: '@electron-forge/plugin-auto-unpack-natives',
+    config: {}
+  });
 }
 
 export default config
