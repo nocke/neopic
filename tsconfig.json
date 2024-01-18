@@ -16,8 +16,6 @@
   // "include": ["src"]
   // could be more preformant (less scanning)
   "include": [
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "src/**/*.svelte"
+    "src/**/*.{ts,d.ts,svelte}"
   ],
 }
