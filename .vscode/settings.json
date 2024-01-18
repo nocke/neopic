@@ -15,7 +15,8 @@
   "search.exclude": {
     "**/node_modules": true,
     "**/.vite": true,
-    "**/dist": true
+    "**/dist": true,
+    "**/build": true,
   },
 
   "svelte.plugin.svelte.diagnostics.enable": false,
@@ -24,8 +25,7 @@
   // REF www.techiediaries.com/enable-json-comments-vs-code
   "files.associations": {
     ".eslintrc.json": "jsonc",
-    "tsconfig.json": "jsonc"
-    // "*.yml": "yaml"
+    "tsconfig*.json": "jsonc"
   },
 
   "[sass]": {
