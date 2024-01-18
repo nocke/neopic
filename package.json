@@ -6,8 +6,12 @@
   "main": ".vite/build/main.js",
   "scripts": {
     "start": "electron-forge start",
+    "start:debug": "cross-env DEBUG=*.* npm start",
     "package": "electron-forge package",
     "package:debug": "cross-env DEBUG=*:* electron-forge package | tee package_debug.log",
+    "mocha": "mocha",
+    "mocha:debug": "cross-env DEBUG=*.* npm run mocha",
+    "test": "cross-env TS_NODE_COMPILER_OPTIONS={\\\"module\\\":\\\"ESNext\\\"} mocha",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "lint": "eslint --ext .js,.ts,.mts,.svelte . --cache",
