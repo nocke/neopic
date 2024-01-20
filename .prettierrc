@@ -4,7 +4,7 @@
   "svelteSortOrder": "options-styles-scripts-markup",
   "svelteStrictMode": true,
   "svelteAllowShorthand": true,
-  "svelteIndentScriptAndStyle": false,
+  "svelteIndentScriptAndStyle": true,
   "plugins": [
     "prettier-plugin-svelte"
   ],
