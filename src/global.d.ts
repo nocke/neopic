@@ -4,7 +4,7 @@ interface Window {
   electron: {
     ipcRenderer: {
       sendMessage: (channel: string, data?: unknown) => void;
-      invoke: (channel: string, data?: unknown) => Promise<any>;
+      invoke: <T = unknown>(channel: string, data?: unknown) => Promise<T>;
       // ... any other methods you've exposed
     };
   };
