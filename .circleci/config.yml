@@ -43,9 +43,6 @@ commands:
           command: |
             echo "pwd: $PWD   node version: $(node --version)  shell: $SHELL   uname: $(uname)"
             echo "sample content" > ./out/make/some-artifact.exe
-      - run:
-          name: Run tests
-          command: npm run test
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
@@ -58,6 +55,7 @@ jobs:
       - restore_cache:
           key: dependency-B-linux-{{ checksum "package.json" }}
       - run: npm install
+      - run: npm run test
       - run:
           name: Install OS specific
           command: |
@@ -81,6 +79,7 @@ jobs:
       - restore_cache:
           key: dependency-B-macos-{{ checksum "package.json" }}
       - run: npm install
+      - run: npm run test
       - run:
           name: Install dpkg and fakeroot
           command: |
@@ -103,6 +102,7 @@ jobs:
       - restore_cache:
           key: dependency-B-windows-{{ checksum "package.json" }}
       - run: npm install
+      - run: npm run test
       - save_cache:
           key: dependency-B-windows-{{ checksum "package.json" }}
           paths:
