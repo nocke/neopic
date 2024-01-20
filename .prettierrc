@@ -1,0 +1,19 @@
+{
+  "semi": false,
+  "singleQuote": true,
+  "svelteSortOrder": "options-styles-scripts-markup",
+  "svelteStrictMode": true,
+  "svelteAllowShorthand": true,
+  "svelteIndentScriptAndStyle": false,
+  "plugins": [
+    "prettier-plugin-svelte"
+  ],
+  "overrides": [
+    {
+      "files": "*.svelte",
+      "options": {
+        "parser": "svelte"
+      }
+    }
+  ]
+}
