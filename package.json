@@ -1,7 +1,7 @@
 {
   "name": "neopic",
   "productName": "neopic-e-product",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "electron based neopic",
   "main": ".vite/build/main.js",
   "scripts": {
