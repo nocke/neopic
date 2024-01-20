@@ -77,7 +77,7 @@ if (asar) {
   config.plugins!.push({
     name: '@electron-forge/plugin-auto-unpack-natives',
     config: {}
-  });
+  })
 }
 
 export default config
