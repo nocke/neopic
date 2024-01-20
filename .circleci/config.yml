@@ -43,8 +43,9 @@ commands:
           command: |
             echo "pwd: $PWD   node version: $(node --version)  shell: $SHELL   uname: $(uname)"
             echo "sample content" > ./out/make/some-artifact.exe
-
-
+      - run:
+          name: Run tests
+          command: npm run test
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
