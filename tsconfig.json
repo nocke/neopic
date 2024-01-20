@@ -16,7 +16,10 @@
   // could be more preformant (less scanning)
   "include": [
     // only here to avoid bogus warning stackoverflow.com/a/41211721
+    // do not use “.{ts,d.ts,svelte}”, gives trouble
     "forge.config.ts",
-    "src/**/*.{ts,d.ts,svelte}"
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.svelte"
   ]
 }
