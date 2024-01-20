@@ -8,6 +8,7 @@
     "start": "electron-forge start",
     "start:debug": "cross-env DEBUG=*.* npm start",
     "package": "electron-forge package",
+    "package:run:win": ".\\out\\neopic-e-product-win32-x64\\neopic.exe",
     "package:debug": "cross-env DEBUG=*:* electron-forge package | tee package_debug.log",
     "test": "cross-env TS_NODE_PROJECT=tsconfig.spec.json mocha --experimental-specifier-resolution=node",
     "test:debug": "cross-env DEBUG=*:* npm run test",
