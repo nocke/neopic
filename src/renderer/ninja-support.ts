@@ -14,7 +14,7 @@ export const hotkeys: INinjaAction[] = [
   {
     id: 'Open Projects',
     title: 'Open Projects',
-    hotkey: 'cmd+p,ctrl+p',
+    hotkey: 'cmd+o,ctrl+o',
     mdIcon: 'apps',
     handler: () => {
       console.log('navigation to projects')
