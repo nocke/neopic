@@ -63,7 +63,7 @@
         "asyncArrow": "always"
       }
     ],
-    // tolerate but do not enfore comma-dangle
+    // tolerate but do not enforce comma-dangle
     "comma-dangle": "off",
     // up to 3 blank lines is semantics for me
     "no-multiple-empty-lines": [
@@ -74,6 +74,8 @@
         "maxEOF": 1
       }
     ],
+    // writing the type can sometimes be clarifying at times
+    "@typescript-eslint/no-inferrable-types": "off",
     "@typescript-eslint/no-unused-vars": [
       "error",
       {

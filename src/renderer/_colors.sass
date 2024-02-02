@@ -3,8 +3,9 @@
 
 $font-stack: Helvetica, sans-serif
 $primary-color: #444
-$colorAccent: #96d // purple-ish highlight color
-$colorAccent2: #d98 // purple-ish highlight color
+
+$purpleLight: #cae
+$purpleDark: #427
 
 $whiteMild: #bbb // some headroom for hover
 
@@ -20,10 +21,16 @@ html
   --background2: #ccc
   --textColor1: black
   --textColor2: #444
+  --buttonBg: #{$purpleLight}
+  --buttonBgHover: #{darken($purpleLight, 5%)}
+  --buttonColor: var(--textColor1)
 
 // dark mode colors
 html.invert
   --background1: black
-  --background2: #444
+  --background2: #222
   --textColor1: white
-  --textColor1: #ccc
+  --textColor2: #bbb
+  --buttonBg: #{$purpleDark}
+  --buttonBgHover: #{darken($purpleLight, 5%)}
+  --buttonColor: var(--textColor1)

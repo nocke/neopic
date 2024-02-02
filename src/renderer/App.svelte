@@ -9,8 +9,7 @@
   import ViewBox from './viewBox/ViewBox.svelte'
   import { invertMode } from './store/store'
 
-  const name = 'Svelte'
-  let files: string[] = []
+
 
   const html = document.documentElement
 
@@ -35,9 +34,7 @@
     }, 500)
   })
 
-  async function listDir() {
-    files = await window.electron.ipcRenderer.invoke<string[]>('list-home-dir')
-  }
+
 </script>
 
 <main>
