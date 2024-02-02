@@ -1,8 +1,6 @@
 <script lang="ts">
-  // current path this ViewBox represents
-  let path: string | null = 'c:/depot' // TOBE null
-  // array of string, if loaded yet
-  // null≙not yet loaded, empty≙no files in folder
+  let path: string = 'c:/depot'
+  // null ≙ not yet loaded, empty ≙ no files in folder
   let files: string[] | null = null
 
   function updatePath(newPath: string) {
@@ -41,4 +39,4 @@
 
 </section>
 
-<style src="./ViewBox.sass" lang="sass"></style>
+<style src="./ViewPort.sass" lang="sass"></style>
