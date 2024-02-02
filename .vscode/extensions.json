@@ -3,6 +3,7 @@
 		"syler.sass-indented",
 		"svelte.svelte-vscode",
 		"dbaeumer.vscode-eslint",
-		"circleci.circleci"
+		"circleci.circleci",
+		"editorconfig.editorconfig"
 	]
 }

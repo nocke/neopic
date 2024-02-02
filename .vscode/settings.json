@@ -16,7 +16,7 @@
     "**/node_modules": true,
     "**/.vite": true,
     "**/dist": true,
-    "**/build": true,
+    "**/build": true
   },
 
   "svelte.plugin.svelte.diagnostics.enable": false,
@@ -26,26 +26,28 @@
   // REF www.techiediaries.com/enable-json-comments-vs-code
   "files.associations": {
     ".eslintrc.json": "jsonc",
-    "tsconfig*.json": "jsonc",
+    "tsconfig*.json": "jsonc"
   },
 
   "[javascript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features",
-    "javascript.preferences.quoteStyle": "single",
+    "javascript.preferences.quoteStyle": "single"
   },
   "[typescript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features",
-    "typescript.preferences.quoteStyle": "single",
+    "typescript.preferences.quoteStyle": "single"
   },
   "[svelte]": {
     // REF https://github.com/sveltejs/language-tools/blob/master/packages/svelte-vscode/README.md
-    "editor.defaultFormatter": "svelte.svelte-vscode",
+    "editor.defaultFormatter": "svelte.svelte-vscode"
   },
-
 
   "[sass]": {
-    "editor.defaultFormatter": "syler.sass-indented"
+    "editor.defaultFormatter": "syler.sass-indented",
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2
   },
+
 
   // decouple zoom from other vscode instances
   "window.zoomLevel": 0

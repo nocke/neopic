@@ -1,9 +1,13 @@
-// global styles — do NOT in import into components
+// global styles
+// • body styles
+// • and resuable global styles (div, li, ...) do NOT in import into components
 @import 'common'
 
 body
   display: flex // start of flex-chain
   font-size: 62.5% // 1 rem ≙ 10px
+
+  font-family: Ubuntu, sans-serif
 
   margin: 0
   position: absolute
@@ -11,6 +15,7 @@ body
   bottom: 0
   left: 0
   right: 0
-  background: black
-  font-family: Ubuntu, sans-serif
-  color: white
+  background: var(--background1)
+  color: var(--textColor1)
+
+  transition: background-color $speedFast ease-in-out, color $speedFast ease-in-out

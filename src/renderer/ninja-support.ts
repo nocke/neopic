@@ -1,4 +1,5 @@
 import { INinjaAction } from 'ninja-keys/dist/interfaces/ininja-action'
+import { invertMode } from './store/store'
 
 // REF attributes: /github.com/ssleptsov/ninja-keys?tab=readme-ov-file#attributes
 export const hotkeys: INinjaAction[] = [
@@ -18,6 +19,15 @@ export const hotkeys: INinjaAction[] = [
     mdIcon: 'apps',
     handler: () => {
       console.log('navigation to projects')
+    },
+  },
+  {
+    id: 'Invert Mode',
+    title: 'Invert Mode',
+    hotkey: 'cmd+i,ctrl+i',
+    handler: () => {
+      console.log('invert mode')
+      invertMode.update(current => !current)
     },
   },
 ]

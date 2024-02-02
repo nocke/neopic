@@ -5,23 +5,31 @@
   import Header from './header/Header.svelte'
   import { NinjaKeys } from 'ninja-keys'
   import { hotkeys } from './ninja-support'
-  import ExplorerBar from './explorerBar/explorerBar.svelte'
-  import ViewBox from './viewBox/viewBox.svelte'
+  import ExplorerBar from './explorerBar/ExplorerBar.svelte'
+  import ViewBox from './viewBox/ViewBox.svelte'
+  import { invertMode } from './store/store'
 
   const name = 'Svelte'
   let files: string[] = []
+
+  const html = document.documentElement
+
 
   onMount(async () => {
     console.log('svelte mounted')
 
     const ninja: NinjaKeys | null = document.querySelector('ninja-keys')
     if (ninja) {
-      console.log('ninja-keys found')
       ninja.data = hotkeys
     } else {
       console.warn('ninja-keys NOT found')
     }
 
+    invertMode.subscribe(i => {
+      html.classList.toggle('invert', i)
+    })
+
+    // NOTE just for development
     setTimeout(() => {
       document.getElementById('listDirButton')?.click()
     }, 500)
@@ -33,7 +41,10 @@
 </script>
 
 <main>
-  <Header></Header>
+  <Header>Ctrl+P for command palette,  ctrl+h, ctrl+o for whatever</Header>
+
+  <ninja-keys placeholder="Type a command or name…" openHotkey="cmd+p,cmd+shift+p,ctrl+p,ctrl+shift+p"></ninja-keys>
+
   <div class='split-hori'>
   <ExplorerBar></ExplorerBar>
   <ViewBox></ViewBox>
@@ -42,8 +53,6 @@
 
   <button id="listDirButton" on:click="{listDir}"> List home contents 123 </button>
 
-  <b>Ctrl+P for command palette,  ctrl+h, ctrl+o for whatever</b>
-  <ninja-keys placeholder="Type a command or name…" openHotkey="cmd+p,cmd+shift+p,ctrl+p,ctrl+shift+p"></ninja-keys>
 
   <div id="files">
     {#each files as file (file)}
