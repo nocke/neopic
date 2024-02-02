@@ -1,0 +1,30 @@
+// pass-on flexing
+= flexHori($flex: auto)
+  @if type-of($flex) != string
+    $flex: unquote($flex)
+  @else
+    $flex: unquote('#{$flex}')
+  min-width: 0 // tackles overshoot problems
+  width: 100%
+  box-sizing: border-box
+  flex: $flex
+  display: flex
+
+= flexVert($flex: auto)
+  @include flexHori($flex)
+  flex-direction: column
+
+= borderBox
+  box-sizing: border-box
+
+= radiusS
+  border-radius: 5px
+
+// markerBackground - useful for debugging/development
+= markerBg($color: green)
+  box-sizing: border-box
+  background: rgba($color, .1)
+
+= markerDashed($color: lime)
+  box-sizing: border-box
+  border: 4px dashed $color
