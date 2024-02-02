@@ -2,9 +2,11 @@
 
 <script lang="ts">
   import { onMount } from 'svelte'
-  import Header from './Header.svelte'
+  import Header from './header/Header.svelte'
   import { NinjaKeys } from 'ninja-keys'
   import { hotkeys } from './ninja-support'
+  import ExplorerBar from './explorerBar/explorerBar.svelte'
+  import ViewBox from './viewBox/viewBox.svelte'
 
   const name = 'Svelte'
   let files: string[] = []
@@ -14,10 +16,10 @@
 
     const ninja: NinjaKeys | null = document.querySelector('ninja-keys')
     if (ninja) {
-      console.log('### ninja-keys found')
+      console.log('ninja-keys found')
       ninja.data = hotkeys
     } else {
-      console.log('### ninja-keys NOT found')
+      console.warn('ninja-keys NOT found')
     }
 
     setTimeout(() => {
@@ -32,7 +34,11 @@
 
 <main>
   <Header></Header>
-  <h1>Hello {name} 123!</h1>
+  <div class='split-hori'>
+  <ExplorerBar></ExplorerBar>
+  <ViewBox></ViewBox>
+  </div>
+  <!-- <h1>Hello {name} 123!</h1>
 
   <button id="listDirButton" on:click="{listDir}"> List home contents 123 </button>
 
@@ -43,5 +49,5 @@
     {#each files as file (file)}
       <div class="file">{file}</div>
     {/each}
-  </div>
+  </div> -->
 </main>
