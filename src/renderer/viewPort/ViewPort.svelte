@@ -24,15 +24,11 @@
     files = await window.electron.ipcRenderer.invoke<string[]>('list-home-dir')
   }
 
-  // if (import.meta.hot) {
-  import.meta.hot?.accept((_newModule) => {
-    console.log('HMR update: howdy 🤡🤡🤡 A🤡')
-  })
-
-  //   import.meta.hot.dispose(() => {
-  //     console.log('Module is about to be replaced 🤡')
-  //   })
-  // }
+  if (import.meta.hot) { // tree-shakable
+    import.meta.hot.accept((_newModule) => {
+      console.log('HMR update ViewPort: howdy 🤡🤡🤡GFEDCBA🤡')
+    })
+  }
 </script>
 
 <section>
