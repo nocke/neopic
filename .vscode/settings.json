@@ -50,5 +50,5 @@
 
 
   // decouple zoom from other vscode instances
-  "window.zoomLevel": 0
+  "window.zoomLevel": 2
 }
