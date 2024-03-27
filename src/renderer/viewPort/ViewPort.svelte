@@ -1,4 +1,6 @@
 <script lang="ts">
+  import CounterTwo from "../CounterTwo.svelte"
+
   let path: string = 'c:/depot'
   // null ≙ not yet loaded, empty ≙ no files in folder
   let files: string[] | null = null
@@ -22,6 +24,10 @@
     <div class="button">mock button</div>
     <a class="button" href="#123">mock anchor button</a>
   </form>
+
+  <hr/>
+
+  <CounterTwo></CounterTwo>
 
   <hr/>
   viewBox for {path}
