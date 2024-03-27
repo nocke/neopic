@@ -1,7 +1,32 @@
 // global styles
 // • body styles
-// • and resuable global styles (div, li, ...) do NOT in import into components
+// • reusable global styles (div, li, button,...)
+// • do NOT import into components (would bloat)
 @import 'common'
+
+// CSS colors ██████████████████████████████████████████████
+
+// light mode colors
+html
+  --background1: white
+  --background2: #ccc
+  --textColor1: black
+  --textColor2: #{$grayDarkA1}
+  --buttonBg: #{$purpleLight}
+  --buttonBgHover: #{darken($purpleLight, 5%)}
+  --buttonColor: var(--textColor1)
+
+// dark mode colors
+html.invert
+  --background1: black
+  --background2: #{$grayDarkA1}
+  --textColor1: white
+  --textColor2: #bbb
+  --buttonBg: #{$purpleDark}
+  --buttonBgHover: #{darken($purpleLight, 5%)}
+  --buttonColor: var(--textColor1)
+
+// body definitions ████████████████████████████████████████
 
 body
   display: flex // start of flex-chain
@@ -20,7 +45,7 @@ body
 
   transition: background-color $speedFast ease-in-out, color $speedFast ease-in-out
 
-// Headlines ████████████████████████████████████████████████████████
+// Headlines  ██████████████████████████████████████████████
 
 h1, h2, h3, h4, h5, h6
   line-height: 1.2em
