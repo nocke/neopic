@@ -1,5 +1,3 @@
-// REF https://eslint.org/docs/user-guide/configuring
-// ESLint’s JSON files also allow JavaScript-style comments.
 {
   "env": {
     "browser": true,
@@ -35,7 +33,6 @@
         "parser": "@typescript-eslint/parser"
       }
     },
-    // no complaints on unused (global) vars in central .d.ts files
     {
       "files": [
         "src/*.d.ts"
@@ -74,7 +71,8 @@
         "maxEOF": 1
       }
     ],
-    // writing the type can sometimes be clarifying at times
+    // writing the type can be clarifying at times
+    "@typescript-eslint/comma-dangle": "off",
     "@typescript-eslint/no-inferrable-types": "off",
     "@typescript-eslint/no-unused-vars": [
       "error",
