@@ -1,32 +1,34 @@
+// src/renderer/viewPort/ViewPort.svelte
 <style src="./ViewPort.sass" lang="sass"></style>
 
 <script lang="ts">
   import { onMount } from 'svelte'
   import CounterTwo from '../CounterTwo.svelte'
-
-  let path: string = 'c:/depot'
+  import { path } from './store/store';
 
   // null ≙ not yet loaded, empty ≙ no files in folder
   let files: string[] | null = null
 
   onMount(() => {
-    console.log('ViewPort.svelte: onMount()')
-    // listDir()
+    console.log('ViewPort.svelte: onMount()', path)
+    listDir($path)
   })
 
+  // automatically reload directory contents upon path change
   function updatePath(newPath: string) {
-    path = newPath
-    // automatically reload directory contents upon path change
-    listDir()
+    path.set(newPath)
+    listDir(newPath)
   }
 
-  async function listDir() {
-    files = await window.electron.ipcRenderer.invoke<string[]>('list-home-dir')
+  async function listDir(directoryPath: string) {
+    console.log('List Dir')
+    files = await window.electron.ipcRenderer.invoke<string[]>('list-home-dir', directoryPath)
   }
 
-  if (import.meta.hot) { // tree-shakable
+  if (import.meta.hot) {
+    // tree-shakable
     import.meta.hot.accept((_newModule) => {
-      console.log('HMR update ViewPort: howdy 🤡🤡🤡GFEDCBA🤡')
+      console.log('HMR update ViewPort')
     })
   }
 </script>
@@ -44,7 +46,7 @@
   <hr />
   viewBox for {path}
   {#if files === null}
-    <div>Directory not loaded....XYZ</div>
+    <div>Directory not loaded...</div>
   {:else if files.length === 0}
     <div>No files in directory.</div>
   {:else}

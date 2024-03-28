@@ -1,3 +1,4 @@
+// src\main\main.ts
 import { app, BrowserWindow, ipcMain } from 'electron'
 import path from 'path'
 import dummyModule from '../dummyModule'
@@ -35,9 +36,9 @@ const createWindow = () => {
   // Open the DevTools.
   mainWindow.webContents.openDevTools()
 
-  // ===========================================================
-  ipcMain.handle('list-home-dir', async () => {
-    console.log('render: list-home-dir 4')
+  // ============================================
+  ipcMain.handle('list-home-dir', async (_event, path) => {
+    console.log('render: list-home-dir 5', path)
     try {
       const homeDir = os.homedir()
       return fs.promises.readdir(homeDir)
