@@ -4,29 +4,40 @@
 <script lang="ts">
   import { onMount } from 'svelte'
   import CounterTwo from '../CounterTwo.svelte'
-  import { path } from './store/store';
+  import { path } from '../store/store'
 
-  // null ≙ not yet loaded, empty ≙ no files in folder
-  let files: string[] | null = null
+  let pathTyping: string // path, as it's being typed
+  // null ≙ not yet loaded, empty ≙ no files in folder, number ≙ invalid/unreachable dir
+  let files: string[] | null | number = null
 
   onMount(() => {
     console.log('ViewPort.svelte: onMount()', path)
+    pathTyping = $path
     listDir($path)
   })
 
-  // automatically reload directory contents upon path change
-  function updatePath(newPath: string) {
-    path.set(newPath)
-    listDir(newPath)
+  function handleSubmit(event: SubmitEvent) {
+    event.preventDefault() // no actual submit and reload
+    const formData = new FormData(event.target as HTMLFormElement)
+    const submittedPath = formData.get('pathInput')
+
+    if (typeof submittedPath === 'string') {
+      path.set(submittedPath)
+      listDir(submittedPath)
+    }
   }
 
   async function listDir(directoryPath: string) {
     console.log('List Dir')
-    files = await window.electron.ipcRenderer.invoke<string[]>('list-home-dir', directoryPath)
+    try {
+      files = await window.electron.ipcRenderer.invoke<string[]>('list-home-dir', directoryPath)
+    } catch (error) {
+      console.error('Error listing directory:', directoryPath, error)
+      // Handle error (e.g., notify the user, revert to a previous known good state, etc.)
+    }
   }
 
-  if (import.meta.hot) {
-    // tree-shakable
+  if (import.meta.hot) { // tree-shakable
     import.meta.hot.accept((_newModule) => {
       console.log('HMR update ViewPort')
     })
@@ -34,9 +45,9 @@
 </script>
 
 <section>
-  <form class="form">
-    <input type="text" bind:value="{path}" on:change="{() => updatePath(path)}" placeholder="Enter path" />
-    <button on:click="{listDir}">Load</button>
+  <form class="form" on:submit="{handleSubmit}">
+    <input type="text" bind:value={pathTyping} name="pathInput" placeholder="Enter path" />
+    <button type="submit">Load</button>
     <div class="button">mock button</div>
     <a class="button" href="#123">mock anchor button</a>
   </form>
