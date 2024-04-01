@@ -13,7 +13,7 @@ if (require('electron-squirrel-startup')) {
 
 dummyModule.sayHi()
 console.log(`the truth is ${dummyModule.truth}`)
-console.log('os homedir: ', os.homedir)
+console.log('os homedir: ', os.homedir())
 
 const createWindow = () => {
   // Create the browser window.
