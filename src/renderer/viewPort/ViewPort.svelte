@@ -5,13 +5,16 @@
   import { onMount } from 'svelte'
   import CounterTwo from '../CounterTwo.svelte'
   import { path } from '../store/store'
+  import { FileList } from '../../shared/fileTypes'
 
   let pathTyping: string // path, as it's being typed
-  // null ≙ not yet loaded, empty ≙ no files in folder, number ≙ invalid/unreachable dir
-  let files: string[] | null | number = null
+  let files: FileList = null
 
-  onMount(() => {
+  onMount(async () => {
     console.log('ViewPort.svelte: onMount()', path)
+
+    console.log('OS DIR***', await window.electron.ipcRenderer.invoke<string>('get-home-dir'))
+
     pathTyping = $path
     listDir($path)
   })
@@ -28,9 +31,9 @@
   }
 
   async function listDir(directoryPath: string) {
-    console.log('List Dir')
+    console.log('List Dir * * *')
     try {
-      files = await window.electron.ipcRenderer.invoke<string[]>('list-home-dir', directoryPath)
+      files = await window.electron.ipcRenderer.invoke<string[]>('list-dir', directoryPath)
     } catch (error) {
       console.error('Error listing directory:', directoryPath, error)
       // Handle error (e.g., notify the user, revert to a previous known good state, etc.)

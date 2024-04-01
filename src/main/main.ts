@@ -2,6 +2,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
 import path from 'path'
 import dummyModule from '../dummyModule'
+import { DirectoryError, FileList } from '../shared/fileTypes'
 
 import fs from 'fs'
 import os from 'os'
@@ -14,6 +15,13 @@ if (require('electron-squirrel-startup')) {
 dummyModule.sayHi()
 console.log(`the truth is ${dummyModule.truth}`)
 console.log('os homedir: ', os.homedir())
+
+
+function isErrnoException(e: unknown): e is NodeJS.ErrnoException {
+  if ('code' in (e as any)) return true
+  else return false
+}
+
 
 const createWindow = () => {
   // Create the browser window.
@@ -36,15 +44,29 @@ const createWindow = () => {
   // Open the DevTools.
   mainWindow.webContents.openDevTools()
 
-  // ============================================
-  ipcMain.handle('list-home-dir', async (_event, path) => {
-    console.log('render: list-home-dir 5', path)
+  // =======================================================================
+  // main functions
+
+  ipcMain.handle('get-home-dir', async (_event): Promise<string> => {
+    return os.homedir()
+  })
+
+  ipcMain.handle('list-dir', async (_event, dirPath: string): Promise<FileList> => {
+    console.log('render: list-home-dir 6', dirPath)
+
     try {
-      const homeDir = os.homedir()
-      return fs.promises.readdir(homeDir)
-    } catch (error) {
-      console.error('Error listing home directory:', error)
-      throw error
+      await fs.promises.access(dirPath, fs.constants.F_OK)
+      await fs.promises.access(dirPath, fs.constants.R_OK)
+      const files = fs.promises.readdir(dirPath)
+      return files
+    } catch (err: unknown) {
+      if (err && isErrnoException(err) && err.code === 'ENOENT') {
+        return 'ENOENT' as DirectoryError
+      } else if (err && isErrnoException(err) && err.code === 'EACCESS') {
+        return 'EACCESS' as DirectoryError
+      } else {
+        throw err
+      }
     }
   })
 } // createWindow

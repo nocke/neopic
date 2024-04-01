@@ -3,4 +3,4 @@ import { Writable, writable } from 'svelte/store'
 
 export const invertMode: Writable<boolean> = writable<boolean>(false)
 
-export const path: Writable<string> = writable<string>('c:/depot')
+export const path: Writable<string> = writable<string>('/home/frank')
