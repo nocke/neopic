@@ -1,7 +1,8 @@
 import App from './App.svelte'
 import './_global.sass'
+import { initializeSettings } from './store/settingsStore'
 
-console.log('👋 This message is being logged by "renderer.ts", included via Vite')
+initializeSettings()
 
 const target = document.body
 if (target) {

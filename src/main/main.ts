@@ -2,7 +2,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
 import path from 'path'
 import dummyModule from '../dummyModule'
-import { DirectoryError, FileList } from '../shared/fileTypes'
+import { DirectoryError, FileList, Settings } from '../shared/sharedTypes'
 
 import fs from 'fs'
 import os from 'os'
@@ -47,12 +47,19 @@ const createWindow = () => {
   // =======================================================================
   // main functions
 
+  // ipcMain.handle('get-settings', async (_event): Promise<Settings> => {
+  //   return {
+  //     theme: 'banana',
+  //     language: 'en'
+  //   }
+  // })
+
   ipcMain.handle('get-home-dir', async (_event): Promise<string> => {
     return os.homedir()
   })
 
   ipcMain.handle('list-dir', async (_event, dirPath: string): Promise<FileList> => {
-    console.log('render: list-home-dir 6', dirPath)
+    console.log('render: list-dir 7', dirPath)
 
     try {
       await fs.promises.access(dirPath, fs.constants.F_OK)

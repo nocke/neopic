@@ -5,7 +5,7 @@
   import { onMount } from 'svelte'
   import CounterTwo from '../CounterTwo.svelte'
   import { path } from '../store/store'
-  import { FileList } from '../../shared/fileTypes'
+  import { FileList } from '../../shared/sharedTypes'
 
   let pathTyping: string // path, as it's being typed
   let files: FileList = null
@@ -35,8 +35,7 @@
     try {
       files = await window.electron.ipcRenderer.invoke<string[]>('list-dir', directoryPath)
     } catch (error) {
-      console.error('Error listing directory:', directoryPath, error)
-      // Handle error (e.g., notify the user, revert to a previous known good state, etc.)
+      console.error('error listing directory:', directoryPath, error)
     }
   }
 
