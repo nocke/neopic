@@ -13,7 +13,7 @@
   onMount(async () => {
     console.log('ViewPort.svelte: onMount()', path)
 
-    // console.log('OS DIR***', await window.Electron.ipcRenderer.invoke<string>('get-home-dir'))
+    // console.log('OS DIR***', await window.electron.ipcRenderer.invoke<string>('get-home-dir'))
 
     pathTyping = $path
     listDir($path)
@@ -33,7 +33,7 @@
   async function listDir(directoryPath: string) {
     console.log('List Dir * * *')
     try {
-      files = await window.Electron.ipcRenderer.invoke('list-dir', directoryPath)
+      files = await window.electron.ipcRenderer.invoke('list-dir', directoryPath)
     } catch (error) {
       console.error('error listing directory:', directoryPath, error)
     }
