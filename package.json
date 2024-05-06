@@ -1,8 +1,8 @@
 {
-  "name": "newpic",
-  "productName": "newpic",
-  "version": "1.0.0",
-  "description": "My Electron application description",
+  "name": "neopic",
+  "productName": "neopic-e-product",
+  "version": "0.9.0",
+  "description": "electron based neopic - electron-forge 7.4 restart",
   "main": ".vite/build/main.js",
   "scripts": {
     "start": "electron-forge start",
@@ -21,11 +21,18 @@
     "@electron-forge/plugin-fuses": "^7.4.0",
     "@electron-forge/plugin-vite": "^7.4.0",
     "@electron/fuses": "^1.8.0",
+    "@types/chai": "^4.3.16",
+    "@types/mocha": "^10.0.6",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
+    "chai": "^5.1.0",
+    "cross-env": "^7.0.3",
     "electron": "30.0.2",
     "eslint": "^8.0.1",
     "eslint-plugin-import": "^2.25.0",
+    "mocha": "^10.4.0",
+    "svelte": "^4.2.15",
+    "svelte-preprocess": "^5.1.4",
     "ts-node": "^10.0.0",
     "typescript": "~4.5.4",
     "vite": "^5.0.12"
@@ -35,7 +42,7 @@
     "name": "Frank Nocke",
     "email": "frank.nocke@zuehlke.com"
   },
-  "license": "MIT",
+  "license": "UNLICENSED",
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0"
   }
