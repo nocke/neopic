@@ -1,84 +1,16 @@
 {
   "env": {
     "browser": true,
-    "node": true,
-    "es2021": true
-  },
-  "globals": {
-    "MAIN_WINDOW_VITE_DEV_SERVER_URL": "readonly",
-    "MAIN_WINDOW_VITE_NAME": "readonly"
+    "es6": true,
+    "node": true
   },
   "extends": [
-    "standard",
-    "plugin:svelte/recommended",
-    "plugin:@typescript-eslint/recommended"
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/recommended",
+    "plugin:import/electron",
+    "plugin:import/typescript"
   ],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "sourceType": "module",
-    "extraFileExtensions": [
-      ".svelte"
-    ]
-  },
-  "plugins": [
-    "@typescript-eslint"
-  ],
-  "overrides": [
-    {
-      "files": [
-        "*.svelte"
-      ],
-      "parser": "svelte-eslint-parser",
-      "parserOptions": {
-        "parser": "@typescript-eslint/parser"
-      }
-    },
-    {
-      "files": [
-        "src/*.d.ts"
-      ],
-      "rules": {
-        "no-unused-vars": "off"
-      }
-    }
-  ],
-  "rules": {
-    "no-tabs": "error",
-    "indent": [
-      "error",
-      2
-    ],
-    "linebreak-style": [
-      "error",
-      "unix"
-    ],
-    "space-before-function-paren": [
-      "error",
-      {
-        "anonymous": "always",
-        "named": "never",
-        "asyncArrow": "always"
-      }
-    ],
-    // tolerate but do not enforce comma-dangle
-    "comma-dangle": "off",
-    // up to 3 blank lines is semantics for me
-    "no-multiple-empty-lines": [
-      "warn",
-      {
-        "max": 3,
-        "maxBOF": 1,
-        "maxEOF": 1
-      }
-    ],
-    // writing the type can be clarifying at times
-    "@typescript-eslint/comma-dangle": "off",
-    "@typescript-eslint/no-inferrable-types": "off",
-    "@typescript-eslint/no-unused-vars": [
-      "error",
-      {
-        "argsIgnorePattern": "^_"
-      }
-    ]
-  }
+  "parser": "@typescript-eslint/parser"
 }

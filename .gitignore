@@ -1,5 +1,5 @@
 # Logs
-logs/
+logs
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -87,13 +87,6 @@ typings/
 
 # Vite
 .vite/
-dist/
+
 # Electron-Forge
 out/
-.examDir
-
-# separate folders for examination
-TESTBUILDS/
-
-# TEMPTEMP
-package-lock.json

@@ -2,24 +2,14 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "commonjs",
-    "moduleResolution": "node",
     "allowJs": true,
-    "strict": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "noImplicitAny": true,
     "sourceMap": true,
     "baseUrl": ".",
     "outDir": "dist",
+    "moduleResolution": "node",
     "resolveJsonModule": true
-  },
-  // could be more preformant (less scanning)
-  "include": [
-    // only here to avoid bogus warning stackoverflow.com/a/41211721
-    // do not use .{ts,d.ts,svelte} to short, this gives trouble
-    "forge.config.ts",
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "src/**/*.svelte"
-  ]
+  }
 }
