@@ -31,7 +31,9 @@
     "electron": "30.0.2",
     "eslint": "^8.0.1",
     "eslint-plugin-import": "^2.25.0",
+    "eslint-plugin-svelte": "^2.38.0",
     "mocha": "^10.4.0",
+    "ninja-keys": "^1.2.2",
     "sass": "^1.76.0",
     "svelte": "^4.2.15",
     "svelte-preprocess": "^5.1.4",
@@ -42,7 +44,7 @@
   "keywords": [],
   "author": {
     "name": "Frank Nocke",
-    "email": "frank.nocke@zuehlke.com"
+    "email": "git@nocke.de"
   },
   "license": "UNLICENSED",
   "dependencies": {
