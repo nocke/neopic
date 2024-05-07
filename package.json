@@ -3,14 +3,44 @@
   "productName": "neopic-e-product",
   "version": "0.9.0",
   "description": "electron based neopic - electron-forge 7.4 restart",
+  "author": {
+    "name": "Frank Nocke",
+    "email": "git@nocke.de"
+  },
   "main": ".vite/build/main.js",
   "scripts": {
     "start": "electron-forge start",
+"start:debug": "cross-env DEBUG=*.* npm start",
     "package": "electron-forge package",
+"package:run:win": ".\\out\\neopic-e-product-win32-x64\\neopic.exe",
+    "package:debug": "cross-envack DEBUG=*:* electron-forge package | tee package_debug.log",
+    "test": "cross-env TS_NODE_PROJECT=tsconfig.spec.json mocha",
+    "test:debug": "cross-env DEBUG=*:* npm run test",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "lint": "eslint --ext .ts,.tsx ."
+    "lint": "eslint --ext .js,.ts,.mts,.svelte . --cache",
+    "lint:debug": "cross-env DEBUG=eslint:* npm run lint",
+    "lint:fix": "eslint --ext .js,.ts,.mts,.svelte . --fix",
+    "clean:small": "npx --yes rimraf .vite dist out .cache .next .nuxt .npm",
+    "clean": "npx --yes rimraf node_modules .vite dist out .cache .next .nuxt .npm",
+    "precircleci": "git diff-index --quiet HEAD -- || (echo 'Uncommitted changes! Please commit or stash them.' && exit 1)",
+    "circleci": "node -e \"const exec = require('child_process').execSync; const tag = 'circleci-' + exec('git rev-parse --short=7 HEAD').toString().trim(); exec('git tag -f ' + tag + ' && git push --tags');\"",
+    "preversion": "git diff-index --quiet HEAD -- || (echo 'Uncommitted changes! Please commit or stash them.' && exit 1)",
+    "postversion": "git push && git push --tags",
+    "vite:build-main": "vite build --config vite.main.config.mts",
+    "vite:build-preload": "vite build --config vite.preload.config.mts",
+    "vite:build-renderer": "vite build --config vite.renderer.config.mts",
+    "vite:build-renderer:debug": "cross-env DEBUG=*:* vite build --config vite.renderer.config.mts | tee vite_build-renderer_debug.log"
   },
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "bitbucket.org:fnocke/neopic.git"
+  },
+  "keywords": [],
+  "license": "UNLICENSED",
   "devDependencies": {
     "@electron-forge/cli": "^7.4.0",
     "@electron-forge/maker-deb": "^7.4.0",
@@ -41,12 +71,6 @@
     "typescript": "~4.5.4",
     "vite": "^5.0.12"
   },
-  "keywords": [],
-  "author": {
-    "name": "Frank Nocke",
-    "email": "git@nocke.de"
-  },
-  "license": "UNLICENSED",
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0"
   }
