@@ -6,3 +6,11 @@ Neopic is an image browser with focus on organizing, tagging, captioning, sortin
 
 [Development Notes](./docs/DEVELOPMENT.md)
 
+### Updating
+
+    npm run version minor
+
+### testing with circleci
+
+    npm run circleci
+
