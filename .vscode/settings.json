@@ -40,6 +40,7 @@
   "workbench.settings.enableNaturalLanguageSearch": false,
   // REF www.techiediaries.com/enable-json-comments-vs-code
   "files.associations": {
+    ".prettierrc": "jsonc",
     ".eslintrc.json": "jsonc",
     "tsconfig*.json": "jsonc"
   },
@@ -61,10 +62,14 @@
     "editor.tabSize": 2
   },
   "[json]": {
-    "editor.defaultFormatter": "vscode.json-language-features"
+    "editor.defaultFormatter": "vscode.json-language-features",
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2
   },
   "[jsonc]": {
-    "editor.defaultFormatter": "vscode.json-language-features"
+    "editor.defaultFormatter": "vscode.json-language-features",
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2
   },
 
   // decouple zoom from other vscode instances
