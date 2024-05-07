@@ -13,7 +13,7 @@
   onMount(async () => {
     console.log('ViewPort.svelte: onMount()', path)
 
-    // console.log('OS DIR***', await window.electron.ipcRenderer.invoke<string>('get-home-dir'))
+    console.log('OS DIR***', await window.electron.ipcRenderer.invoke<string>('get-home-dir'))
 
     pathTyping = $path
     listDir($path)

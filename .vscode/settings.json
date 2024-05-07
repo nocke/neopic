@@ -1,8 +1,8 @@
 {
   "workbench.colorCustomizations": {
-    "sideBar.background": "#38182A",
-    "tab.inactiveBackground": "#402030",
-    "tab.activeBackground": "#858"
+    "sideBar.background": "#18182A",
+    "tab.inactiveBackground": "#202030",
+    "tab.activeBackground": "#558"
   },
 
   "eslint.validate": ["javascript", "typescript", "svelte"],
