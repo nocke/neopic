@@ -4,7 +4,7 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "allowJs": true,
-    "strict": true,
+    "strict": true, // no longer in 7.4 template
     "skipLibCheck": true,
     "esModuleInterop": true,
     "noImplicitAny": true,
@@ -12,14 +12,5 @@
     "baseUrl": ".",
     "outDir": "dist",
     "resolveJsonModule": true
-  },
-  // could be more preformant (less scanning)
-  "include": [
-    // only here to avoid bogus warning stackoverflow.com/a/41211721
-    // do not use .{ts,d.ts,svelte} to short, this gives trouble
-    "forge.config.ts",
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "src/**/*.svelte"
-  ]
+  }
 }

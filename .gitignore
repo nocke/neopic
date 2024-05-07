@@ -20,7 +20,7 @@ pids
 lib-cov
 
 # Coverage directory used by tools like istanbul
-coverage
+coverage/
 *.lcov
 
 # nyc test coverage
@@ -87,13 +87,9 @@ typings/
 
 # Vite
 .vite/
-dist/
+
 # Electron-Forge
 out/
-.examDir
 
-# separate folders for examination
-TESTBUILDS/
-
-# TEMPTEMP
-package-lock.json
+# for now
+/package-lock.json

@@ -1,7 +1,15 @@
+// tsconfig.spec.json
 {
-  "extends": "./tsconfig.json",
   "compilerOptions": {
-    "module": "ESNext"
-  }
-  // ,"include": [], // unsure if/why this works
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "paths": {
+      "*": ["*", "./*"],
+    },
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "include": ["src/**/*", "test/**/*"]
 }

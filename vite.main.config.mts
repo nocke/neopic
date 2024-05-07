@@ -1,33 +1,30 @@
-import { defineConfig } from 'vite'
+import type { ConfigEnv, UserConfig } from 'vite';
+import { defineConfig, mergeConfig } from 'vite';
+import { getBuildConfig, getBuildDefine, external, pluginHotRestart } from './vite.base.config';
 
-// build params only for 'vite sanity testing' with `npm run vite:build-main`
-// for actual dev (npm start) and publishing this is a hindrance
+// https://vitejs.dev/config
+export default defineConfig((env) => {
+  const forgeEnv = env as ConfigEnv<'build'>;
+  const { forgeConfigSelf } = forgeEnv;
+  const define = getBuildDefine(forgeEnv);
+  const config: UserConfig = {
+    build: {
+      lib: {
+        entry: forgeConfigSelf.entry!,
+        fileName: () => '[name].js',
+        formats: ['cjs'],
+      },
+      rollupOptions: {
+        external,
+      },
+    },
+    plugins: [pluginHotRestart('restart')],
+    define,
+    resolve: {
+      // Load the Node.js entry.
+      mainFields: ['module', 'jsnext:main', 'jsnext'],
+    },
+  };
 
-// process.env.npm_lifecycle_script?.includes('vite build') ? {...} : undefind
-
-const build = {
-  target: 'node20',
-  ssr: true, // prevents 'externalized for browser' complaints
-  rollupOptions: {
-    input: 'src/main/main.ts',
-    output: {
-      entryFileNames: 'main.js',
-      chunkFileNames: 'main.js',
-      assetFileNames: 'assets/main.[ext]'
-    }
-  },
-  outDir: '.vite/build'
-}
-
-
-export default defineConfig({
-  build,
-  resolve: {
-    mainFields: ['module', 'jsnext:main', 'jsnext']
-  }
-  // optimizeDeps: {
-  //   // specify the libraries to be optimized for Node.js
-  //   include: ['axios'],
-  // }
-
-})
+  return mergeConfig(getBuildConfig(forgeEnv), config);
+});

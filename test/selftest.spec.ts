@@ -1,8 +1,8 @@
+// test/selftest.spec.ts
 import { expect, assert } from 'chai'
-// works not      import dummyModule from '../src/dummyModule'
-// works better   import dummyModule from '../src/dummyModule.js'
-// works import dummyModule from './appleModule.js'
-import dummyModule from '../src/dummyModule'
+
+// eslint-disable-next-line import/no-unresolved
+import dummyModule from '../src/dummyModule.js'
 
 describe('Self Test', () => {
   it('should assert that 1 + 1 equals 2', () => {

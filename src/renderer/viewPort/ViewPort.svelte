@@ -33,17 +33,19 @@
   async function listDir(directoryPath: string) {
     console.log('List Dir * * *')
     try {
-      files = await window.electron.ipcRenderer.invoke<string[]>('list-dir', directoryPath)
+      files = await window.electron.ipcRenderer.invoke('list-dir', directoryPath)
     } catch (error) {
       console.error('error listing directory:', directoryPath, error)
     }
   }
 
-  if (import.meta.hot) { // tree-shakable
-    import.meta.hot.accept((_newModule) => {
-      console.log('HMR update ViewPort')
-    })
-  }
+  // still useful?
+  // if (import.meta.hot) { // tree-shakable
+  //   import.meta.hot.accept((_newModule) => {
+  //     console.log('HMR update ViewPort')
+  //   })
+  // }
+
 </script>
 
 <section>

@@ -1,17 +1,21 @@
 {
   "env": {
     "browser": true,
-    "node": true,
-    "es2021": true
+    "es6": true,
+    "node": true
   },
   "globals": {
     "MAIN_WINDOW_VITE_DEV_SERVER_URL": "readonly",
     "MAIN_WINDOW_VITE_NAME": "readonly"
   },
   "extends": [
-    "standard",
-    "plugin:svelte/recommended",
-    "plugin:@typescript-eslint/recommended"
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/recommended",
+    "plugin:import/electron",
+    "plugin:import/typescript",
+    "plugin:svelte/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -71,8 +75,9 @@
         "maxEOF": 1
       }
     ],
-    // writing the type can be clarifying at times
+    // not having to worry about danling commas is a blessing (either way)
     "@typescript-eslint/comma-dangle": "off",
+    // writing the type can be clarifying at times, thus permit
     "@typescript-eslint/no-inferrable-types": "off",
     "@typescript-eslint/no-unused-vars": [
       "error",

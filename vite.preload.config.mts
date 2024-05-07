@@ -1,21 +1,29 @@
-import { defineConfig } from 'vite'
+import type { ConfigEnv, UserConfig } from 'vite';
+import { defineConfig, mergeConfig } from 'vite';
+import { getBuildConfig, external, pluginHotRestart } from './vite.base.config';
 
-export default defineConfig({
-  plugins: [
-
-  ],
-  build: {
-    target: 'node20',
-    ssr: true, // prevents 'externalized for browser' complaints
-    rollupOptions: {
-      input: 'src/preload/preload.ts',
-      output: {
-        entryFileNames: 'preload.js',
-        chunkFileNames: 'preload.js',
-        assetFileNames: 'assets/preload.[ext]'
-      }
+// https://vitejs.dev/config
+export default defineConfig((env) => {
+  const forgeEnv = env as ConfigEnv<'build'>;
+  const { forgeConfigSelf } = forgeEnv;
+  const config: UserConfig = {
+    build: {
+      rollupOptions: {
+        external,
+        // Preload scripts may contain Web assets, so use the `build.rollupOptions.input` instead `build.lib.entry`.
+        input: forgeConfigSelf.entry!,
+        output: {
+          format: 'cjs',
+          // It should not be split chunks.
+          inlineDynamicImports: true,
+          entryFileNames: '[name].js',
+          chunkFileNames: '[name].js',
+          assetFileNames: '[name].[ext]',
+        },
+      },
     },
-    outDir: '.vite/build'
-  }
+    plugins: [pluginHotRestart('reload')],
+  };
 
-})
+  return mergeConfig(getBuildConfig(forgeEnv), config);
+});
