@@ -1,7 +1,7 @@
 {
   "name": "neopic",
   "productName": "neopic-e-product",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "electron based neopic - electron-forge 7.4 restart",
   "author": {
     "name": "Frank Nocke",
