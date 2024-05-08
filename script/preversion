@@ -1,9 +1,10 @@
-import { execSync as exec } from 'child_process';
+#!/usr/bin/env node
+import {exec} from './script-helpers.js'
 
 try {
-  exec('git diff-index --quiet HEAD --');
-  console.log('No uncommitted changes detected.');
+  exec('git diff-index --quiet HEAD --')
+  console.log('No uncommitted changes detected.')
 } catch (error) {
-  console.error('Uncommitted changes! Please commit or stash them.');
-  process.exit(1);
+  console.error('Uncommitted changes! Please commit or stash them.')
+  process.exit(1)
 }
