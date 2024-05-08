@@ -1,0 +1,17 @@
+#!/usr/bin/env node
+import {exec, log} from './script-helpers.js'
+
+try {
+  exec('git diff-index --quiet HEAD --')
+  console.log('No uncommitted changes detected.')
+} catch (error) {
+  console.error('Uncommitted changes! Please commit or stash them.')
+  process.exit(1)
+}
+
+const branch = 'master'
+const remote = exec(`git config branch.${branch}.remote`)
+const tag = 'circleci-' + exec('git rev-parse --short=7 HEAD').toString().trim()
+
+exec(`git tag -f ${tag}`)
+exec(`git push ${remote} ${tag}`)
