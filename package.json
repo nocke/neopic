@@ -1,6 +1,6 @@
 {
   "name": "neopic",
-  "productName": "neopic-e-product",
+  "productName": "neopic",
   "version": "0.13.0",
   "description": "electron based neopic - electron-forge 7.4 restart",
   "author": {
@@ -12,7 +12,7 @@
     "start": "electron-forge start",
     "start:debug": "cross-env DEBUG=*.* npm start",
     "package": "electron-forge package",
-    "package:run:win": ".\\out\\neopic-e-product-win32-x64\\neopic.exe",
+    "package:run:win": ".\\out\\neopic-win32-x64\\neopic.exe",
     "package:debug": "cross-env DEBUG=*:* electron-forge package | tee package_debug.log",
     "test": "cross-env TS_NODE_PROJECT=tsconfig.spec.json mocha",
     "test:debug": "cross-env DEBUG=*:* npm run test",
