@@ -16,18 +16,19 @@ workflows:
               ignore: /.*/
             tags:
               only: /^circleci-.*/
-      - build-macos:
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^circleci-.*/
-      - build-windows:
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^circleci-.*/
+
+      # - build-macos:
+      #     filters:
+      #       branches:
+      #         ignore: /.*/
+      #       tags:
+      #         only: /^circleci-.*/
+      # - build-windows:
+      #     filters:
+      #       branches:
+      #         ignore: /.*/
+      #       tags:
+      #         only: /^circleci-.*/
 
 
 # Reuse a sequence of steps
@@ -59,8 +60,10 @@ jobs:
           name: Install OS specific
           command: |
             sudo apt-get update -y
-            sudo apt-get install -y dpkg fakeroot rpm
             # rpm only needed for MakerRpm
+            sudo apt-get install -y dpkg fakeroot rpm
+            # all of these only needed for running (in selftest)
+            sudo apt-get install -y libnss3 libatk1.0-0
       - save_cache:
           key: dependency-B-linux-{{ checksum "package.json" }}
           paths:
