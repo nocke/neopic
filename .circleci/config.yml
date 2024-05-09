@@ -107,5 +107,15 @@ jobs:
           paths:
           - ./node_modules
       - run: npm run make
+      - run:
+          name: electron.exe selftest
+          command: |
+            ./out/neopic-win32-x64/neopic.exe -selftest
+            exitcode=$?
+            if [ $exitcode -ne 0 ]; then
+              echo "Failure or exit with code $exitcode"
+              exit $exitcode
+            fi
+            echo "electron (windows) selftest success"
       - store_artifacts:
           path: out/make

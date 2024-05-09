@@ -1,13 +1,13 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
-import path from 'path';
+import { app, BrowserWindow, ipcMain } from 'electron'
+import path from 'path'
 
 import fs from 'fs'
 import os from 'os'
-import { DirectoryError, FileList } from '../shared/sharedTypes';
+import { DirectoryError, FileList } from '../shared/sharedTypes'
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
-  app.quit();
+  app.quit()
 }
 
 function isErrnoException(e: unknown): e is NodeJS.ErrnoException {
@@ -15,19 +15,31 @@ function isErrnoException(e: unknown): e is NodeJS.ErrnoException {
   else return false
 }
 
-const createWindow = () => {
+const onReady = () => {
+
+  const args = process.argv.slice(1)
+  if (args.includes('-selftest')) {
+    console.log("NEOPIC-SELFTEST")
+    setTimeout(() => {
+      app.exit(77)
+      console.log('Done\nNow')
+    }, 3000)
+
+    // COULDDO return; // Skip creating the window
+  }
+
   const mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
-  });
+  })
 
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
-    mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
+    mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL)
   } else {
-    mainWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`));
+    mainWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`))
   }
 
   // ████████████████████████████████████████████████████████████
@@ -64,20 +76,20 @@ const createWindow = () => {
 
   // ████████████████████████████████████████████████████████████
 
-  mainWindow.webContents.openDevTools();
-}; // createWindow
+  mainWindow.webContents.openDevTools()
+} // createWindow
 
-app.on('ready', createWindow);
+app.on('ready', onReady)
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
-    app.quit();
+    app.quit()
   }
-});
+})
 
 app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow();
+    onReady()
   }
-});
+})
 
