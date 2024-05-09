@@ -18,10 +18,7 @@
     ]
   },
   "eslint.workingDirectories": [
-    {
-      "directory": "./src",
-      "changeProcessCWD": true
-    }
+    "."
   ],
   "eslint.probe": [
     "javascript",
@@ -71,7 +68,6 @@
     "editor.insertSpaces": true,
     "editor.tabSize": 2
   },
-
   // decouple zoom from other vscode instances
   "window.zoomLevel": -1
 }
