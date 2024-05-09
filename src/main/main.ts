@@ -77,7 +77,7 @@ const onReady = () => {
   // ████████████████████████████████████████████████████████████
 
   mainWindow.webContents.openDevTools()
-} // createWindow
+} // onReady
 
 app.on('ready', onReady)
 
