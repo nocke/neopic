@@ -1,11 +1,11 @@
 #!/usr/bin/env node
-import {exec, log} from './script-helpers.js'
+import {errLog, exec, log} from './script-helpers.js'
 
 try {
   exec('git diff-index --quiet HEAD --')
-  console.log('No uncommitted changes detected.')
+  log('No uncommitted changes detected.')
 } catch (error) {
-  console.error('Uncommitted changes! Please commit or stash them.')
+  errLog('Uncommitted changes! Please commit or stash them.')
   process.exit(1)
 }
 

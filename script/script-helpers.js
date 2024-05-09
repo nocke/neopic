@@ -7,4 +7,4 @@ export const exec = (command, options = {}) => {
 
 export const log = console.log
 export const warn = console.warn
-export const error = console.error
+export const errLog = console.error // `error` to collision-prone
