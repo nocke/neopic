@@ -68,7 +68,7 @@ jobs:
       - run: npm run make
       - run:
           name: List store_artifacts
-          command: ls -lR ./out/make
+          command: ls -lR ./out
       - store_artifacts:
           path: out/make
 
@@ -94,7 +94,7 @@ jobs:
       - run: npm run make
       - run:
           name: List store_artifacts
-          command: ls -lR ./out/make
+          command: ls -lR ./out
       - store_artifacts:
           path: out/make
 
@@ -115,7 +115,7 @@ jobs:
       - run: npm run make
       - run:
           name: List store_artifacts
-          command: ls -lR ./out/make
+          command: ls -lR ./out
       - run:
           name: electron.exe selftest
           command: |
