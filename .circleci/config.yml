@@ -60,7 +60,9 @@ jobs:
           command: |
             sudo apt-get update -y
             sudo apt-get install -y dpkg fakeroot rpm
+            sudo apt-get install -y libnss3
             # rpm only needed for MakerRpm
+            # libnss3 only needed for running (in selftest)
       - save_cache:
           key: dependency-B-linux-{{ checksum "package.json" }}
           paths:
