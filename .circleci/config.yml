@@ -67,8 +67,8 @@ jobs:
             - ./node_modules
       - run: npm run make
       - run:
-          name: List store_artifacts
-          command: ls -lR ./out/make
+          name: list build folder
+          command: "find ./out -type f -exec stat --format='%s %n' {} + | awk '{ printf \"%.0fk\\t%s\\n\", $1/1024, $2 }'"
       - store_artifacts:
           path: out/make
 
@@ -93,8 +93,8 @@ jobs:
           - ./node_modules
       - run: npm run make
       - run:
-          name: List store_artifacts
-          command: ls -lR ./out/make
+          name: list build folder
+          command: "find ./out -type f -exec stat --format='%s %n' {} + | awk '{ printf \"%.0fk\\t%s\\n\", $1/1024, $2 }'"
       - store_artifacts:
           path: out/make
 
@@ -114,8 +114,8 @@ jobs:
           - ./node_modules
       - run: npm run make
       - run:
-          name: List store_artifacts
-          command: ls -lR ./out/make
+          name: list build folder
+          command: "find ./out -type f -exec stat --format='%s %n' {} + | awk '{ printf \"%.0fk\\t%s\\n\", $1/1024, $2 }'"
       - run:
           name: electron.exe selftest
           command: |
