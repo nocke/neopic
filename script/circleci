@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 import { errLog, exec, log, warn } from './script-helpers.js'
 
+// REF npm run circleci -- nocheck
+
 const args = process.argv.slice(2)
 if ( args.includes('nocheck')) {
   warn('skipping commit-check')

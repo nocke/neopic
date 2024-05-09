@@ -69,6 +69,16 @@ jobs:
       - run:
           name: List store_artifacts
           command: ls -lR ./out
+      - run:
+          name: electron selftest (linux)
+          command: |
+            ./out/neopic-linux-x64/neopic -selftest
+            exitcode=$?
+            if [ $exitcode -ne 0 ]; then
+              echo "Failure or exit with code $exitcode"
+              exit $exitcode
+            fi
+            echo "selftest success"
       - store_artifacts:
           path: out/make
 
@@ -95,6 +105,16 @@ jobs:
       - run:
           name: List store_artifacts
           command: ls -lR ./out
+      - run:
+          name: electron selftest (mac)
+          command: |
+            ./out/neopic-darwin-x64/neopic.app/Contents/MacOS/neopic -selftest
+            exitcode=$?
+            if [ $exitcode -ne 0 ]; then
+              echo "Failure or exit with code $exitcode"
+              exit $exitcode
+            fi
+            echo "selftest success"
       - store_artifacts:
           path: out/make
 
@@ -117,7 +137,7 @@ jobs:
           name: List store_artifacts
           command: ls -lR ./out
       - run:
-          name: electron.exe selftest
+          name: electron.exe selftest (win)
           command: |
             ./out/neopic-win32-x64/neopic.exe -selftest
             exitcode=$?
@@ -125,6 +145,6 @@ jobs:
               echo "Failure or exit with code $exitcode"
               exit $exitcode
             fi
-            echo "electron (windows) selftest success"
+            echo "selftest success"
       - store_artifacts:
           path: out/make
