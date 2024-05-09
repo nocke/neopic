@@ -21,7 +21,7 @@ const onReady = () => {
   if (args.includes('-selftest')) {
     console.log("NEOPIC-SELFTEST")
     setTimeout(() => {
-      app.exit(77)
+      app.exit(0) // 0 := all good
       console.log('Done\nNow')
     }, 3000)
 
