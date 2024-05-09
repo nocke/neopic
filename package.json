@@ -25,11 +25,7 @@
     "clean": "npx --yes rimraf node_modules .vite dist out .cache .next .nuxt .npm",
     "circleci": "node ./script/circleci",
     "preversion": "node ./script/preversion",
-    "postversion": "node ./script/postversion",
-    "vite:build-main": "vite build --config vite.main.config.mts",
-    "vite:build-preload": "vite build --config vite.preload.config.mts",
-    "vite:build-renderer": "vite build --config vite.renderer.config.mts",
-    "vite:build-renderer:debug": "cross-env DEBUG=*:* vite build --config vite.renderer.config.mts | tee vite_build-renderer_debug.log"
+    "postversion": "node ./script/postversion"
   },
   "engines": {
     "node": ">=20"
