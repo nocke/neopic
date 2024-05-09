@@ -1,12 +1,17 @@
 #!/usr/bin/env node
-import {errLog, exec, log} from './script-helpers.js'
+import { errLog, exec, log, warn } from './script-helpers.js'
 
-try {
-  exec('git diff-index --quiet HEAD --')
-  log('No uncommitted changes detected.')
-} catch (error) {
-  errLog('Uncommitted changes! Please commit or stash them.')
-  process.exit(1)
+const args = process.argv.slice(2)
+if ( args.includes('nocheck')) {
+  warn('skipping commit-check')
+} else {
+  try {
+    exec('git diff-index --quiet HEAD --')
+    log('No uncommitted changes detected.')
+  } catch (error) {
+    errLog('Uncommitted changes! Please commit or stash them.')
+    process.exit(1)
+  }
 }
 
 const branch = 'master'

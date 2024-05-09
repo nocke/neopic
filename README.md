@@ -12,5 +12,10 @@ Neopic is an image browser with focus on organizing, tagging, captioning, sortin
 
 ### testing with circleci
 
-    npm run circleci
+  npm run circleci
 
+or if you don't mind pending changes
+
+  npm run circleci -- nocheck
+
+This will set and push a new tag 'circleci-<shorthash>', which will trigger a new circleci build. (Benefit being not _every_ commit triggering the pipeline and deducting from monthly free tier).
