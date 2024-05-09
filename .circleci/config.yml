@@ -63,7 +63,7 @@ jobs:
             # rpm only needed for MakerRpm
             sudo apt-get install -y dpkg fakeroot rpm
             # all of these only needed for running (in selftest)
-            sudo apt-get install -y libgtk-3-0 libnotify4 libnss3 libxss1 libxtst6 libatspi2.0-0 libdrm2 libgbm1 libasound2 libcups2 libatk1.0-0 libatk-bridge2.0-0
+            sudo apt-get install -y libgtk-3-0 libnotify4 libnss3 libxss1 libxtst6 libatspi2.0-0 libdrm2 libgbm1 libasound2 libcups2 libatk1.0-0 libatk-bridge2.0-0 xvfb
       - save_cache:
           key: dependency-B-linux-{{ checksum "package.json" }}
           paths:
@@ -73,8 +73,13 @@ jobs:
           name: List store_artifacts
           command: ls -lR ./out
       - run:
+          name: start mock display
+          background: true
+          command: Xvfb :99 -screen 0 1920x1080x24
+      - run:
           name: electron selftest (linux)
           command: |
+            export DISPLAY=:99
             ./out/neopic-linux-x64/neopic -selftest
             exitcode=$?
             if [ $exitcode -ne 0 ]; then
