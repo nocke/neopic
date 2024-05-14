@@ -68,9 +68,15 @@
     "editor.insertSpaces": true,
     "editor.tabSize": 2
   },
+
   // mocha ████████████████████████
   "mochaExplorer.files": "test/**/*.ts",
-  "mochaExplorer.require": "ts-node/esm",
+  "mochaExplorer.require": "ts-node/register",
+  "mochaExplorer.env": {
+    "TS_NODE_PROJECT": "tsconfig.spec.json",
+    "NODE_OPTIONS": "--loader ts-node/esm"
+  },
+
   // decouple zoom from other vscode instances
   "window.zoomLevel": 0
 }
