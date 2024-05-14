@@ -14,7 +14,7 @@
     "package": "electron-forge package",
     "package:run:win": ".\\out\\neopic-win32-x64\\neopic.exe",
     "package:debug": "cross-env DEBUG=*:* electron-forge package | tee package_debug.log",
-    "test": "cross-env TS_NODE_PROJECT=tsconfig.spec.json NODE_OPTIONS=\"--loader ts-node/esm\" mocha",
+    "test": "cross-env TS_NODE_PROJECT=tsconfig.spec.json NODE_OPTIONS=\"--import=./test/mocha-register.js\" mocha",
     "test:debug": "cross-env DEBUG=*:* npm run test",
     "make": "electron-forge make",
     "publish": "electron-forge publish",

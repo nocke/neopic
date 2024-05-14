@@ -5,13 +5,12 @@
     "target": "ESNext",
     "moduleResolution": "node",
     "esModuleInterop": true,
-
-    "outDir": "./dist",
+    "allowSyntheticDefaultImports": true,
     "baseUrl": "./",
     "paths": {
-      "*": ["*", "./*"],
-    },
-    "allowSyntheticDefaultImports": true
+      "src/*": ["src/*"],
+      "*": ["node_modules/*", "*"]
+    }
   },
-  "include": ["test/**/*.ts"]
+  "include": ["test/**/*.spec.ts", "src/**/*.spec.ts"]
 }
