@@ -94,6 +94,8 @@
     ],
     // not having to worry about danling commas is a blessing (either way)
     "@typescript-eslint/comma-dangle": "off",
+    // handier for testing
+    "import/no-named-as-default-member": "off",
     // writing the type can be clarifying at times, thus permit
     "@typescript-eslint/no-inferrable-types": "off",
     "@typescript-eslint/no-unused-vars": [

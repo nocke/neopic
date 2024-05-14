@@ -1,7 +1,7 @@
 {
   "name": "neopic",
   "productName": "neopic",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "electron based neopic - electron-forge 7.4 restart",
   "author": {
     "name": "Frank Nocke",
@@ -14,7 +14,7 @@
     "package": "electron-forge package",
     "package:run:win": ".\\out\\neopic-win32-x64\\neopic.exe",
     "package:debug": "cross-env DEBUG=*:* electron-forge package | tee package_debug.log",
-    "test": "cross-env TS_NODE_PROJECT=tsconfig.spec.json mocha",
+    "test": "cross-env TS_NODE_PROJECT=tsconfig.spec.json NODE_OPTIONS=\"--import=./test/mocha-register.js\" mocha",
     "test:debug": "cross-env DEBUG=*:* npm run test",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
@@ -49,6 +49,7 @@
     "@sveltejs/vite-plugin-svelte": "^3.1.0",
     "@types/chai": "^4.3.16",
     "@types/mocha": "^10.0.6",
+    "@types/node": "^20.12.12",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "chai": "^5.1.0",
@@ -62,7 +63,7 @@
     "sass": "^1.76.0",
     "svelte": "^4.2.15",
     "svelte-preprocess": "^5.1.4",
-    "ts-node": "^10.0.0",
+    "ts-node": "^10.9.2",
     "typescript": "~4.5.4",
     "vite": "^5.0.12"
   },

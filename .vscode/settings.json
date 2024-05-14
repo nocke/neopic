@@ -39,6 +39,7 @@
   "files.associations": {
     ".prettierrc": "jsonc",
     ".eslintrc.json": "jsonc",
+    ".mocharc.json": "jsonc",
     "tsconfig*.json": "jsonc"
   },
   "[javascript]": {
@@ -68,6 +69,17 @@
     "editor.insertSpaces": true,
     "editor.tabSize": 2
   },
+
+  // mocha
+  "mochaExplorer.require": "ts-node/register",
+  "mochaExplorer.fullTrace": true,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "mochaExplorer.env": {
+    "TS_NODE_PROJECT": "tsconfig.spec.json",
+    "NODE_OPTIONS": "--import=./test/mocha-register.js"
+  },
+
   // decouple zoom from other vscode instances
-  "window.zoomLevel": -2
+  "window.zoomLevel": 0
 }
+

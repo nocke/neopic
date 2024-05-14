@@ -2,14 +2,15 @@
 {
   "compilerOptions": {
     "module": "ESNext",
+    "target": "ESNext",
     "moduleResolution": "node",
-    "outDir": "./dist",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "baseUrl": "./",
     "paths": {
-      "*": ["*", "./*"],
-    },
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+      "src/*": ["src/*"],
+      "*": ["node_modules/*", "*"]
+    }
   },
-  "include": ["src/**/*", "test/**/*"]
+  "include": ["test/**/*.spec.ts", "src/**/*.spec.ts"]
 }

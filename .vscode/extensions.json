@@ -4,6 +4,7 @@
 		"svelte.svelte-vscode",
 		"dbaeumer.vscode-eslint",
 		"circleci.circleci",
-		"editorconfig.editorconfig"
+		"editorconfig.editorconfig",
+		"hbenl.vscode-mocha-test-adapter"
 	]
 }
