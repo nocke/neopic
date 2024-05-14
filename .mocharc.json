@@ -3,6 +3,6 @@
   "loader": "ts-node/esm",
   "require": "ts-node/register",
   "node-option": [
-    "experimental-specifier-resolution=node"
+    "experimental-specifier-resolution=node" // must stay for mute warning
   ]
 }

@@ -39,6 +39,7 @@
   "files.associations": {
     ".prettierrc": "jsonc",
     ".eslintrc.json": "jsonc",
+    ".mocharc.json": "jsonc",
     "tsconfig*.json": "jsonc"
   },
   "[javascript]": {
@@ -69,7 +70,7 @@
     "editor.tabSize": 2
   },
 
-  // mocha ████████████████████████
+  // mocha
   "mochaExplorer.require": "ts-node/register",
   "mochaExplorer.fullTrace": true,
   "typescript.tsdk": "node_modules/typescript/lib",
