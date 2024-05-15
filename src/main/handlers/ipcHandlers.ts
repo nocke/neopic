@@ -1,15 +1,16 @@
-import { ipcMain } from 'electron'
+import { app, ipcMain } from 'electron'
 
 import fs from 'fs'
 import os from 'os'
-import { DirectoryError, FileList } from '../../shared/sharedTypes'
+import path from 'path'
+import { AppState, defaultAppState, DirectoryError, FileList } from '../../shared/sharedTypes'
 
 import packageJson from '../../../package.json'
 
+const STATE_PATH = path.join(app.getPath('userData'), 'appState.json')
 
 function isErrnoException(e: unknown): e is NodeJS.ErrnoException {
-  if ('code' in (e as any)) return true
-  else return false
+  return typeof e === 'object' && e !== null && 'code' in e
 }
 
 export const setupIPC = () => {
@@ -24,6 +25,26 @@ export const setupIPC = () => {
   ipcMain.handle('get-home-dir', async (): Promise<string> => {
     return os.homedir()
   })
+
+  ipcMain.handle('read-state', async (): Promise<AppState> => {
+    try {
+      const data = await fs.promises.readFile(STATE_PATH, 'utf8')
+      return JSON.parse(data) as AppState
+    } catch (error) {
+      console.error('Failed to read state:', error)
+      return defaultAppState
+    }
+  })
+
+  ipcMain.handle('write-state', async (_event, state: AppState): Promise<void> => {
+    try {
+      await fs.promises.writeFile(STATE_PATH, JSON.stringify(state, null, 2), 'utf8')
+    } catch (error) {
+      console.error('Failed to write state:', error)
+      throw new Error('Failed to write state')
+    }
+  })
+
 
   ipcMain.handle('list-dir', async (_event, dirPath: string): Promise<FileList> => {
     console.log('render: list-dir 7', dirPath)

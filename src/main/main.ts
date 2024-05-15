@@ -12,7 +12,7 @@ if (require('electron-squirrel-startup')) {
   app.quit()
 }
 
-app.on('ready', () => {
+const onReady = () => {
   setupIPC()
 
   const args = process.argv.slice(1)
@@ -49,8 +49,9 @@ app.on('ready', () => {
   }
 
   mainWindow.webContents.openDevTools()
-}) // onReady
+} // onReady
 
+app.on('ready', onReady)
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
@@ -63,4 +64,3 @@ app.on('activate', () => {
     onReady()
   }
 })
-
