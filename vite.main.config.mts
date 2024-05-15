@@ -25,6 +25,12 @@ export default defineConfig((env) => {
       // Load the Node.js entry.
       mainFields: ['module', 'jsnext:main', 'jsnext'],
     },
+    test: {
+      environment: 'node',
+      globals: true,
+      // setupFiles: './test/setup.ts', // Optional, if you have any setup file
+      exclude: ['**/node_modules/**', '**/dist/**'],
+    },
   }
 
   return mergeConfig(getBuildConfig(forgeEnv), config)

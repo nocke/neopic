@@ -6,16 +6,28 @@ Neopic is an image browser with focus on organizing, tagging, captioning, sortin
 
 [Development Notes](./docs/DEVELOPMENT.md)
 
-### Updating
+
+### Testing
+
+I am using vitest ( [config](https://vitest.dev/config/) | [guide](https://vitest.dev/guide/) ), no more mocha (too much cjs vs. ES6 trouble).
+
+    npm run test -- test/selftest.spec.ts
+
+    npm run test:watch -- test/selftest.spec.ts
+
+    npm run test:debug -- test/selftest.spec.ts
+
+### Update
 
     npm version minor
 
-### testing with circleci
+### build + test with circleci
 
-  npm run circleci
+    npm run circleci
 
-or if you don't mind pending changes
+or if you don't mind some pending changes
 
-  npm run circleci -- nocheck
+    npm run circleci -- nocheck
 
-This will set and push a new tag 'circleci-<shorthash>', which will trigger a new circleci build. (Benefit being not _every_ commit triggering the pipeline and deducting from monthly free tier).
+This command will set and push a new tag 'circleci-<shorthash>', which will trigger a new circleci build. Benefit: Not _every_ commit triggering the pipeline and deducting from monthly free tier
+

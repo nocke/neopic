@@ -1,9 +1,11 @@
+// src\main\main.ts
 import { app, BrowserWindow, screen } from 'electron'
 import path from 'path'
 
 import { setupIPC } from './handlers/ipcHandlers'
 
-// Handle creating/removing shortcuts on Windows when installing/uninstalling.
+// handle creating/removing shortcuts on Windows when installing/uninstalling.
+// must stay a dependency, not a devDependency
 if (require('electron-squirrel-startup')) {
   app.quit()
 }

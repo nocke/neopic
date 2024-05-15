@@ -5,6 +5,6 @@
 		"dbaeumer.vscode-eslint",
 		"circleci.circleci",
 		"editorconfig.editorconfig",
-		"hbenl.vscode-mocha-test-adapter"
+		"vitest.explorer"
 	]
 }
