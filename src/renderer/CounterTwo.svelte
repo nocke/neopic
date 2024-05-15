@@ -1,6 +1,6 @@
 <style src="./CounterTwo.sass" lang="sass"></style>
 
-<script>
+<script lang="ts">
   let count = 42
 </script>
 

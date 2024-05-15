@@ -14,6 +14,7 @@
     console.log('ViewPort.svelte: onMount()', path)
 
     console.log('OS DIR***', await window.electron.ipcRenderer.invoke<string>('get-home-dir'))
+    console.log('VERSION ***', await window.electron.ipcRenderer.invoke<object>('get-host-info'))
 
     pathTyping = $path
     listDir($path)

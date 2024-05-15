@@ -4,12 +4,22 @@ import fs from 'fs'
 import os from 'os'
 import { DirectoryError, FileList } from '../../shared/sharedTypes'
 
+import packageJson from '../../../package.json'
+
+
 function isErrnoException(e: unknown): e is NodeJS.ErrnoException {
   if ('code' in (e as any)) return true
   else return false
 }
 
 export const setupIPC = () => {
+
+  ipcMain.handle('get-host-info', async (): Promise<object> => {
+    return {
+      version: packageJson.version,
+      homeDir: os.homedir()
+    }
+  })
 
   ipcMain.handle('get-home-dir', async (): Promise<string> => {
     return os.homedir()

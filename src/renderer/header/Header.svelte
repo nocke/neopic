@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   console.log('howdy, partner')
 </script>
 
