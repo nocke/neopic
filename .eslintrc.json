@@ -1,3 +1,4 @@
+// .eslintrc.json
 {
   "root": true,
   "env": {
@@ -30,6 +31,12 @@
   "plugins": [
     "@typescript-eslint"
   ],
+  "settings": {
+    "import/resolver": {
+      "typescript": { // REF www.npmjs.com/package/eslint-import-resolver-typescript#configuration
+      }
+    }
+  },
   "overrides": [
     {
       "files": [
