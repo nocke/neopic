@@ -40,12 +40,6 @@
     }
   }
 
-  // still useful?
-  // if (import.meta.hot) { // tree-shakable
-  //   import.meta.hot.accept((_newModule) => {
-  //     console.log('HMR update ViewPort')
-  //   })
-  // }
 
 </script>
 
@@ -63,6 +57,8 @@
   viewBox for {path}
   {#if files === null}
     <div>Directory not loaded...</div>
+  {:else if !Array.isArray(files)}
+    <div>TODO types are shit, have separate </div>
   {:else if files.length === 0}
     <div>No files in directory.</div>
   {:else}
