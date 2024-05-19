@@ -6,6 +6,7 @@
 
 <div class="counter">
   <p>{count}</p>
+  <button on:click="{() => { count -= 1 }}">-1</button>
   <button on:click="{() => { count += 1 }}">+1</button>
 </div>
 

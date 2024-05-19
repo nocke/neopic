@@ -21,6 +21,12 @@
   <h3>Headline Three<br />The quick bröwn fox jumps øvér…</h3>
   <h4>Headline Three<br />The quick bröwn fox jumps øvér…</h4>
 
+
+  <input type="text" placeholder="plaeholder" />
+  <button type="submit">Load</button>
+  <div class="button">mock button</div>
+  <a class="button" href="#123">mock anchor button</a>
+
   <p>Horum omnium fortissimi sunt Belgae, propterea quod a cultu atque humanitate provinciae longissime absunt.</p>
   Qua de causa Helvetii quoque reliquos Gallos virtute praecedunt, quod fere.
   <div>&lt;div&gt;cotidianis proeliis cum Germanis contendunt&lt;div&gt;</div>

@@ -4,11 +4,11 @@
     $flex: unquote($flex)
   @else
     $flex: unquote('#{$flex}')
-  min-width: 0 // tackles overshoot problems
-  width: 100%
-  box-sizing: border-box
-  flex: $flex
-  display: flex
+    min-width: 0 // tackles overshoot problems
+    width: 100%
+    box-sizing: border-box
+    flex: $flex
+    display: flex
 
 = flexVert($flex: auto)
   @include flexHori($flex)
@@ -28,3 +28,6 @@
 = markerDashed($color: lime)
   box-sizing: border-box
   border: 4px dashed $color
+
+= tinyShadow()
+  box-shadow: 0 1px 2px rgba(var(--textColor1), 0.2)
