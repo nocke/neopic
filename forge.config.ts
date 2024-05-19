@@ -20,8 +20,16 @@ const config: ForgeConfig = {
       setupIcon: './src/img/icons/icon'
     }),
     new MakerZIP({}, ['darwin']),
-    new MakerRpm({}),
-    new MakerDeb({})
+    new MakerRpm({
+      options: {
+        icon: './src/img/icons/icon.png'
+      }
+    }),
+    new MakerDeb({
+      options:{
+        icon: './src/img/icons/icon.png'
+      }
+    })
   ],
   plugins: [
     new VitePlugin({
