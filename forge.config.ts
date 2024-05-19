@@ -1,20 +1,28 @@
-import type { ForgeConfig } from '@electron-forge/shared-types';
-import { MakerSquirrel } from '@electron-forge/maker-squirrel';
-import { MakerZIP } from '@electron-forge/maker-zip';
-import { MakerDeb } from '@electron-forge/maker-deb';
-import { MakerRpm } from '@electron-forge/maker-rpm';
-import { VitePlugin } from '@electron-forge/plugin-vite';
-import { FusesPlugin } from '@electron-forge/plugin-fuses';
-import { FuseV1Options, FuseVersion } from '@electron/fuses';
+import type { ForgeConfig } from '@electron-forge/shared-types'
+import { MakerSquirrel } from '@electron-forge/maker-squirrel'
+import { MakerZIP } from '@electron-forge/maker-zip'
+import { MakerDeb } from '@electron-forge/maker-deb'
+import { MakerRpm } from '@electron-forge/maker-rpm'
+import { VitePlugin } from '@electron-forge/plugin-vite'
+import { FusesPlugin } from '@electron-forge/plugin-fuses'
+import { FuseV1Options, FuseVersion } from '@electron/fuses'
 
 const config: ForgeConfig = {
   packagerConfig: {
     executableName: 'neopic',
     asar: true,
-    // icon: path.join(__dirname, 'src/img/icons/icon'),
+    icon: './src/img/icons/icon'
   },
   rebuildConfig: {},
-  makers: [new MakerSquirrel({}), new MakerZIP({}, ['darwin']), new MakerRpm({}), new MakerDeb({})],
+  makers: [
+    new MakerSquirrel({
+      // COULDDO: iconUrl (https:// indeed for somewhere in prefs)
+      setupIcon: './src/img/icons/icon'
+    }),
+    new MakerZIP({}, ['darwin']),
+    new MakerRpm({}),
+    new MakerDeb({})
+  ],
   plugins: [
     new VitePlugin({
       // `build` can specify multiple entry builds, which can be Main process, Preload scripts, Worker process, etc.
@@ -37,6 +45,7 @@ const config: ForgeConfig = {
         },
       ],
     }),
+
     // Fuses are used to enable/disable various Electron functionality
     // at package time, before code signing the application
     new FusesPlugin({
@@ -49,6 +58,6 @@ const config: ForgeConfig = {
       [FuseV1Options.OnlyLoadAppFromAsar]: true,
     }),
   ],
-};
+}
 
-export default config;
+export default config
