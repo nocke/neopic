@@ -12,6 +12,13 @@ export interface Settings { // TODO: still used?
   // TODO homeDir: string;
 }
 
+export interface HostInfos {
+  version: string;
+  homeDir: string;
+  stateDir: string; // where our state-preserving json is stored
+  workspaceDir: string;
+}
+
 
 // State ███████████████████████████
 export interface StateView {

@@ -3,11 +3,14 @@ import { app, ipcMain } from 'electron'
 import fs from 'fs'
 import os from 'os'
 import path from 'path'
-import { AppState, defaultAppState, DirectoryError, FileList } from '../../shared/sharedTypes'
+import { AppState, defaultAppState, DirectoryError, FileList, HostInfos } from '../../shared/sharedTypes'
 
 import packageJson from '../../../package.json'
 
 const STATE_PATH = path.join(app.getPath('userData'), 'appState.json')
+
+const workspaceDir = path.resolve(__dirname, '../../')
+
 
 function isErrnoException(e: unknown): e is NodeJS.ErrnoException {
   return typeof e === 'object' && e !== null && 'code' in e
@@ -15,10 +18,12 @@ function isErrnoException(e: unknown): e is NodeJS.ErrnoException {
 
 export const setupIPC = () => {
 
-  ipcMain.handle('get-host-info', async (): Promise<object> => {
+  ipcMain.handle('get-host-infos', async (): Promise<HostInfos> => {
     return {
       version: packageJson.version,
-      homeDir: os.homedir()
+      homeDir: os.homedir(),
+      stateDir: STATE_PATH,
+      workspaceDir
     }
   })
 
