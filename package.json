@@ -15,7 +15,7 @@
     "package:run:win": ".\\out\\neopic-win32-x64\\neopic.exe",
     "package:debug": "cross-env DEBUG=*:* electron-forge package | tee package_debug.log",
     "test": "vitest run",
-    "test:ci": "vitest run --reporter junit --outputFile.junit ./out/junit/junit.xml",
+    "test:ci": "vitest run --reporter junit --outputFile.junit ./out/junit/test-results.xml",
     "test:watch": "vitest",
     "test:debug": "cross-env DEBUG=*:* vitest run",
     "make": "electron-forge make",
