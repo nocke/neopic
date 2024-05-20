@@ -135,11 +135,11 @@ jobs:
     steps:
       - steps-before
       - restore_cache:
-          key: dependency-B-windows-{{ checksum "package.json" }}
+          key: dependency-C-windows-{{ checksum "package.json" }}
       - run: npm install
       - run: npm run test
       - save_cache:
-          key: dependency-B-windows-{{ checksum "package.json" }}
+          key: dependency-C-windows-{{ checksum "package.json" }}
           paths:
           - ./node_modules
       - run: npm run make
