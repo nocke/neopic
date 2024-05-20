@@ -53,7 +53,9 @@ jobs:
       - restore_cache:
           key: dependency-B-linux-{{ checksum "package.json" }}
       - run: npm install
-      - run: npm run test
+      - run: npm run test:ci
+      - store_test_results:
+          path: out/junit
       - run:
           name: Install OS specific
           command: |
@@ -101,7 +103,9 @@ jobs:
       - restore_cache:
           key: dependency-B-macos-{{ checksum "package.json" }}
       - run: npm install
-      - run: npm run test
+      - run: npm run test:ci
+      - store_test_results:
+          path: out/junit
       - run:
           name: Install dpkg and fakeroot
           command: |
@@ -137,7 +141,8 @@ jobs:
       - restore_cache:
           key: dependency-C-windows-{{ checksum "package.json" }}
       - run: npm install
-      - run: npm run test
+      - store_test_results:
+          path: out/junit
       - save_cache:
           key: dependency-C-windows-{{ checksum "package.json" }}
           paths:
