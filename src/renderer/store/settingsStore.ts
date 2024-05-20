@@ -1,6 +1,5 @@
 // src/stores/settingsStore.ts
 import { Writable, writable } from 'svelte/store'
-import { ipcRenderer } from 'electron'
 import { Settings } from 'src/shared/sharedTypes'
 
 // Initial default values

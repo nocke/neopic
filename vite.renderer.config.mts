@@ -10,7 +10,7 @@ import preprocess from 'svelte-preprocess'
 export default defineConfig((env) => {
   const forgeEnv = env as ConfigEnv<'renderer'>
   const { root, mode, forgeConfigSelf } = forgeEnv
-  const name = forgeConfigSelf.name ?? ''
+  const name = forgeConfigSelf?.name ?? ''
 
   return {
     root,
@@ -22,7 +22,11 @@ export default defineConfig((env) => {
     plugins: [
       pluginExposeRenderer(name),
       svelte({
-        preprocess: preprocess()
+        preprocess: preprocess({
+          sass: {
+            outputStyle: 'compressed'
+          }
+        })
       })
     ],
     resolve: {

@@ -58,9 +58,9 @@ describe('IPC Handlers', () => {
     // workspaceDir: 'C:\\depot\\www\\neopic\\src'
 
     expect(hostInfos.version).toMatch(/^\d+\.\d+\.\d+$/)
-    expect(hostInfos.homeDir).toMatch(/^([A-Z]:\\|\/)?[\w\s\\\/]+$/i)
+    expect(hostInfos.homeDir).toMatch(/^([A-Z]:\\|\/)?[\w\s\\/]+$/i)
     expect(hostInfos.stateDir.replace(/\\/g, '/')).toBe('/fake/ünicødetést😬/path/appState.json')
-    expect(hostInfos.workspaceDir).toMatch(/^([A-Z]:\\|\/)?[\w\s\\\/]+$/i)
+    expect(hostInfos.workspaceDir).toMatch(/^([A-Z]:\\|\/)?[\w\s\\/]+$/i)
   })
 
 })

@@ -26,7 +26,8 @@
     "clean": "npx --yes rimraf node_modules .vite dist out .cache .next .nuxt .npm",
     "circleci": "node ./script/circleci",
     "preversion": "node ./script/preversion",
-    "postversion": "node ./script/postversion"
+    "postversion": "node ./script/postversion",
+    "vite:renderer-testcompile": "vite build --config vite.renderer.config.mts"
   },
   "engines": {
     "node": ">=20"

@@ -42,6 +42,5 @@ if (target) {
   console.error('No <main> element found to mount the Svelte app')
 }
 
-console.log('👋 This message is being logged by "renderer.ts", included via Vite');
-
+console.log('👋 This message is being logged by "renderer.ts", included via Vite')
 
