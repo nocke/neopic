@@ -4,7 +4,7 @@
 <script lang="ts">
   import { onMount } from 'svelte'
   import CounterTwo from '../CounterTwo.svelte'
-  import { curDir } from '../store/store'
+  import { curDir, hostInfos } from '../store/store'
   import { FileList } from '../../shared/sharedTypes'
 
   let pathTyping: string // path, as it's being typed
@@ -12,7 +12,14 @@
 
   $: {
     if ($curDir) {
+      pathTyping = $curDir // since curDir changes might have different sources
       listDir($curDir)
+    }
+  }
+
+  $: { // initialize curDir, if not yet
+    if ($hostInfos && !$curDir) {
+      $curDir = $hostInfos.homeDir
     }
   }
 
@@ -24,10 +31,8 @@
     event.preventDefault() // no actual submit and reload
     const formData = new FormData(event.target as HTMLFormElement)
     const submittedPath = formData.get('pathInput')
-
     if (typeof submittedPath === 'string') {
       curDir.set(submittedPath)
-      listDir(submittedPath)
     }
   }
 

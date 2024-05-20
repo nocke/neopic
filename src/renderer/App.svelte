@@ -6,13 +6,16 @@
   import { NinjaKeys } from 'ninja-keys'
   import { hotkeys } from './ninja-support'
   import ExplorerBar from './explorerBar/ExplorerBar.svelte'
-  import { invertMode } from './store/store'
+  import { hostInfos, invertMode } from './store/store'
   import ViewPort from './viewPort/ViewPort.svelte'
+  import { HostInfos } from '../shared/sharedTypes'
 
   const html = document.documentElement
 
   onMount(async () => {
-    console.log('svelte mounted')
+    console.log('svelte mounting')
+
+    hostInfos.set(await window.electron.ipcRenderer.invoke<HostInfos>('get-host-infos'))
 
     const ninja: NinjaKeys | null = document.querySelector('ninja-keys')
     if (ninja) {
@@ -29,6 +32,8 @@
     setTimeout(() => {
       document.getElementById('listDirButton')?.click()
     }, 500)
+
+    console.log('svelte mounting')
   })
 </script>
 

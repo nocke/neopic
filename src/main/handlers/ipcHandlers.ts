@@ -27,6 +27,7 @@ export const setupIPC = () => {
     }
   })
 
+  // how redundant to host-infos
   ipcMain.handle('get-home-dir', async (): Promise<string> => {
     return os.homedir()
   })

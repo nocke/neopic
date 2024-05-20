@@ -1,18 +1,16 @@
 <style src="./ExplorerBar.sass" lang="sass"></style>
 
 <script lang="ts">
-  import { onMount } from 'svelte'
-  import {HostInfos} from '../../shared/sharedTypes'
-  let hostInfos:HostInfos
+  // import { onMount } from 'svelte'
+  import { hostInfos } from '../store/store'
 
-  onMount(async () => {
-    hostInfos = await window.electron.ipcRenderer.invoke<HostInfos>('get-host-infos')
-  })
+  // onMount(async () => {
+  // })
 </script>
 
 <section>
   <table class='hostInfos'>
-  {#each Object.entries(hostInfos ?? {}) as [key, value]}
+  {#each Object.entries($hostInfos ?? {}) as [key, value]}
     <tr><th>{key}</th><td>{value}</td></tr>
   {/each}
 </table>
@@ -20,7 +18,6 @@
   <h2>Headline Two<br />The quick bröwn fox jumps øvér…</h2>
   <h3>Headline Three<br />The quick bröwn fox jumps øvér…</h3>
   <h4>Headline Three<br />The quick bröwn fox jumps øvér…</h4>
-
 
   <input type="text" placeholder="placeholder" />
   <button type="submit">Load</button>
