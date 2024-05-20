@@ -1,4 +1,5 @@
-import { app, ipcMain } from 'electron'
+// src/main/handlers/ipcHandlers.ts
+import { app, ipcMain, IpcMainInvokeEvent } from 'electron'
 
 import fs from 'fs'
 import os from 'os'
@@ -11,28 +12,21 @@ const STATE_PATH = path.join(app.getPath('userData'), 'appState.json')
 
 const workspaceDir = path.resolve(__dirname, '../../')
 
-
 function isErrnoException(e: unknown): e is NodeJS.ErrnoException {
   return typeof e === 'object' && e !== null && 'code' in e
 }
 
-export const setupIPC = () => {
-
-  ipcMain.handle('get-host-infos', async (): Promise<HostInfos> => {
+const ipcFunctions = {
+  getHostInfos : async (): Promise<HostInfos> => {
     return {
       version: packageJson.version,
       homeDir: os.homedir(),
       stateDir: STATE_PATH,
       workspaceDir
     }
-  })
+  },
 
-  // how redundant to host-infos
-  ipcMain.handle('get-home-dir', async (): Promise<string> => {
-    return os.homedir()
-  })
-
-  ipcMain.handle('read-state', async (): Promise<AppState> => {
+  readState: async (): Promise<AppState> => {
     try {
       const data = await fs.promises.readFile(STATE_PATH, 'utf8')
       return JSON.parse(data) as AppState
@@ -40,19 +34,18 @@ export const setupIPC = () => {
       console.error('Failed to read state:', error)
       return defaultAppState
     }
-  })
+  },
 
-  ipcMain.handle('write-state', async (_event, state: AppState): Promise<void> => {
+  writeState:  async (_event: IpcMainInvokeEvent, state: AppState): Promise<void> => {
     try {
       await fs.promises.writeFile(STATE_PATH, JSON.stringify(state, null, 2), 'utf8')
     } catch (error) {
       console.error('Failed to write state:', error)
       throw new Error('Failed to write state')
     }
-  })
+  },
 
-
-  ipcMain.handle('list-dir', async (_event, dirPath: string): Promise<FileList> => {
+  listDir : async (_event: IpcMainInvokeEvent, dirPath: string): Promise<FileList> => {
     console.log('render: list-dir 7', dirPath)
 
     try {
@@ -69,13 +62,15 @@ export const setupIPC = () => {
         throw err
       }
     }
-  })
+  }
+}
 
-  // ipcMain.handle('get-settings', async (_event): Promise<Settings> => {
-  //   return {
-  //     theme: 'banana',
-  //     language: 'en'
-  //   }
-  // })
+// used for testing
+export const numIpcFunctions = Object.keys(ipcFunctions).length
 
+export const setupIPC = () => {
+  ipcMain.handle('get-host-infos', ipcFunctions.getHostInfos)
+  ipcMain.handle('read-state', ipcFunctions.readState)
+  ipcMain.handle('write-state',ipcFunctions.writeState)
+  ipcMain.handle('list-dir',ipcFunctions.listDir)
 }

@@ -31,3 +31,13 @@ or if you don't mind some pending changes
 
 This command will set and push a new tag 'circleci-<shorthash>', which will trigger a new circleci build. Benefit: Not _every_ commit triggering the pipeline and deducting from monthly free tier
 
+Running single tests:
+
+    npm run test -- test/selftest.spec.ts
+    npm run test:watch -- test/selftest.spec.ts
+    npm run test:debug -- test/selftest.spec.ts
+
+Tests may be in `test/` folder or in `src/` alongside application code
+
+    npm run test -- src\main\handlers\ipcHandlers.spec.ts
+

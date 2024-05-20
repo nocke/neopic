@@ -2,6 +2,7 @@
 export type DirectoryError = 'ENOENT' | 'EACCESS' | 'EOTHER';
 
 // null ≙ not yet loaded, empty array ≙ no files in folder, number ≙ invalid/unreachable dir
+// TODO!
 export type FileList = string[] | null | number | DirectoryError;
 
 export interface Settings { // TODO: still used?
