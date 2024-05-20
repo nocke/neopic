@@ -53,7 +53,6 @@
   </form>
 
   <CounterTwo></CounterTwo>
-
   <hr />
   <h2>viewBox for {$curDir}</h2>
   {#if files === null}
@@ -63,7 +62,7 @@
   {:else if files.length === 0}
     <div>No files in directory.</div>
   {:else}
-    <ul class="plain">
+    <ul class="plain file-list">
       {#each files as file}
         <li>{file}</li>
       {/each}

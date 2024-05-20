@@ -1,8 +1,11 @@
 @import '../common'
 
 section
-  flex: 5 1 600px
-  background: $whiteMild
-  border: 4px dashed pink
-
+  @include flexVert
   @include radiusS
+  background: $whiteMild
+  border: 4px dashed fuchsia
+
+.file-list
+  flex: auto
+  overflow-y: auto

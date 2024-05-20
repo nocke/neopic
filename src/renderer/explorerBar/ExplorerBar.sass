@@ -1,7 +1,8 @@
 @import '../common'
 
-section
-  flex: 1 0 300px
+.explorerBar
+  width: 350px
+  flex: none
   background: var(--background2)
   color: var(--textColor2)
   border: 4px dashed lime
@@ -9,4 +10,14 @@ section
   transition: background-color $speedFast ease-in-out, color $speedFast ease-in-out
 
 .hostInfos
+  width: 100%
+  table-layout: fixed
   background: #9c9
+
+  th
+    width: 80px
+    text-align: left
+
+  td
+    overflow: hidden
+    text-overflow: ellipsis

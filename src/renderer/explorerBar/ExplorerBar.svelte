@@ -8,7 +8,7 @@
   // })
 </script>
 
-<section>
+<section class='explorerBar'>
   <table class='hostInfos'>
   {#each Object.entries($hostInfos ?? {}) as [key, value]}
     <tr><th>{key}</th><td>{value}</td></tr>

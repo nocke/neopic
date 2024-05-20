@@ -1,18 +1,21 @@
 // pass-on flexing
+= _commonFlex($flex)  // ‘private’ macro
+  display: flex
+  flex: $flex
+  overflow: hidden // prevents overshoot (if overflow:auto here or deeper-down forgotten)
+  box-sizing: border-box
+
 = flexHori($flex: auto)
-  @if type-of($flex) != string
-    $flex: unquote($flex)
-  @else
-    $flex: unquote('#{$flex}')
-    min-width: 0 // tackles overshoot problems
-    width: 100%
-    box-sizing: border-box
-    flex: $flex
-    display: flex
+  @include  _commonFlex($flex)
+  min-width: 0 // flexbox ‘draft’ overshoot problem
+  width: 100%
 
 = flexVert($flex: auto)
-  @include flexHori($flex)
+  @include  _commonFlex($flex)
+  min-height: 0 // flexbox ‘draft’ overshoot problem
+  height: 100%
   flex-direction: column
+
 
 = borderBox
   box-sizing: border-box
