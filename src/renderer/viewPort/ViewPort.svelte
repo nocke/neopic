@@ -39,7 +39,7 @@
   async function listDir(directoryPath: string) {
     console.log('List Dir * * *')
     try {
-      files = await window.electron.ipcRenderer.invoke('list-dir', directoryPath)
+      files = await window.electron.ipcRenderer.invoke('listDir', directoryPath)
     } catch (error) {
       console.error('error listing directory:', directoryPath, error)
     }
@@ -53,6 +53,7 @@
   </form>
 
   <CounterTwo></CounterTwo>
+
   <hr />
   <h2>viewBox for {$curDir}</h2>
   {#if files === null}

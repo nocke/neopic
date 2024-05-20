@@ -46,8 +46,6 @@ const ipcFunctions = {
   },
 
   listDir : async (_event: IpcMainInvokeEvent, dirPath: string): Promise<FileList> => {
-    console.log('render: list-dir 7', dirPath)
-
     try {
       await fs.promises.access(dirPath, fs.constants.F_OK)
       await fs.promises.access(dirPath, fs.constants.R_OK)
@@ -69,8 +67,8 @@ const ipcFunctions = {
 export const numIpcFunctions = Object.keys(ipcFunctions).length
 
 export const setupIPC = () => {
-  ipcMain.handle('get-host-infos', ipcFunctions.getHostInfos)
-  ipcMain.handle('read-state', ipcFunctions.readState)
-  ipcMain.handle('write-state',ipcFunctions.writeState)
-  ipcMain.handle('list-dir',ipcFunctions.listDir)
+  ipcMain.handle('getHostInfos', ipcFunctions.getHostInfos)
+  ipcMain.handle('readState', ipcFunctions.readState)
+  ipcMain.handle('writeState',ipcFunctions.writeState)
+  ipcMain.handle('listDir',ipcFunctions.listDir)
 }

@@ -15,7 +15,7 @@
   onMount(async () => {
     console.log('svelte mounting')
 
-    hostInfos.set(await window.electron.ipcRenderer.invoke<HostInfos>('get-host-infos'))
+    hostInfos.set(await window.electron.ipcRenderer.invoke<HostInfos>('getHostInfos'))
 
     const ninja: NinjaKeys | null = document.querySelector('ninja-keys')
     if (ninja) {
