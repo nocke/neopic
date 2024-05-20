@@ -17,7 +17,7 @@ const config: ForgeConfig = {
   makers: [
     new MakerSquirrel({
       // COULDDO: iconUrl (https:// indeed for somewhere in prefs)
-      setupIcon: './src/img/icons/icon'
+      setupIcon: './src/img/icons/icon.ico'
     }),
     new MakerZIP({}, ['darwin']),
     new MakerRpm({
