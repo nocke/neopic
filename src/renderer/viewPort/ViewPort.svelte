@@ -1,3 +1,4 @@
+<!-- src/renderer/viewPort/ViewPort.svelte -->
 <style src="./ViewPort.sass" lang="sass"></style>
 
 <script lang="ts">
@@ -40,7 +41,6 @@
   }
 </script>
 
-// src/renderer/viewPort/ViewPort.svelte
 <section>
   <form class="form" on:submit="{handleSubmit}">
     <input type="text" bind:value="{pathTyping}" name="pathInput" placeholder="Enter path" />

@@ -89,19 +89,22 @@ input, .input, button, .button, a.button
   &:focus
     outline: 2px solid var(--buttonBgHover)
 
+button, .button, a.button // except input, .input
   &:hover
+    cursor: pointer
     background: var(--buttonBgHover)
 
 
 // additional / overstyle for input
 input, .input
   color: var(--textColor1)
-  background: var(--background2)
+  background: var(--background1)
   box-shadow: inset .5px .5px 3px rgba(black, .4)
 
   @at-root html.invert &
     box-shadow: inset 0 0 1px 1px rgba(white, 1)
 
+// plain lists
 ul.plain
   list-style: none
   padding: 0

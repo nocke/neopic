@@ -22,7 +22,7 @@
   <h4>Headline Three<br />The quick bröwn fox jumps øvér…</h4>
 
 
-  <input type="text" placeholder="plaeholder" />
+  <input type="text" placeholder="placeholder" />
   <button type="submit">Load</button>
   <div class="button">mock button</div>
   <a class="button" href="#123">mock anchor button</a>
