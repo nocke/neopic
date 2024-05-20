@@ -36,7 +36,7 @@ commands:
     steps:
       # checkout must be before mkdir, mkdir must be before sanity test 😬
       - checkout
-      - run: mkdir -p ./out/make
+      - run: mkdir -p ./out/make ./out/junit
       - run:
           name: sanity test
           command: |
