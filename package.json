@@ -1,7 +1,7 @@
 {
   "name": "neopic",
   "productName": "neopic",
-  "version": "0.19.0",
+  "version": "0.20.0",
   "description": "electron based neopic - electron-forge 7.4 restart",
   "author": {
     "name": "Frank Nocke",
@@ -59,6 +59,7 @@
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-import": "^2.25.0",
     "eslint-plugin-svelte": "^2.38.0",
+    "golden-layout": "^2.6.0",
     "ninja-keys": "^1.2.2",
     "sass": "^1.76.0",
     "svelte": "^4.2.15",

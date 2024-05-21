@@ -9,6 +9,7 @@
   import { hostInfos, invertMode } from './store/store'
   import ViewPort from './viewPort/ViewPort.svelte'
   import { HostInfos } from '../shared/sharedTypes'
+  import GoldenWrapper from './goldenWrapper/GoldenWrapper.svelte'
 
   const html = document.documentElement
 
@@ -41,6 +42,8 @@
   <Header>Ctrl+P for command palette, ctrl+h, ctrl+o for whatever</Header>
 
   <ninja-keys placeholder="Type a command or name…" openHotkey="cmd+p,cmd+shift+p,ctrl+p,ctrl+shift+p"></ninja-keys>
+
+  <GoldenWrapper></GoldenWrapper>
 
   <div class="split-hori">
     <ExplorerBar></ExplorerBar>
