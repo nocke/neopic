@@ -2,6 +2,17 @@
 @import './css/goldenlayout-base.css'
 @import './css/themes/goldenlayout-dark-theme.css'
 
-section
-  border: 8px dashed darkgoldenrod
-  height: 500px
+.golden-container
+  position: relative
+  height: 300px
+  @include borderBox
+
+  &::after // overlay is easier for debugging, goldenLayout does not like the deduction
+    content: ''
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    border: 4px dashed darkgoldenrod
+
