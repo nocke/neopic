@@ -7,7 +7,7 @@
   import Test from '../test/Test.svelte'
 
   let container: HTMLElement
-  let goldenLayout: VirtualLayout
+  let virtualLayout: VirtualLayout
 
   const config: LayoutConfig = {
     root: {
@@ -39,19 +39,19 @@
   }
 
   onMount(() => {
-    goldenLayout = new VirtualLayout(container, handleBindComponentEvent, handleUnbindComponentEvent)
-    goldenLayout.loadLayout(config)
+    virtualLayout = new VirtualLayout(container, handleBindComponentEvent, handleUnbindComponentEvent)
+    virtualLayout.loadLayout(config)
   })
 
   onDestroy(() => {
-    goldenLayout?.destroy()
+    virtualLayout?.destroy()
   })
 </script>
 
 <svelte:window
   on:resize="{() => {
-    console.log('██ on:resize')
-    goldenLayout?.updateSize()
+    console.log('██ on:resize', container.offsetWidth, container.offsetHeight)
+    virtualLayout?.setSize(container.offsetWidth, window.innerHeight / 2) // matches the height:50% in sass
   }}"
 />
 <div bind:this="{container}" class="golden-container"></div>
