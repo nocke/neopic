@@ -30,9 +30,16 @@
 
   const svelteComponents = new Map<ComponentContainer, SvelteComponent>()
 
-  function handleBindComponentEvent(container: ComponentContainer, itemConfig: ResolvedComponentItemConfig) {
+  onMount(() => {
+    virtualLayout = new VirtualLayout(container, handleBindComponentEvent, handleUnbindComponentEvent)
+    virtualLayout.loadLayout(config)
+    window.addEventListener('resize', updateLayoutSize)
+    updateLayoutSize() // Initial size update
+  })
 
-    console.log('████handleBindComponentEvent', container, ' █ ', itemConfig)
+  // called for every component listed in the LayoutConfig
+  function handleBindComponentEvent(container: ComponentContainer, itemConfig: ResolvedComponentItemConfig) {
+    console.log('████handleBindComponentEvent', ' █ container:', container, ' █ ', itemConfig)
 
     const { componentState } = itemConfig
     const component = new ComponentWrapper({
@@ -57,17 +64,10 @@
   function updateLayoutSize() {
     if (container) {
       const width = container.offsetWidth
-      const height =  window.innerHeight / 2 // matches the height:50% in sass
+      const height = window.innerHeight / 2 // matches the height:50% in sass
       virtualLayout?.setSize(width, height)
     }
   }
-
-  onMount(() => {
-    virtualLayout = new VirtualLayout(container, handleBindComponentEvent, handleUnbindComponentEvent)
-    virtualLayout.loadLayout(config)
-    window.addEventListener('resize', updateLayoutSize)
-    updateLayoutSize() // Initial size update
-  })
 
   onDestroy(() => {
     window.removeEventListener('resize', updateLayoutSize)

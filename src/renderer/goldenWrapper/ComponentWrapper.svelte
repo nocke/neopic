@@ -1,3 +1,4 @@
+<!-- src/renderer/goldenWrapper/ComponentWrapper.svelte -->
 <style lang="sass">
 @import '../common'
 
@@ -13,7 +14,13 @@ section
 </style>
 
 <script lang="ts">
-  export let label = 'component wrapper'
+  export let message = 'component wrapper'
+  export let width
+  export let height
 </script>
 
-<section>{label} -- OxOxOxOxOxOxOxOxOxOxOxOxOxOxOxOxOxOxOxOxOxOxOxOxOxO</section>
+<section>
+  {message}<br />
+  width: {width}<br />
+  height: {height}<br />
+</section>
