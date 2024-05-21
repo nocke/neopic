@@ -5,6 +5,7 @@
   import { onMount, onDestroy, SvelteComponent } from 'svelte'
   import { VirtualLayout, LayoutConfig, ComponentContainer, ResolvedComponentItemConfig } from 'golden-layout'
   import Test from '../test/Test.svelte'
+  import ComponentWrapper from './ComponentWrapper.svelte'
 
   let container: HTMLElement
   let virtualLayout: VirtualLayout
@@ -16,7 +17,12 @@
         {
           type: 'component',
           componentType: 'testComponent',
-          componentState: { label: 'A' },
+          componentState: { message: 'A' },
+        },
+        {
+          type: 'component',
+          componentType: 'testComponent',
+          componentState: { message: 'B' },
         },
       ],
     },
@@ -25,8 +31,11 @@
   const svelteComponents = new Map<ComponentContainer, SvelteComponent>()
 
   function handleBindComponentEvent(container: ComponentContainer, itemConfig: ResolvedComponentItemConfig) {
+
+    console.log('████handleBindComponentEvent', container, ' █ ', itemConfig)
+
     const { componentState } = itemConfig
-    const component = new Test({
+    const component = new ComponentWrapper({
       target: container.element,
       props: componentState,
     })
