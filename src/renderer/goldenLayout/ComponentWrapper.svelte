@@ -1,4 +1,4 @@
-<!-- src/renderer/goldenWrapper/ComponentWrapper.svelte -->
+<!-- src/renderer/goldenLayout/ComponentWrapper.svelte -->
 <style lang="sass">
 @import '../common'
 

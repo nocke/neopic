@@ -1,9 +1,9 @@
-<!-- src/renderer/goldenWrapper/GoldenWrapper.svelte -->
-<style src="./GoldenWrapper.sass" lang="sass"></style>
+<!-- src/renderer/goldenLayout/GoldenLayout.svelte -->
+<style src="./GoldenLayout.sass" lang="sass"></style>
 
 <script lang="ts">
-  import { onMount, onDestroy, SvelteComponent } from 'svelte'
-  import { VirtualLayout, LayoutConfig, ComponentContainer, ResolvedComponentItemConfig, JsonValue } from 'golden-layout'
+  import { onMount, onDestroy } from 'svelte'
+  import { VirtualLayout, LayoutConfig, ComponentContainer, ResolvedComponentItemConfig } from 'golden-layout'
   import ComponentWrapper from './ComponentWrapper.svelte'
 
   type Bounds = {
