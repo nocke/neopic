@@ -3,14 +3,34 @@
 
 <script lang="ts">
   import { onMount, onDestroy, SvelteComponent } from 'svelte'
-  import { VirtualLayout, LayoutConfig, ComponentContainer, ResolvedComponentItemConfig } from 'golden-layout'
-  import Test from '../test/Test.svelte'
+  import { VirtualLayout, LayoutConfig, ComponentContainer, ResolvedComponentItemConfig, JsonValue } from 'golden-layout'
   import ComponentWrapper from './ComponentWrapper.svelte'
 
-  let container: HTMLElement
+  type Bounds = {
+    left: number
+    top: number
+    width: number
+    height: number
+  }
+  type ComponentConfig = {
+    message: string //TEMPTEMP
+    // key: ComponentContainer
+    // id: string
+    // componentType: string
+    // componentState?: JsonValue
+    bounds: Bounds
+    // visible: boolean
+    // zIndex: string
+  }
+
+  // ↓ let components: ComponentConfig[] = [];
+  const components = new Map<ComponentContainer,ComponentConfig>()
+  // ↑ const svelteComponents = new Map<ComponentContainer, SvelteComponent>()
+
+  let rootContainer: HTMLElement
   let virtualLayout: VirtualLayout
 
-  const config: LayoutConfig = {
+  const layoutConfig: LayoutConfig = {
     root: {
       type: 'row',
       content: [
@@ -28,11 +48,10 @@
     },
   }
 
-  const svelteComponents = new Map<ComponentContainer, SvelteComponent>()
 
   onMount(() => {
-    virtualLayout = new VirtualLayout(container, handleBindComponentEvent, handleUnbindComponentEvent)
-    virtualLayout.loadLayout(config)
+    virtualLayout = new VirtualLayout(rootContainer, handleBindComponentEvent, handleUnbindComponentEvent)
+    virtualLayout.loadLayout(layoutConfig)
     window.addEventListener('resize', updateLayoutSize)
     updateLayoutSize() // Initial size update
   })
@@ -46,7 +65,7 @@
       target: container.element,
       props: componentState,
     })
-    svelteComponents.set(container, component)
+    components.set(container, component)
     return {
       component,
       virtual: true,
@@ -54,16 +73,17 @@
   }
 
   function handleUnbindComponentEvent(container: ComponentContainer) {
-    const component = svelteComponents.get(container)
+    const component = components.get(container)
     if (component) {
-      component.$destroy()
-      svelteComponents.delete(container)
+      // TODO  must get from component.destroy()
+      console.log('typeof component', typeof component)
+      components.delete(container)
     }
   }
 
   function updateLayoutSize() {
-    if (container) {
-      const width = container.offsetWidth
+    if (rootContainer) {
+      const width = rootContainer.offsetWidth
       const height = window.innerHeight / 2 // matches the height:50% in sass
       virtualLayout?.setSize(width, height)
     }
@@ -75,4 +95,4 @@
   })
 </script>
 
-<div bind:this="{container}" class="golden-container"></div>
+<div bind:this="{rootContainer}" class="golden-container"></div>
