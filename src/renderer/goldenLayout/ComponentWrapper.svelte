@@ -14,13 +14,43 @@ section
 </style>
 
 <script lang="ts">
-  export let message = 'component wrapper'
-  export let width
-  export let height
+  import type { ComponentConfig } from './layout-types'
+
+  export let componentConfig: ComponentConfig
+
+  $: {
+    componentConfig.bounds
+    console.log('***Bounds changed:', componentConfig.bounds)
+  }
+  $: {
+    componentConfig.visible
+    console.log('Visibility changed:', componentConfig.visible)
+  }
+  $: {
+    componentConfig.zIndex
+    console.log('Z-index changed:', componentConfig.zIndex)
+  }
+
+  function positioning(componentConfig: ComponentConfig): string {
+    // 'left', 'top', not needed for now
+    let style = ['width', 'height'].map((key) => `${key}: ${componentConfig.bounds[key]}px;`).join(' ')
+    if (!componentConfig.visible) {
+      style += `display: none;`
+    }
+    if (componentConfig.zIndex !== '') {
+      style += `z-index: ${componentConfig.zIndex};`
+    }
+    return style
+  }
 </script>
 
-<section>
-  {message}<br />
-  width: {width}<br />
-  height: {height}<br />
+<section style="{positioning(componentConfig)}">
+  <h2>Howdy</h2>
+  {componentConfig.message}<br />
+  {componentConfig.truth}<br />
+  bounds: {JSON.stringify(componentConfig.bounds)}<br />
+
+  <!-- {componentConfig.message}<br /> -->
+  <!-- width: {width}<br />
+  height: {height}<br /> -->
 </section>

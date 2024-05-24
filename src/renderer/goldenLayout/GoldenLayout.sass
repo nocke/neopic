@@ -8,6 +8,7 @@
   @include borderBox
 
   &::after // overlay is easier for debugging, goldenLayout does not like the deduction
+    pointer-events: none
     content: ''
     position: absolute
     top: 0
