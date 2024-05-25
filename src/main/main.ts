@@ -33,7 +33,7 @@ const onReady = () => {
   // align left half of rightmost display
   const mainWindow = new BrowserWindow({
     title: 'Neopic ' + packageJson.version,
-    x: rightmostDisplay.bounds.x,
+    x: rightmostDisplay.bounds.x + rightmostDisplay.size.width / 2, // right half for now…
     y: rightmostDisplay.bounds.y,
     width: rightmostDisplay.size.width / 2,
     height: rightmostDisplay.size.height,
