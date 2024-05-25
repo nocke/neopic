@@ -22,7 +22,7 @@
     if (ninja) {
       ninja.data = hotkeys
     } else {
-      console.warn('ninja-keys NOT found')
+      console.error('ninja-keys NOT found')
     }
 
     invertMode.subscribe((i) => {
