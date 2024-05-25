@@ -1,6 +1,10 @@
 <style src="./ExplorerBar.sass" lang="sass"></style>
 
 <script lang="ts">
+  import { JsonValue } from 'golden-layout'
+  // eslint-disable-next-line svelte/valid-compile
+  export let componentState: JsonValue | undefined
+
   // import { onMount } from 'svelte'
   import { hostInfos } from '../store/store'
 
@@ -8,12 +12,12 @@
   // })
 </script>
 
-<section class='explorerBar'>
-  <table class='hostInfos'>
-  {#each Object.entries($hostInfos ?? {}) as [key, value]}
-    <tr><th>{key}</th><td>{value}</td></tr>
-  {/each}
-</table>
+<section class="explorerBar">
+  <table class="hostInfos">
+    {#each Object.entries($hostInfos ?? {}) as [key, value]}
+      <tr><th>{key}</th><td>{value}</td></tr>
+    {/each}
+  </table>
   <h1>Headline One<br />The quick bröwn fox jumps øvér…</h1>
   <h2>Headline Two<br />The quick bröwn fox jumps øvér…</h2>
   <h3>Headline Three<br />The quick bröwn fox jumps øvér…</h3>

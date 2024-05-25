@@ -16,6 +16,18 @@ section
 <script lang="ts">
   import type { ComponentConfig } from './layout-types'
 
+  import TestComponent from '../test/Test.svelte'
+  import ExplorerBar from '../explorerBar/ExplorerBar.svelte'
+
+  interface ComponentMap {
+    [key: string]: typeof TestComponent | typeof ExplorerBar | undefined
+  }
+
+  const componentMap: ComponentMap = {
+    testComponent: TestComponent,
+    explorerBar: ExplorerBar,
+  }
+
   export let componentConfig: ComponentConfig
 
   $: {
@@ -42,6 +54,10 @@ section
     }
     return style
   }
+
+  function getComponent(typeName: string): typeof TestComponent | typeof ExplorerBar | null {
+    return componentMap[typeName] || null
+  }
 </script>
 
 <section style="{positioning(componentConfig)}">
@@ -50,7 +66,12 @@ section
   {componentConfig.truth}<br />
   bounds: {JSON.stringify(componentConfig.bounds)}<br />
 
-  <!-- {componentConfig.message}<br /> -->
-  <!-- width: {width}<br />
-  height: {height}<br /> -->
+  message: {componentConfig.message}<br />
+  componentTypeName: {componentConfig.componentTypeName}<br />
+  componentState: {componentConfig.componentState}<br />
+
+  <!-- <slot id="{componentConfig.id}" componentType="{componentConfig.componentTypeName}" componentState="{componentConfig.componentState}" /> -->
+
+  <!-- deferred (if needed anyhow)  id="{componentConfig.id}" -->
+  <svelte:component this="{getComponent(componentConfig.componentTypeName)}" componentState="{componentConfig.componentState}" />
 </section>

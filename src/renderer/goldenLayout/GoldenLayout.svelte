@@ -38,7 +38,7 @@
         },
         {
           type: 'component',
-          componentType: 'testComponent',
+          componentType: 'explorerBar',
           componentState: { message: 'B' },
         },
       ],
