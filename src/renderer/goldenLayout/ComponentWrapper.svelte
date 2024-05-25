@@ -18,6 +18,8 @@ section
 
   import TestComponent from '../test/Test.svelte'
   import ExplorerBar from '../explorerBar/ExplorerBar.svelte'
+  import { JsonValue } from 'golden-layout'
+  import { isArray } from 'util'
 
   interface ComponentMap {
     [key: string]: typeof TestComponent | typeof ExplorerBar | undefined
@@ -58,6 +60,12 @@ section
   function getComponent(typeName: string): typeof TestComponent | typeof ExplorerBar | null {
     return componentMap[typeName] || null
   }
+
+  function oneLevelStringify(obj: unknown): string {
+    return JSON.stringify(obj, function (k, v) {
+      return k && v && typeof v !== 'number' ? (Array.isArray(v) ? '[object Array]' : '' + v) : v
+    })
+  }
 </script>
 
 <section style="{positioning(componentConfig)}">
@@ -69,6 +77,7 @@ section
   message: {componentConfig.message}<br />
   componentTypeName: {componentConfig.componentTypeName}<br />
   componentState: {componentConfig.componentState}<br />
+  componentState: {oneLevelStringify(componentConfig.componentState)}<br />
 
   <!-- <slot id="{componentConfig.id}" componentType="{componentConfig.componentTypeName}" componentState="{componentConfig.componentState}" /> -->
 
