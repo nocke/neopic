@@ -24,11 +24,11 @@
   }
   $: {
     componentConfig.visible
-    console.log('Visibility changed:', componentConfig.visible)
+    // console.log('Visibility changed:', componentConfig.visible)
   }
   $: {
     componentConfig.zIndex
-    console.log('Z-index changed:', componentConfig.zIndex)
+    // console.log('Z-index changed:', componentConfig.zIndex)
   }
 
   function positioning(componentConfig: ComponentConfig): string {

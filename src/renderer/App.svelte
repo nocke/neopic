@@ -5,9 +5,7 @@
   import Header from './header/Header.svelte'
   import { NinjaKeys } from 'ninja-keys'
   import { hotkeys } from './ninja-support'
-  import ExplorerBar from './explorerBar/ExplorerBar.svelte'
   import { hostInfos, invertMode } from './store/store'
-  import ViewPort from './viewPort/ViewPort.svelte'
   import { HostInfos } from '../shared/sharedTypes'
   import GoldenLayout from './goldenLayout/GoldenLayout.svelte'
 

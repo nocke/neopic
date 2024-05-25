@@ -1,10 +1,6 @@
-<script lang="ts">
-  console.log('howdy, partner')
-</script>
-
-<section>
+<header>
   Header
   <small><slot></slot></small>
-</section>
+</header>
 
 <style src="./Header.sass" lang="sass"></style>

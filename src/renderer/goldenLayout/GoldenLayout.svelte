@@ -7,24 +7,26 @@
   import ComponentWrapper from './ComponentWrapper.svelte'
   import type { ComponentConfig } from './layout-types.d.ts'
 
-  let width: number, height: number
+  let rootElement: HTMLElement
+  let virtualLayout: VirtualLayout
+  let componentsMap = new Map<ComponentContainer, ComponentConfig>()
+
+  let layoutWidth: number, layoutHeight: number
+  let checkWidth: number, checkHeight: number
 
   function onResize() {
-    console.log('█onResize')
+    console.log('█😬 onResize')
+    // NEXT
     // virtualLayout?.setSize(virtualLayout.container.offsetWidth, virtualLayout.container.offsetHeight);
   }
 
   $: {
     // trigger resize on width/heigh change (<main>-bound)
-    width
-    height
+    layoutWidth
+    layoutHeight
     onResize()
   }
 
-  let componentsMap = new Map<ComponentContainer, ComponentConfig>()
-
-  let rootElement: HTMLElement
-  let virtualLayout: VirtualLayout
 
   const layoutConfig: LayoutConfig = {
     root: {
@@ -66,10 +68,10 @@
       componentTypeName: ResolvedComponentItemConfig.resolveComponentTypeName(itemConfig) ?? '',
       componentState: itemConfig.componentState,
       bounds: {
-        left: 17,
-        top: 18,
-        width: 19,
-        height: 20,
+        left: 0,
+        top: 0,
+        width: 0,
+        height: 0,
       },
       visible: true,
       zIndex: '1',
@@ -107,11 +109,11 @@
       // AND updates in map (thanks to the call-by-reference nature of js)
       component.$set({ componentConfig })
     }
-    container.virtualVisibilityChangeRequiredEvent = (container: ComponentContainer, visible: boolean) => {
-      console.log('virtualVisibilty', container.title, visible)
+    container.virtualVisibilityChangeRequiredEvent = (_container: ComponentContainer, _visible: boolean) => {
+      // NEXT console.log('virtualVisibilty', container.title, visible)
     }
-    container.virtualZIndexChangeRequiredEvent = (container: ComponentContainer, logicalZIndex: LogicalZIndex, defaultZIndex: string) => {
-      console.log('virtualZIndex', container.title, `logical: ${logicalZIndex}  `, `defaultZIndex: ${defaultZIndex}  `)
+    container.virtualZIndexChangeRequiredEvent = (_container: ComponentContainer, _logicalZIndex: LogicalZIndex, defaultZIndex: string) => {
+      // NEXT console.log('virtualZIndex', container.title, `logical: ${logicalZIndex}  `, `defaultZIndex: ${defaultZIndex}  `)
     }
 
     container.on('resize', () => {
@@ -126,19 +128,25 @@
 
   function handleUnbindComponentEvent(container: ComponentContainer) {
     const component = componentsMap.get(container)
-    if (component) {
-      // TODO  must get from component.destroy()
-      console.log('typeof component', typeof component)
-      componentsMap.delete(container)
+
+    if (!component) {
+      console.error('could not find componentConfig for container ', container)
+      return
     }
+    // TODO  must get from component.destroy()
+    console.log('unbinding... typeof component', typeof component)
+    componentsMap.delete(container)
   }
 
   function updateLayoutSize() {
-    if (rootElement) {
-      const width = rootElement.offsetWidth
-      const height = window.innerHeight / 2 // matches the height:50% in sass
-      virtualLayout?.setSize(width, height)
+    if (!rootElement) {
+      console.error('UNDEFINED root element')
+      return
     }
+    const width = rootElement.offsetWidth
+    const height = rootElement.offsetHeight
+    console.log('updateLayoutSize ',width, height)
+    virtualLayout?.setSize(width, height)
   }
 
   onDestroy(() => {
@@ -148,4 +156,9 @@
 </script>
 
 <svelte:window on:resize="{onResize}"/>
-<main bind:this="{rootElement}" class="golden-container"></main>
+<main bind:this="{rootElement}" class="golden-container" bind:offsetWidth={checkWidth} bind:offsetHeight={checkHeight}>
+    <div class='debug'>
+      {layoutWidth}&thinsp;×&thinsp;{layoutHeight}<br>
+      {checkWidth}&thinsp;×&thinsp;{checkHeight}
+    </div>
+</main>
