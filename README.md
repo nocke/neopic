@@ -41,3 +41,19 @@ Tests may be in `test/` folder or in `src/` alongside application code
 
     npm run test -- src\main\handlers\ipcHandlers.spec.ts
 
+
+## Acknowledgments
+
+This project incorporates components from other open-source projects. The details of these will be found in the respective directories along with their licenses.
+
+### Golden Layout SCSS and Images
+- **Source**: [golden-layout](https://github.com/golden-layout/golden-layout)
+- **License**: MIT License (see [`src/goldenLayout/LICENSE.txt`](./src/renderer/goldenLayout/css/LICENSE) for the full license text)
+- **Purpose**: easier adaption (besides using their package)
+
+### Inspiration, and a few subroutines
+- **Source**: [golden-layout-svelte](https://github.com/SillyFreak/svelte-golden-layout)
+- **License**: MIT License (see  https://github.com/SillyFreak/svelte-golden-layout/blob/main/LICENSE  ) for the full license text)
+- **Purpose**: Tying Svelte Components into a Golden Layout
+
+Thanks you for your great work!
