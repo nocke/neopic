@@ -9,7 +9,6 @@ type Bounds = {
 }
 type ComponentConfig = {
   message: string //TEMPTEMP
-  truth: number
   key: ComponentContainer
   id: string
   componentTypeName: string

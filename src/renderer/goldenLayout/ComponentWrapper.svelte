@@ -18,8 +18,6 @@ section
 
   import TestComponent from '../test/Test.svelte'
   import ExplorerBar from '../explorerBar/ExplorerBar.svelte'
-  import { JsonValue } from 'golden-layout'
-  import { isArray } from 'util'
 
   interface ComponentMap {
     [key: string]: typeof TestComponent | typeof ExplorerBar | undefined
@@ -69,18 +67,17 @@ section
 </script>
 
 <section style="{positioning(componentConfig)}">
-  <h2>Howdy</h2>
-  {componentConfig.message}<br />
-  {componentConfig.truth}<br />
-  bounds: {JSON.stringify(componentConfig.bounds)}<br />
+  <b>Wrapper</b><br/>
+  {componentConfig.message}<br/>
+  bounds: {JSON.stringify(componentConfig.bounds)}<br/>
 
-  message: {componentConfig.message}<br />
-  componentTypeName: {componentConfig.componentTypeName}<br />
-  componentState: {componentConfig.componentState}<br />
-  componentState: {oneLevelStringify(componentConfig.componentState)}<br />
+  message: {componentConfig.message}<br/>
+  componentTypeName: {componentConfig.componentTypeName}<br/>
+  componentState: {componentConfig.componentState}<br/>
+  componentState: {oneLevelStringify(componentConfig.componentState)}<br/>
 
   <!-- <slot id="{componentConfig.id}" componentType="{componentConfig.componentTypeName}" componentState="{componentConfig.componentState}" /> -->
 
   <!-- deferred (if needed anyhow)  id="{componentConfig.id}" -->
-  <svelte:component this="{getComponent(componentConfig.componentTypeName)}" componentState="{componentConfig.componentState}" />
+  <svelte:component this="{getComponent(componentConfig.componentTypeName)}" componentState="{componentConfig.componentState}"/>
 </section>

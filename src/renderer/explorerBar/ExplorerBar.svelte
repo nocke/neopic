@@ -18,12 +18,12 @@
       <tr><th>{key}</th><td>{value}</td></tr>
     {/each}
   </table>
-  <h1>Headline One<br />The quick bröwn fox jumps øvér…</h1>
-  <h2>Headline Two<br />The quick bröwn fox jumps øvér…</h2>
-  <h3>Headline Three<br />The quick bröwn fox jumps øvér…</h3>
-  <h4>Headline Three<br />The quick bröwn fox jumps øvér…</h4>
+  <h1>Headline One<br/>The quick bröwn fox jumps øvér…</h1>
+  <h2>Headline Two<br/>The quick bröwn fox jumps øvér…</h2>
+  <h3>Headline Three<br/>The quick bröwn fox jumps øvér…</h3>
+  <h4>Headline Three<br/>The quick bröwn fox jumps øvér…</h4>
 
-  <input type="text" placeholder="placeholder" />
+  <input type="text" placeholder="placeholder"/>
   <button type="submit">Load</button>
   <div class="button">mock button</div>
   <a class="button" href="#123">mock anchor button</a>

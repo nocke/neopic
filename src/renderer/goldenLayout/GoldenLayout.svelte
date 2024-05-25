@@ -3,7 +3,7 @@
 
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte'
-  import { VirtualLayout, LayoutConfig, ComponentContainer, ResolvedComponentItemConfig } from 'golden-layout'
+  import { VirtualLayout, LayoutConfig, ComponentContainer, ResolvedComponentItemConfig, LogicalZIndex } from 'golden-layout'
   import ComponentWrapper from './ComponentWrapper.svelte'
   import type { ComponentConfig } from './layout-types.d.ts'
 
@@ -60,8 +60,7 @@
     console.log(' █ itemcConfig:', itemConfig)
 
     const componentConfig: ComponentConfig = {
-      message: 'banana',
-      truth: 42,
+      message: 'banana', //
       key: container,
       id: itemConfig.id,
       componentTypeName: ResolvedComponentItemConfig.resolveComponentTypeName(itemConfig) ?? '',
@@ -95,10 +94,10 @@
       }
 
       componentConfig.bounds = {
-        left:  7,
-        top:8,
+        left: 7,
+        top: 8,
         width,
-        height
+        height,
       }
 
       // this writes directly to component (the one bound to *this* handler)
@@ -146,5 +145,5 @@
   })
 </script>
 
-<svelte:window on:resize="{onResize}" />
+<svelte:window on:resize="{onResize}"/>
 <main bind:this="{rootContainer}" class="golden-container"></main>

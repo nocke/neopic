@@ -45,6 +45,14 @@
       "parser": "svelte-eslint-parser",
       "parserOptions": {
         "parser": "@typescript-eslint/parser"
+      },
+      "rules": {
+        "svelte/html-closing-bracket-spacing": [
+          "error",
+          {
+            "selfClosingTag": "never"
+          }
+        ]
       }
     },
     {
