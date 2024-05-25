@@ -4,16 +4,13 @@
 
 .golden-container
   position: relative
-  height: 50%
-  @include borderBox
+  flex: auto
+  align-items: stretch
+  background: white
 
   &::after // overlay is easier for debugging, goldenLayout does not like the deduction
     pointer-events: none
     content: ''
-    position: absolute
-    top: 0
-    left: 0
-    right: 0
-    bottom: 0
+    @include cornerPin
     border: 4px dashed darkgoldenrod
 

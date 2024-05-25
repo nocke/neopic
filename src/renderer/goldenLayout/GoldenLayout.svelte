@@ -23,7 +23,7 @@
 
   let componentsMap = new Map<ComponentContainer, ComponentConfig>()
 
-  let rootContainer: HTMLElement
+  let rootElement: HTMLElement
   let virtualLayout: VirtualLayout
 
   const layoutConfig: LayoutConfig = {
@@ -46,7 +46,7 @@
   }
 
   onMount(() => {
-    virtualLayout = new VirtualLayout(rootContainer, handleBindComponentEvent, handleUnbindComponentEvent)
+    virtualLayout = new VirtualLayout(rootElement, handleBindComponentEvent, handleUnbindComponentEvent)
 
     virtualLayout.loadLayout(layoutConfig)
     window.addEventListener('resize', updateLayoutSize)
@@ -93,9 +93,11 @@
         return
       }
 
+      const containerBoundingClientRect = container.element.getBoundingClientRect()
+
       componentConfig.bounds = {
-        left: 7,
-        top: 8,
+        left: containerBoundingClientRect.left,
+        top: containerBoundingClientRect.top, /* coulddo: math.ceil() ?*/
         width,
         height,
       }
@@ -132,8 +134,8 @@
   }
 
   function updateLayoutSize() {
-    if (rootContainer) {
-      const width = rootContainer.offsetWidth
+    if (rootElement) {
+      const width = rootElement.offsetWidth
       const height = window.innerHeight / 2 // matches the height:50% in sass
       virtualLayout?.setSize(width, height)
     }
@@ -146,4 +148,4 @@
 </script>
 
 <svelte:window on:resize="{onResize}"/>
-<main bind:this="{rootContainer}" class="golden-container"></main>
+<main bind:this="{rootElement}" class="golden-container"></main>

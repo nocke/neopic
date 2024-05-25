@@ -1,17 +1,5 @@
 <!-- src/renderer/goldenLayout/ComponentWrapper.svelte -->
-<style lang="sass">
-@import '../common'
-
-section
-  text-align: center
-  padding: .4em .2em
-  font-size: 1.6em
-
-  background: plum
-  border: 8px dashed purple
-  box-sizing: border-box
-  width: 100%
-</style>
+<style src="./ComponentWrapper.sass" lang="sass"></style>
 
 <script lang="ts">
   import type { ComponentConfig } from './layout-types'
@@ -66,18 +54,16 @@ section
   }
 </script>
 
-<section style="{positioning(componentConfig)}">
-  <b>Wrapper</b><br/>
-  {componentConfig.message}<br/>
-  bounds: {JSON.stringify(componentConfig.bounds)}<br/>
+<section class="component-wrapper" style="{positioning(componentConfig)}">
+  <div class="debug">
+    <b>Wrapper: {componentConfig.componentTypeName}</b><br/>
+    {componentConfig.message}<br/>
+    bounds: {JSON.stringify(componentConfig.bounds, null, 1)}<br/>
 
-  message: {componentConfig.message}<br/>
-  componentTypeName: {componentConfig.componentTypeName}<br/>
-  componentState: {componentConfig.componentState}<br/>
-  componentState: {oneLevelStringify(componentConfig.componentState)}<br/>
-
-  <!-- <slot id="{componentConfig.id}" componentType="{componentConfig.componentTypeName}" componentState="{componentConfig.componentState}" /> -->
-
+    message: {componentConfig.message}<br/>
+    componentState: {componentConfig.componentState}<br/>
+    componentState: {oneLevelStringify(componentConfig.componentState)}<br/>
+  </div>
   <!-- deferred (if needed anyhow)  id="{componentConfig.id}" -->
   <svelte:component this="{getComponent(componentConfig.componentTypeName)}" componentState="{componentConfig.componentState}"/>
 </section>

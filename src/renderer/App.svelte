@@ -44,9 +44,5 @@
   <ninja-keys placeholder="Type a command or name…" openHotkey="cmd+p,cmd+shift+p,ctrl+p,ctrl+shift+p"></ninja-keys>
 
   <GoldenLayout></GoldenLayout>
-
-  <div class="split-hori">
-    <ExplorerBar></ExplorerBar>
-    <ViewPort></ViewPort>
-  </div>
+  <footer>footer. ja.</footer>
 </main>

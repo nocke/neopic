@@ -4,24 +4,26 @@
 // • do NOT import into components (would bloat)
 @import 'common'
 
-// CSS colors ██████████████████████████████████████████████
+// NOTE: introducing new css color vars might make restarting `npm run start` necessary
 
 // light mode colors
 html
-  --background1: white
-  --background2: #ccc / * slightly offset backgrounds: text boxes, input text/number boxes */
+  --background1: #{$white1}
+  --background2: #{$white2}
+  --background3: #{$white3}
   --textColor1: black
-  --textColor2: #{$grayDarkA1}
+  --textColor2: #{$black2}
   --buttonBg: #{$purpleLight}
   --buttonBgHover: #{darken($purpleLight, 5%)}
   --buttonColor: var(--textColor1)
 
 // dark mode colors
 html.invert
-  --background1: black
-  --background2: #{$grayDarkA1}
-  --textColor1: white
-  --textColor2: #bbb
+  --background1: #{$black1}
+  --background2: #{$black2}
+  --background3: #{$black3}
+  --textColor1: #{$white1}
+  --textColor2: #{$white2}
   --buttonBg: #{$purpleDark}
   --buttonBgHover: #{darken($purpleLight, 5%)}
   --buttonColor: var(--textColor1)
@@ -44,6 +46,11 @@ body
   color: var(--textColor1)
 
   transition: background-color $speedFast ease-in-out, color $speedFast ease-in-out
+
+// borderbox univeral ██████████████████████████████████████
+main, section, div, p, header, footer, aside, nav, blockquote, figure, figcaption,
+article
+  box-sizing: border-box
 
 // Headlines  ██████████████████████████████████████████████
 
@@ -93,7 +100,6 @@ button, .button, a.button // except input, .input
   &:hover
     cursor: pointer
     background: var(--buttonBgHover)
-
 
 // additional / overstyle for input
 input, .input
