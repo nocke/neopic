@@ -11,22 +11,7 @@
   let virtualLayout: VirtualLayout
   let componentsMap = new Map<ComponentContainer, ComponentConfig>()
 
-  let layoutWidth: number, layoutHeight: number
   let checkWidth: number, checkHeight: number
-
-  function onResize() {
-    console.log('█😬 onResize')
-    // NEXT
-    // virtualLayout?.setSize(virtualLayout.container.offsetWidth, virtualLayout.container.offsetHeight);
-  }
-
-  $: {
-    // trigger resize on width/heigh change (<main>-bound)
-    layoutWidth
-    layoutHeight
-    onResize()
-  }
-
 
   const layoutConfig: LayoutConfig = {
     root: {
@@ -57,10 +42,6 @@
 
   // called for every component listed in the LayoutConfig
   function handleBindComponentEvent(container: ComponentContainer, itemConfig: ResolvedComponentItemConfig) {
-    console.log('████handleBindComponentEvent')
-    console.log(' █ container:', container)
-    console.log(' █ itemcConfig:', itemConfig)
-
     const componentConfig: ComponentConfig = {
       message: 'banana', //
       key: container,
@@ -87,8 +68,6 @@
 
     // get's called on every 'outer resize'
     container.virtualRectingRequiredEvent = (container: ComponentContainer, width: number, height: number) => {
-      console.log('virtualRecting', container.title, width, height)
-
       let componentConfig = componentsMap.get(container)
       if (!componentConfig) {
         console.error('could not find componentConfig for container ', container)
@@ -110,15 +89,13 @@
       component.$set({ componentConfig })
     }
     container.virtualVisibilityChangeRequiredEvent = (_container: ComponentContainer, _visible: boolean) => {
-      // NEXT console.log('virtualVisibilty', container.title, visible)
+      // NEXT
+      console.log('████ virtualVisibilty', _container.title, _visible)
     }
-    container.virtualZIndexChangeRequiredEvent = (_container: ComponentContainer, _logicalZIndex: LogicalZIndex, defaultZIndex: string) => {
-      // NEXT console.log('virtualZIndex', container.title, `logical: ${logicalZIndex}  `, `defaultZIndex: ${defaultZIndex}  `)
+    container.virtualZIndexChangeRequiredEvent = (_container: ComponentContainer, _logicalZIndex: LogicalZIndex, _defaultZIndex: string) => {
+      // NEXT
+      console.log('████ virtualZIndex', container.title, `logical: ${_logicalZIndex}  `, `defaultZIndex: ${_defaultZIndex}  `)
     }
-
-    container.on('resize', () => {
-      console.log('██ █ █ resize')
-    })
 
     return {
       component,
@@ -133,7 +110,7 @@
       console.error('could not find componentConfig for container ', container)
       return
     }
-    // TODO  must get from component.destroy()
+    // NEXT  must get from component.destroy()
     console.log('unbinding... typeof component', typeof component)
     componentsMap.delete(container)
   }
@@ -145,7 +122,6 @@
     }
     const width = rootElement.offsetWidth
     const height = rootElement.offsetHeight
-    console.log('updateLayoutSize ',width, height)
     virtualLayout?.setSize(width, height)
   }
 
@@ -155,10 +131,8 @@
   })
 </script>
 
-<svelte:window on:resize="{onResize}"/>
 <main bind:this="{rootElement}" class="golden-container" bind:offsetWidth={checkWidth} bind:offsetHeight={checkHeight}>
     <div class='debug'>
-      {layoutWidth}&thinsp;×&thinsp;{layoutHeight}<br>
       {checkWidth}&thinsp;×&thinsp;{checkHeight}
     </div>
 </main>

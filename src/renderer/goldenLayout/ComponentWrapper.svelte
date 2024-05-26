@@ -20,19 +20,15 @@
 
   $: {
     componentConfig.bounds
-    console.log('***Bounds changed:', componentConfig.bounds)
   }
   $: {
     componentConfig.visible
-    // console.log('Visibility changed:', componentConfig.visible)
   }
   $: {
     componentConfig.zIndex
-    // console.log('Z-index changed:', componentConfig.zIndex)
   }
 
-  function positioning(componentConfig: ComponentConfig): string {
-    // 'left', 'top', not needed for now
+  function getStyles(componentConfig: ComponentConfig): string {
     let style = ['width', 'height'].map((key) => `${key}: ${componentConfig.bounds[key]}px;`).join(' ')
     if (!componentConfig.visible) {
       style += `display: none;`
@@ -40,6 +36,7 @@
     if (componentConfig.zIndex !== '') {
       style += `z-index: ${componentConfig.zIndex};`
     }
+    console.log('█ █ █ getStyles()', style)
     return style
   }
 
@@ -54,7 +51,7 @@
   }
 </script>
 
-<section class="component-wrapper" style="{positioning(componentConfig)}">
+<section class="component-wrapper" style="{getStyles(componentConfig)}">
   <div class="debug">
     <b>Wrapper: {componentConfig.componentTypeName}</b><br/>
     {componentConfig.message}<br/>
