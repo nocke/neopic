@@ -2,9 +2,13 @@
 // • body styles
 // • reusable global styles (div, li, button,...)
 // • do NOT import into components (would bloat)
+// • NOTE: introducing new css color variables might make restarting `npm run start` necessary
 @import 'common'
 
-// NOTE: introducing new css color vars might make restarting `npm run start` necessary
+@import './goldenLayout/css/goldenlayout-base.sass'
+@import './goldenLayout/css/themes/goldenlayout-light-theme.sass'
+@import './goldenLayout/css/themes/goldenlayout-dark-theme.sass'
+
 
 // light mode colors
 html
@@ -12,7 +16,7 @@ html
   --background2: #{$white2}
   --background3: #{$white3}
   --textColor1: black
-  --textColor2: #{$black2}
+  --textColor2: #{$black2}E
   --buttonBg: #{$purpleLight}
   --buttonBgHover: #{darken($purpleLight, 5%)}
   --buttonColor: var(--textColor1)

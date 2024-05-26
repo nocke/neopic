@@ -20,7 +20,7 @@
   $: { // initialize curDir, if not yet
     if ($hostInfos && !$curDir) {
       $curDir = $hostInfos.homeDir
-    }
+
   }
 
   onMount(async () => {
