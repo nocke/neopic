@@ -3,17 +3,22 @@
 
 <script lang="ts">
   import type { ComponentConfig } from './layout-types'
+  import { SvelteComponent } from 'svelte'
 
   import TestComponent from '../test/Test.svelte'
   import ExplorerBar from '../explorerBar/ExplorerBar.svelte'
+  import ViewPort from '../viewPort/ViewPort.svelte'
+
+  let instance: SvelteComponent
 
   interface ComponentMap {
-    [key: string]: typeof TestComponent | typeof ExplorerBar | undefined
+    [key: string]: typeof TestComponent | typeof ExplorerBar | typeof ViewPort | undefined
   }
 
   const componentMap: ComponentMap = {
     testComponent: TestComponent,
     explorerBar: ExplorerBar,
+    viewPort: ViewPort,
   }
 
   export let componentConfig: ComponentConfig
@@ -40,7 +45,7 @@
     return style
   }
 
-  function getComponent(typeName: string): typeof TestComponent | typeof ExplorerBar | null {
+  function getComponent(typeName: string): typeof TestComponent | typeof ExplorerBar | typeof ViewPort | null {
     return componentMap[typeName] || null
   }
 
@@ -62,5 +67,8 @@
     componentState: {oneLevelStringify(componentConfig.componentState)}<br/>
   </div>
   <!-- deferred (if needed anyhow)  id="{componentConfig.id}" -->
-  <svelte:component this="{getComponent(componentConfig.componentTypeName)}" componentState="{componentConfig.componentState}"/>
+  <svelte:component
+   this="{getComponent(componentConfig.componentTypeName)}"
+   bind:this="{instance}"
+   componentState="{componentConfig.componentState}"/>
 </section>

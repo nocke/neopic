@@ -21,12 +21,17 @@
           type: 'component',
           componentType: 'testComponent',
           componentState: { message: 'A' },
-          width: 40, // just to be now equal
+          width: 40, // just to be not have equal width
         },
         {
           type: 'component',
           componentType: 'explorerBar',
           componentState: { message: 'B' },
+        },
+        {
+          type: 'component',
+          componentType: 'viewPort',
+          componentState: { message: 'C' },
         },
       ],
     },
@@ -104,14 +109,15 @@
   }
 
   function handleUnbindComponentEvent(container: ComponentContainer) {
-    const component = componentsMap.get(container)
+    const componentConfig = componentsMap.get(container)
 
-    if (!component) {
+    if (!componentConfig) {
       console.error('could not find componentConfig for container ', container)
       return
     }
     // NEXT  must get from component.destroy()
-    console.log('unbinding... typeof component', typeof component)
+    console.log('unbinding... typeof component', typeof componentConfig)
+    // something like this? container.component.destroy()
     componentsMap.delete(container)
   }
 

@@ -20,7 +20,7 @@
   $: { // initialize curDir, if not yet
     if ($hostInfos && !$curDir) {
       $curDir = $hostInfos.homeDir
-
+    }
   }
 
   onMount(async () => {
@@ -48,13 +48,13 @@
 
 <section>
   <form class="form" on:submit="{handleSubmit}">
-    <input type="text" bind:value="{pathTyping}" name="pathInput" placeholder="Enter path" />
+    <input type="text" bind:value="{pathTyping}" name="pathInput" placeholder="Enter path"/>
     <button type="submit">Load</button>
   </form>
 
   <CounterTwo></CounterTwo>
 
-  <hr />
+  <hr/>
   <h2>viewBox for {$curDir}</h2>
   {#if files === null}
     <b>Directory not loaded...</b>
