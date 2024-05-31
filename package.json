@@ -1,5 +1,5 @@
 {
-  "name": "@nocke/neopic",
+  "name": "neopic",
   "productName": "neopic",
   "version": "0.23.0",
   "description": "electron based neopic - electron-forge 7.4 restart",
