@@ -2,16 +2,16 @@
 import {exec} from './script-helpers.js'
 
 try {
-  const currentBranch = exec(`git rev-parse --abbrev-ref HEAD`).trim();
-  const remote = exec(`git config branch.${currentBranch}.remote`).trim();
-  const remoteBranch = exec(`git rev-parse --abbrev-ref --symbolic-full-name ${currentBranch}@{u}`).split('/')[1].trim();
-  const latestTag = exec('git for-each-ref refs/tags/ --count=1 --sort=-creatordate --format="%(refname:short)"').trim();
+  const branch = exec(`git rev-parse --abbrev-ref HEAD`).trim()
+  const remoteRepo = exec(`git config branch.${branch}.remote`).trim()
+  const remoteBranch = exec(`git rev-parse --abbrev-ref --symbolic-full-name ${branch}@{u}`).split('/')[1].trim()
+  const tag = exec('git for-each-ref refs/tags/ --count=1 --sort=-creatordate --format="%(refname:short)"').trim()
 
-  exec(`git push ${remote} ${currentBranch}:${remoteBranch}`);
-  exec(`git push ${remote} ${latestTag}`);
+  exec(`git push ${remoteRepo} ${branch}:${remoteBranch}`)
+  exec(`git push ${remoteRepo} ${tag}`)
 
-  console.log(`will push ${currentBranch} to ${remoteBranch} on ${remote} and tag ${latestTag}`);
+  console.log(`will push ${branch} to ${remoteBranch} on ${remoteRepo} and tag ${tag}`)
 } catch (error) {
-  console.error('failed to push changes:', error);
-  process.exit(1);
+  console.error('failed to push changes:', error)
+  process.exit(1)
 }
