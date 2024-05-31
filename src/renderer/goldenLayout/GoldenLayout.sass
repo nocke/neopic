@@ -1,0 +1,30 @@
+@import '../common'
+
+.golden-container
+  position: relative
+  flex: auto
+  background: white
+  // anti-overstretch
+  min-height: 0
+  overflow: hidden
+
+  // &::after // overlay is easier for debugging, goldenLayout does not like the deduction
+  //   pointer-events: none
+  //   content: ''
+  //   @include cornerPin
+  //   border: 4px dashed orange
+  //   z-index: $zDebug
+
+.debug
+  position: absolute
+  color: white
+  text-shadow: 0 2px 3px black
+  z-index: $zDebug
+  font-size: 1.6em
+  padding: .5em
+
+  border: 2px dashed pink
+  background: rgba(purple, .6)
+  bottom: 0
+  left: 0
+  border-radius: 0 12px 0 0

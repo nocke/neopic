@@ -1,0 +1,24 @@
+root = true
+
+[*]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+charset = utf-8
+max_line_length = 200
+
+// NOTE: has auto-save impact! always.
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.{js,ts,svelte,css,scss,sass}]
+insert_final_newline = true
+
+[*.{txt, md}]
+max_line_length = off
+trim_trailing_whitespace = false
+insert_final_newline = false
+
+[*.{yml, json},.prettierrc]
+indent_style = space
+indent_size = 2

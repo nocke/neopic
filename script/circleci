@@ -1,0 +1,24 @@
+#!/usr/bin/env node
+import { errLog, exec, log, warn } from './script-helpers.js'
+
+// REF npm run circleci -- nocheck
+
+const args = process.argv.slice(2)
+if ( args.includes('nocheck')) {
+  warn('skipping commit-check')
+} else {
+  try {
+    exec('git diff-index --quiet HEAD --')
+    log('No uncommitted changes detected.')
+  } catch (error) {
+    errLog('Uncommitted changes! Please commit or stash them.')
+    process.exit(1)
+  }
+}
+
+const branch = 'master'
+const remote = exec(`git config branch.${branch}.remote`)
+const tag = 'circleci-' + exec('git rev-parse --short=7 HEAD').toString().trim()
+
+exec(`git tag -f ${tag}`)
+exec(`git push ${remote} ${tag}`)

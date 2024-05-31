@@ -1,0 +1,10 @@
+#!/usr/bin/env node
+import {exec} from './script-helpers.js'
+
+try {
+  exec('git diff-index --quiet HEAD --')
+  console.log('No uncommitted changes detected.')
+} catch (error) {
+  console.error('Uncommitted changes! Please commit or stash them.')
+  process.exit(1)
+}

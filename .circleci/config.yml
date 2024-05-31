@@ -1,0 +1,165 @@
+# Use the latest 2.1 version of CircleCI pipeline process engine.
+# See: https://circleci.com/docs/configuration-reference
+version: 2.1
+
+orbs:
+  win: circleci/windows@5.0
+
+# Orchestrate jobs using workflows
+# See: https://circleci.com/docs/configuration-reference/#workflows
+workflows:
+  neopic-workflow:
+    jobs:
+      - build-linux:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^circleci-.*/
+      - build-macos:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^circleci-.*/
+      - build-windows:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^circleci-.*/
+
+# Reuse a sequence of steps
+# See: https://circleci.com/docs/configuration-reference/#workflows
+commands:
+  steps-before:
+    steps:
+      # checkout must be before mkdir, mkdir must be before sanity test 😬
+      - checkout
+      - run: mkdir -p ./out/make ./out/junit
+      - run:
+          name: sanity test
+          command: |
+            echo "pwd: $PWD   node version: $(node --version)  shell: $SHELL   uname: $(uname)"
+
+# Define a job to be invoked later in a workflow.
+# See: https://circleci.com/docs/configuration-reference/#jobs
+jobs:
+  build-linux:
+    docker:
+      - image: cimg/node:20.10.0
+    steps:
+      - steps-before
+      - restore_cache:
+          key: dependency-B-linux-{{ checksum "package.json" }}
+      - run: npm install
+      - run: npm run test:ci
+      - store_test_results:
+          path: out/junit
+      - run:
+          name: Install OS specific
+          command: |
+            sudo apt-get update -y
+            # rpm only needed for MakerRpm
+            sudo apt-get install -y dpkg fakeroot rpm
+            # all of these only needed for running (in selftest)
+            sudo apt-get install -y libgtk-3-0 libnotify4 libnss3 libxss1 libxtst6 libatspi2.0-0 libdrm2 libgbm1 libasound2 libcups2 libatk1.0-0 libatk-bridge2.0-0 xvfb
+            # reduce dbus warning on linux selftest
+            sudo apt-get install -y dbus
+            sudo dbus-uuidgen --ensure
+            sudo service dbus start
+      - save_cache:
+          key: dependency-B-linux-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run: npm run make
+      - run:
+          name: List store_artifacts
+          command: ls -lR ./out
+      - run:
+          name: start mock display
+          background: true
+          command: Xvfb :99 -screen 0 1920x1080x24
+      - run:
+          name: electron selftest (linux)
+          command: |
+            export DISPLAY=:99
+            ./out/neopic-linux-x64/neopic -selftest --disable-gpu
+            exitcode=$?
+            if [ $exitcode -ne 0 ]; then
+              echo "Failure or exit with code $exitcode"
+              exit $exitcode
+            fi
+            echo "selftest success"
+      - store_artifacts:
+          path: out/make
+
+  build-macos:
+    macos:
+      xcode: 15.1.0
+    steps:
+      - run: xcodebuild -version
+      - steps-before
+      - restore_cache:
+          key: dependency-B-macos-{{ checksum "package.json" }}
+      - run: npm install
+      - run: npm run test:ci
+      - store_test_results:
+          path: out/junit
+      - run:
+          name: Install dpkg and fakeroot
+          command: |
+            brew update
+            brew install dpkg fakeroot
+      - save_cache:
+          key: dependency-B-macos-{{ checksum "package.json" }}
+          paths:
+          - ./node_modules
+      - run: npm run make
+      - run:
+          name: List store_artifacts
+          command: ls -lR ./out
+      - run:
+          name: electron selftest (mac)
+          command: |
+            ./out/neopic-darwin-x64/neopic.app/Contents/MacOS/neopic -selftest
+            exitcode=$?
+            if [ $exitcode -ne 0 ]; then
+              echo "Failure or exit with code $exitcode"
+              exit $exitcode
+            fi
+            echo "selftest success"
+      - store_artifacts:
+          path: out/make
+
+  build-windows:
+    executor:
+      name: win/default
+      shell: bash
+    steps:
+      - steps-before
+      - restore_cache:
+          key: dependency-C-windows-{{ checksum "package.json" }}
+      - run: npm install
+      - store_test_results:
+          path: out/junit
+      - save_cache:
+          key: dependency-C-windows-{{ checksum "package.json" }}
+          paths:
+          - ./node_modules
+      - run: npm run make
+      - run:
+          name: List store_artifacts
+          command: ls -lR ./out
+      - run:
+          name: electron.exe selftest (win)
+          command: |
+            ./out/neopic-win32-x64/neopic.exe -selftest
+            exitcode=$?
+            if [ $exitcode -ne 0 ]; then
+              echo "Failure or exit with code $exitcode"
+              exit $exitcode
+            fi
+            echo "selftest success"
+      - store_artifacts:
+          path: out/make

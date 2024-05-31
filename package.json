@@ -1,0 +1,75 @@
+{
+  "name": "@nocke/neopic",
+  "productName": "neopic",
+  "version": "0.22.0",
+  "description": "electron based neopic - electron-forge 7.4 restart",
+  "author": {
+    "name": "Frank Nocke",
+    "email": "git@nocke.de"
+  },
+  "main": ".vite/build/main.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "start:debug": "cross-env DEBUG=*.* npm start",
+    "package": "electron-forge package",
+    "package:run:win": ".\\out\\neopic-win32-x64\\neopic.exe",
+    "package:debug": "cross-env DEBUG=*:* electron-forge package | tee package_debug.log",
+    "test": "vitest run",
+    "test:ci": "vitest run --reporter junit --outputFile.junit ./out/junit/test-results.xml",
+    "test:watch": "vitest",
+    "test:debug": "cross-env DEBUG=*:* vitest run",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "lint": "eslint --ext .js,.ts,.mts,.svelte . --cache",
+    "lint:debug": "cross-env DEBUG=eslint:* npm run lint",
+    "lint:fix": "eslint --ext .js,.ts,.mts,.svelte . --fix",
+    "clean:small": "npx --yes rimraf .vite dist out .cache .next .nuxt .npm",
+    "clean": "npx --yes rimraf node_modules .vite dist out .cache .next .nuxt .npm",
+    "circleci": "node ./script/circleci",
+    "preversion": "node ./script/preversion",
+    "postversion": "node ./script/postversion",
+    "vite:renderer-testcompile": "vite build --config vite.renderer.config.mts"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "bitbucket.org:fnocke/neopic.git"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "devDependencies": {
+    "@electron-forge/cli": "^7.4.0",
+    "@electron-forge/maker-deb": "^7.4.0",
+    "@electron-forge/maker-rpm": "^7.4.0",
+    "@electron-forge/maker-squirrel": "^7.4.0",
+    "@electron-forge/maker-zip": "^7.4.0",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.4.0",
+    "@electron-forge/plugin-fuses": "^7.4.0",
+    "@electron-forge/plugin-vite": "^7.4.0",
+    "@electron/fuses": "^1.8.0",
+    "@sveltejs/vite-plugin-svelte": "^3.1.0",
+    "@types/node": "^20.12.12",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
+    "cross-env": "^7.0.3",
+    "electron": "30.0.2",
+    "eslint": "^8.0.1",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "eslint-plugin-import": "^2.25.0",
+    "eslint-plugin-svelte": "^2.38.0",
+    "golden-layout": "^2.6.0",
+    "ninja-keys": "^1.2.2",
+    "sass": "^1.76.0",
+    "svelte": "^4.2.15",
+    "svelte-preprocess": "^5.1.4",
+    "ts-node": "^10.9.2",
+    "typescript": "~4.5.4",
+    "vite": "^5.0.12",
+    "vitest": "^1.6.0"
+  },
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.0"
+  }
+}

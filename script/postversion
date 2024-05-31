@@ -1,0 +1,10 @@
+#!/usr/bin/env node
+import {exec} from './script-helpers.js'
+
+const branch = 'master'
+const remote = exec(`git config branch.${branch}.remote`)
+const latestTag = exec('git for-each-ref refs/tags/ --count=1 --sort=-creatordate --format="%(refname:short)"')
+
+exec(`git push`)
+exec(`git push ${remote} ${latestTag}`)
+
