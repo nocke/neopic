@@ -1,10 +1,17 @@
 #!/usr/bin/env node
 import {exec} from './script-helpers.js'
 
-const branch = 'master'
-const remote = exec(`git config branch.${branch}.remote`)
-const latestTag = exec('git for-each-ref refs/tags/ --count=1 --sort=-creatordate --format="%(refname:short)"')
+try {
+  const currentBranch = exec(`git rev-parse --abbrev-ref HEAD`).trim();
+  const remote = exec(`git config branch.${currentBranch}.remote`).trim();
+  const remoteBranch = exec(`git rev-parse --abbrev-ref --symbolic-full-name ${currentBranch}@{u}`).split('/')[1].trim();
+  const latestTag = exec('git for-each-ref refs/tags/ --count=1 --sort=-creatordate --format="%(refname:short)"').trim();
 
-exec(`git push`)
-exec(`git push ${remote} ${latestTag}`)
+  exec(`git push ${remote} ${currentBranch}:${remoteBranch}`);
+  exec(`git push ${remote} ${latestTag}`);
 
+  console.log(`will push ${currentBranch} to ${remoteBranch} on ${remote} and tag ${latestTag}`);
+} catch (error) {
+  console.error('failed to push changes:', error);
+  process.exit(1);
+}
