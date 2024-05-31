@@ -2,6 +2,8 @@
 
 Neopic is an image browser with focus on organizing, tagging, captioning, sorting of images. With a special focus on families (groups) of images.
 
+WORK IN PROGRESS.
+
 ## Development
 
 [Development Notes](./docs/DEVELOPMENT.md)
@@ -46,7 +48,7 @@ Tests may be in `test/` folder or in `src/` alongside application code
 
 This project incorporates components from other open-source projects. The details of these will be found in the respective directories along with their licenses.
 
-### Golden Layout SCSS and Images
+### Golden Layout SCSS
 - **Source**: [golden-layout](https://github.com/golden-layout/golden-layout)
 - **License**: MIT License (see [`src/goldenLayout/LICENSE.txt`](./src/renderer/goldenLayout/css/LICENSE) for the full license text)
 - **Purpose**: easier adaption (besides using their package)
