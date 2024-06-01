@@ -248,4 +248,4 @@ jobs:
             gh release create "${CIRCLE_TAG}" \
             --title "${CIRCLE_TAG#release-}" \
             --notes-file CHANGELOG.md \
-            $(printf "%q " "${ARTIFACTS[@]}")
+            $(printf "\"%q\"" " "${ARTIFACTS[@]}")
