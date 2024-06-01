@@ -202,6 +202,7 @@ jobs:
     docker:
       - image: cimg/node:20.10.0
     steps:
+      - checkout
       - gh/install
       - attach_workspace:
           at: ./artifacts
@@ -214,4 +215,5 @@ jobs:
             ARTIFACTS=$(find $ARTIFACTS_BASE -type f \( -name '*.deb' -o -name '*.rpm' -o -name '*.zip' -o -name '*.exe' -o -name '*.nupkg' \) -print0 | xargs -0 echo)
             gh release create "${CIRCLE_TAG}" \
             --title "${CIRCLE_TAG#release-}" \
+            --notes-file CHANGELOG.md \
             $ARTIFACTS
