@@ -17,9 +17,13 @@ workflows:
               ignore: /.*/
             tags:
               only: /^banana.*/
+      - another-artifact:
+          requires:
+            - list-dirs
       - gather-artifacts:
           requires:
             - list-dirs
+            - another-artifact
           filters:
             branches:
               ignore: /.*/
@@ -112,6 +116,18 @@ jobs:
           command: |
             echo "DUMMY pwd: $PWD   node version: $(node --version)  shell: $SHELL   uname: $(uname)"
       - run: find .. -mindepth 1 -type d -exec sh -c 'echo {} && ls -p {}' \;
+      - store_artifacts:
+          path: out/make
+      - persist_to_workspace:
+          root: .
+          paths:
+            - out/make
+  another-artifact:
+    docker:
+      - image: cimg/node:20.10.0
+    steps:
+      - run: mkdir -p ./out/make
+      - run: echo "ANOTHER ARTIFACT HERE.txt" > ./out/make/ANOTHER_ARTIFACT_HERE.txt
       - store_artifacts:
           path: out/make
       - persist_to_workspace:
