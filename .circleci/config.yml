@@ -9,7 +9,7 @@ orbs:
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
 workflows:
-  neopic-workflow:
+  test-and-build:
     jobs:
       - build-linux:
           filters:
@@ -29,6 +29,19 @@ workflows:
       #         ignore: /.*/
       #       tags:
       #         only: /^(circleci|release)-.*/
+
+  release-on-github:
+    jobs:
+      - create-release:
+          requires:
+            - build-linux
+            # - build-macos
+            # - build-windows
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^release-.*/
 
 # Reuse a sequence of steps
 # See: https://circleci.com/docs/configuration-reference/#workflows
@@ -103,7 +116,7 @@ jobs:
       - store_artifacts:
           path: out/make
       - run:
-          name: release on tag release ONLY
+          name: persist on tag release ONLY
           command: |
             if [[ "$CIRCLE_TAG" != release-* ]]; then
               echo "release only with tag release-*. thus ending here for $CIRCLE_TAG."
@@ -111,28 +124,10 @@ jobs:
             fi
             echo 'export RELEASE_VERSION_NUMBER="${CIRCLE_TAG#release-}"' >> "$BASH_ENV"
             echo "proceeding with release on github"
-      - gh/install
-      - run:
-          name: create release
-          command: |
-              ARTIFACTS_PATH="./out/make/*/*/*.deb ./out/make/*/*/*.rpm"
-              ARTIFACTS=$(ls $ARTIFACTS_PATH)
-              gh release create "${CIRCLE_TAG}" \
-              --title "${CIRCLE_TAG#release-}" \
-              --notes-file CHANGELOG.md \
-              $ARTIFACTS
-
-
-      # - gh/release_create:
-      #     title: "${CIRCLE_TAG#release-}"
-      #     notes: "automated release by circleci"
-      #     # TODO after back to master
-      #     # filters:
-      #     #   branches:
-      #     #     only:
-      #     #       - master
-      #     notes-file: changelog.md
-
+      - persist_to_workspace:
+          root: workspace
+          paths:
+            - out/make
 
   build-macos:
     macos:
@@ -203,3 +198,16 @@ jobs:
             echo "selftest success"
       - store_artifacts:
           path: out/make
+
+  create-release:
+    docker:
+      - image: cimg/node:20.10.0
+    steps:
+      - persist_to_workspace:
+          root: workspace
+          paths:
+            - out/make
+      - gh/install
+      - run: |
+          echo "Listing all artifacts available for release..."
+          ls -lR /tmp/workspace
