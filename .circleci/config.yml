@@ -22,8 +22,8 @@ workflows:
             - list-dirs
       - gather-artifacts:
           requires:
-            - list-dirs
             - another-artifact
+            - list-dirs
           filters:
             branches:
               ignore: /.*/
