@@ -98,9 +98,9 @@ jobs:
         ./out/make/squirrel.windows/x64  \
         ./out/make/zip/darwin/x64  \
         ./out/make/squirrel.windows/x64
-    - run: echo "MOCK ARTIFACT" > "./project/out/make/deb/x64/neopic_0.13.0_amd64.deb"
-    - run: echo "MOCK ARTIFACT" > "./project/out/make/rpm/x64/neopic-0.13.0-1.x86_64.rpm"
-    - run: echo "MOCK ARTIFACT" > "./project/out/make/zip/darwin/x64/neopic-darwin-x64-0.13.0.zip"
+    - run: echo "MOCK ARTIFACT" > "./out/make/deb/x64/neopic_0.13.0_amd64.deb"
+    - run: echo "MOCK ARTIFACT" > "./out/make/rpm/x64/neopic-0.13.0-1.x86_64.rpm"
+    - run: echo "MOCK ARTIFACT" > "./out/make/zip/darwin/x64/neopic-darwin-x64-0.13.0.zip"
     - run: echo "MOCK ARTIFACT" > "./out/make/squirrel.windows/x64/neopic-0.13.0 Setup.exe"
     - run: echo "MOCK ARTIFACT" > "./out/make/squirrel.windows/x64/neopic-0.13.0-full.nupkg"
 
