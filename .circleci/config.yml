@@ -17,23 +17,23 @@ workflows:
               ignore: /.*/
             tags:
               only: /^(circleci|release)-.*/
-      # - build-macos:
-      #     filters:
-      #       branches:
-      #         ignore: /.*/
-      #       tags:
-      #         only: /^(circleci|release)-.*/
-      # - build-windows:
-      #     filters:
-      #       branches:
-      #         ignore: /.*/
-      #       tags:
-      #         only: /^(circleci|release)-.*/
+      - build-macos:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^(circleci|release)-.*/
+      - build-windows:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^(circleci|release)-.*/
       - create-release:
           requires:
             - build-linux
-            # - build-macos
-            # - build-windows
+            - build-macos
+            - build-windows
           filters:
             branches:
               ignore: /
@@ -202,6 +202,7 @@ jobs:
     docker:
       - image: cimg/node:20.10.0
     steps:
+      # CHANGELOG.md needs this, and `gh release create` needs this
       - checkout
       - gh/install
       - attach_workspace:
