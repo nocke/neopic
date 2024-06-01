@@ -4,7 +4,7 @@ version: 2.1
 
 orbs:
   win: circleci/windows@5.0
-  github-cli: circleci/github-cli@2.3.0
+  gh: circleci/github-cli@2.3.0
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
@@ -111,7 +111,7 @@ jobs:
             fi
             echo 'export RELEASE_VERSION_NUMBER="${CIRCLE_TAG#release-}"' >> "$BASH_ENV"
             echo "proceeding with release on github"
-      - gh/release:
+      - gh/release_create:
           title: "${CIRCLE_TAG#release-}"
           notes: "automated release by circleci"
           # TODO after back to master
