@@ -65,10 +65,15 @@ commands:
       # checkout must be before mkdir, mkdir must be before sanity test 😬
       - checkout
       - run: mkdir -p ./out/make ./out/junit
+      - run: echo "SOME MOCK ARTIFACT" > ./out/make/MOCK_ARTIFACT
       - run:
           name: sanity test
           command: |
             echo "pwd: $PWD   node version: $(node --version)  shell: $SHELL   uname: $(uname)"
+      - persist_to_workspace:
+          root: workspace
+          paths:
+            - out/make
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
