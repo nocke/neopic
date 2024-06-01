@@ -240,10 +240,10 @@ jobs:
           name: create release
           command: |
             ARTIFACTS_BASE="./artifacts/out/make"
-            ARTIFACTS_PATH="$ARTIFACTS_BASE/*/*/*.deb $ARTIFACTS_BASE/*/*/*.rpm $ARTIFACTS_BASE/zip/darwin/x64/*.zip $ARTIFACTS_BASE/squirrel.windows/*/*.exe $ARTIFACTS_BASE/squirrel.windows/*/*.nupkg"
-            ARTIFACTS=$(find $ARTIFACTS_BASE -type f \( -name '*.deb' -o -name '*.rpm' -o -name '*.zip' -o -name '*.exe' -o -name '*.nupkg' \) -print0 | xargs -0 echo)
+             # Use printf to properly quote each path
+            ARTIFACTS=$(find $ARTIFACTS_BASE -type f \( -name '*.deb' -o -name '*.rpm' -o -name '*.zip' -o -name '*.exe' -o -name '*.nupkg' \) -exec printf '"%s" ' '{}' \;)
             echo "Files to be uploaded:"
-            printf '"%s"\n' "${ARTIFACTS[@]}"
+            echo $ARTIFACTS
             echo "--------------------"
             gh release create "${CIRCLE_TAG}" \
             --title "${CIRCLE_TAG#release-}" \
