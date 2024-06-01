@@ -124,7 +124,7 @@ jobs:
       - image: cimg/node:20.10.0
     steps:
       - attach_workspace:
-          at: .
+          at: ./artifacts
       - run: find .. -mindepth 1 -type d -exec sh -c 'echo {} && ls -p {}' \;
 
 
