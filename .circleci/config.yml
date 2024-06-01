@@ -83,7 +83,7 @@ jobs:
           command: |
             echo "DUMMY pwd: $PWD   node version: $(node --version)  shell: $SHELL   uname: $(uname)"
       - run: |
-          tree -L 3 -a -F ..
+          find .. -type d | awk -F'/' '{for(i=1;i<NF;i++){printf "  "}; print $NF}'
 
   build-linux:
     docker:
