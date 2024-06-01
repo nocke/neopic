@@ -240,16 +240,15 @@ jobs:
           name: create release
           command: |
             ARTIFACTS_BASE="./artifacts/out/make"
-             # Use printf to properly quote each path
-            ARTIFACTS=$(find $ARTIFACTS_BASE -type f \( -name '*.deb' -o -name '*.rpm' -o -name '*.zip' -o -name '*.exe' -o -name '*.nupkg' \) -exec printf '"%s" ' '{}' \;)
+            find $ARTIFACTS_BASE -type f -name '* *' -exec bash -c 'mv "$0" "${0// /_}"' {} \;
+            echo "releae files (spaces converted to underscores)"
+            find $ARTIFACTS_BASE -type f
+            echo "--------------------"
+            ARTIFACTS=$(find $ARTIFACTS_BASE -type f \( -name '*.deb' -o -name '*.rpm' -o -name '*.zip' -o -name '*.exe' -o -name '*.nupkg' \))
             echo "Files to be uploaded:"
             echo $ARTIFACTS
-            echo "--------------------"
-            echo ███ gh release create "${CIRCLE_TAG}" \
-            --title "${CIRCLE_TAG#release-}" \
-            --notes-file CHANGELOG.md \
-            $(find $ARTIFACTS_BASE -type f \( -name '*.deb' -o -name '*.rpm' -o -name '*.zip' -o -name '*.exe' -o -name '*.nupkg' \) -exec printf '"%s" ' '{}' \;)
+            echo "==================="
             gh release create "${CIRCLE_TAG}" \
-            --title "${CIRCLE_TAG#release-}" \
-            --notes-file CHANGELOG.md \
-            $(find $ARTIFACTS_BASE -type f \( -name '*.deb' -o -name '*.rpm' -o -name '*.zip' -o -name '*.exe' -o -name '*.nupkg' \) -exec printf '"%s" ' '{}' \;)
+              --title "${CIRCLE_TAG#release-}" \
+              --notes-file CHANGELOG.md \
+              $ARTIFACTS
