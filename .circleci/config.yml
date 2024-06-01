@@ -230,14 +230,12 @@ jobs:
     docker:
       - image: cimg/node:20.10.0
     steps:
-      # CHANGELOG.md needs this, and `gh release create` needs this
-      - checkout
+      - checkout # CHANGELOG.md and `gh release create` need checkout
       - gh/install
       - attach_workspace:
           at: ./artifacts
-      - run: find ./artifacts -mindepth 1 -type d -exec sh -c 'echo {} && ls -p {}' \;
       - run:
-          name: create release
+          name: prepare release files
           command: |
             ARTIFACTS_BASE="./artifacts/out/make"
             find $ARTIFACTS_BASE -type f -name '* *' -exec bash -c 'mv "$0" "${0// /_}"' {} \;
@@ -246,9 +244,21 @@ jobs:
             find $ARTIFACTS_BASE -type f \( -name '*.exe' -o -name '*.nupkg' \) -exec bash -c 'mv "$0" "${0%/*}/WIN_${0##*/}"' {} \;
             find $ARTIFACTS_BASE -type f \( -name '*.zip' -o -name '*.dmg' \) -exec bash -c 'mv "$0" "${0%/*}/MAC_${0##*/}"' {} \;
 
-            echo "files to be released (spaces converted to underscores)"
+            echo "files to be released (spaces converted to underscores, platform prefixes)"
             find $ARTIFACTS_BASE -type f \( -name '*.deb' -o -name '*.rpm' -o -name '*.zip' -o -name '*.exe' -o -name '*.nupkg' \)
             ARTIFACTS=$(find $ARTIFACTS_BASE -type f \( -name '*.deb' -o -name '*.rpm' -o -name '*.zip' -o -name '*.exe' -o -name '*.nupkg' \))
+      - run:
+          name: update changelog # pull from (multi-line) description of label
+          command: |
+            TAG_MESSAGE=$(git tag -n10 --format='%(contents)' "${CIRCLE_TAG}")
+            echo -e "## [${CIRCLE_TAG#release-}] - $(date +'%Y-%m-%d')\n${TAG_MESSAGE}\n\n$(cat CHANGELOG.md)" > CHANGELOG.md
+            git config --global user.email "git@nocke.de"
+            git config --global user.name "Frank Nocke"
+            git add CHANGELOG.md
+            git commit -m "Update CHANGELOG for ${CIRCLE_TAG}" || echo "No changes to commit"
+      - run:
+          name: create release
+          command: |
             gh release create "${CIRCLE_TAG}" \
               --title "${CIRCLE_TAG#release-}" \
               --notes-file CHANGELOG.md \
