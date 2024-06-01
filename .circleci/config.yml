@@ -17,23 +17,23 @@ workflows:
               ignore: /.*/
             tags:
               only: /^(circleci|release)-.*/
-      - build-macos:
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^(circleci|release)-.*/
-      - build-windows:
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^(circleci|release)-.*/
+      # - build-macos:
+      #     filters:
+      #       branches:
+      #         ignore: /.*/
+      #       tags:
+      #         only: /^(circleci|release)-.*/
+      # - build-windows:
+      #     filters:
+      #       branches:
+      #         ignore: /.*/
+      #       tags:
+      #         only: /^(circleci|release)-.*/
       - create-release:
           requires:
             - build-linux
-            - build-macos
-            - build-windows
+            # - build-macos
+            # - build-windows
           filters:
             branches:
               ignore: /
@@ -210,14 +210,9 @@ jobs:
           name: create release
           command: |
             ARTIFACTS_BASE="./artifacts/out/make"
-            # Create an array to store paths
-            declare -a ARTIFACTS
-            # Read into array using find
-            while IFS= read -r -d $'\0' file; do
-                ARTIFACTS+=("$file")
-            done < <(find $ARTIFACTS_BASE -type f \( -name '*.deb' -o -name '*.rpm' -o -name '*.zip' -o -name '*.exe' -o -name '*.nupkg' \) -print0)
-            # Use array expansion to handle spaces in filenames
+            ARTIFACTS_PATH="$ARTIFACTS_BASE/*/*/*.deb $ARTIFACTS_BASE/*/*/*.rpm $ARTIFACTS_BASE/zip/darwin/x64/*.zip $ARTIFACTS_BASE/squirrel.windows/*/*.exe $ARTIFACTS_BASE/squirrel.windows/*/*.nupkg"
+            ARTIFACTS=$(find $ARTIFACTS_BASE -type f \( -name '*.deb' -o -name '*.rpm' -o -name '*.zip' -o -name '*.exe' -o -name '*.nupkg' \) -print0 | xargs -0 echo)
             gh release create "${CIRCLE_TAG}" \
             --title "${CIRCLE_TAG#release-}" \
             --notes-file CHANGELOG.md \
-            "${ARTIFACTS[@]}"
+            $ARTIFACTS
