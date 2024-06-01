@@ -23,7 +23,6 @@ workflows:
       - gather-artifacts:
           requires:
             - another-artifact
-            - list-dirs
           filters:
             branches:
               ignore: /.*/
