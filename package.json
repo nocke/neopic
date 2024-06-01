@@ -26,6 +26,7 @@
     "clean:small": "npx --yes rimraf .vite dist out .cache .next .nuxt .npm",
     "clean": "npx --yes rimraf node_modules .vite dist out .cache .next .nuxt .npm",
     "circleci": "node ./script/circleci",
+    "release": "node ./script/circleci -- nocheck release",
     "preversion": "node ./script/preversion",
     "postversion": "node ./script/postversion",
     "vite:renderer-testcompile": "vite build --config vite.renderer.config.mts"

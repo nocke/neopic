@@ -73,6 +73,6 @@
   "typescript.tsdk": "node_modules/typescript/lib",
 
   // decouple zoom from other vscode instances
-  "window.zoomLevel": 0
+  "window.zoomLevel": 1
 }
 

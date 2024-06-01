@@ -8,7 +8,7 @@ export const exec = (command, options = {}) => {
 // conditional fails, but with a message
 export const ensure = (cond, ...message) => {
   if (!cond) {
-    console.error(message)
+    console.error('ensure() FAILED:', ...message)
     process.exit(1)
   }
   return true // all good

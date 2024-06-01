@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 // REF usage to skip clean:  npm run circleci -- nocheck
 
-import { errLog, exec, log, warn } from './script-helpers.js'
+import { ensure, errLog, exec, log, warn } from './script-helpers.js'
+import packageJson from '../package.json' assert { type: 'json' }
 
 try {
-
   const args = process.argv.slice(2)
+
   if (args.includes('nocheck')) {
-    warn('skipping commit-check')
+    warn('skipping clean state check (`nocheck`)')
   } else {
     try {
       exec('git diff-index --quiet HEAD --')
@@ -18,9 +19,18 @@ try {
     }
   }
 
+  const version = packageJson.version
   const branch = 'master'
   const remoteRepo = exec(`git config branch.${branch}.remote`).trim()
-  const tag = 'circleci-' + exec('git rev-parse --short=7 HEAD').toString().trim()
+  let tag
+
+  if (args.includes('release')) {
+    ensure(/^\d+\.\d+\.\d+$/.test(version), 'version sanity check');
+    tag = 'release-' + version
+    log(`▶▶▶ building RELEASE ${tag}`)
+  } else {
+    tag = 'circleci-' + exec('git rev-parse --short=7 HEAD').toString().trim()
+  }
 
   exec(`git tag -f ${tag}`)
   exec(`git push ${remoteRepo} ${tag}`)

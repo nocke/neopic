@@ -15,19 +15,19 @@ workflows:
             branches:
               ignore: /.*/
             tags:
-              only: /^circleci-.*/
+              only: /^(circleci|release)-.*/
       # - build-macos:
       #     filters:
       #       branches:
       #         ignore: /.*/
       #       tags:
-      #         only: /^circleci-.*/
+      #         only: /^(circleci|release)-.*/
       # - build-windows:
       #     filters:
       #       branches:
       #         ignore: /.*/
       #       tags:
-      #         only: /^circleci-.*/
+      #         only: /^(circleci|release)-.*/
 
 # Reuse a sequence of steps
 # See: https://circleci.com/docs/configuration-reference/#workflows
