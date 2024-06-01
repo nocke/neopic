@@ -111,16 +111,28 @@ jobs:
             fi
             echo 'export RELEASE_VERSION_NUMBER="${CIRCLE_TAG#release-}"' >> "$BASH_ENV"
             echo "proceeding with release on github"
-      - gh/release_create:
-          title: "${CIRCLE_TAG#release-}"
-          notes: "automated release by circleci"
-          # TODO after back to master
-          # filters:
-          #   branches:
-          #     only:
-          #       - master
-          notes-file: changelog.md
-          files: out/make/deb/x64/*.deb, out/make/rpm/x64/*.rpm
+      - gh/install
+      - run:
+          name: create release
+          command: |
+              ARTIFACTS_PATH="./out/make/*/*/*.deb ./out/make/*/*/*.rpm"
+              ARTIFACTS=$(ls $ARTIFACTS_PATH)
+              gh release create "${CIRCLE_TAG}" \
+              --title "${CIRCLE_TAG#release-}" \
+              --notes-file CHANGELOG.md \
+              $ARTIFACTS
+
+
+      # - gh/release_create:
+      #     title: "${CIRCLE_TAG#release-}"
+      #     notes: "automated release by circleci"
+      #     # TODO after back to master
+      #     # filters:
+      #     #   branches:
+      #     #     only:
+      #     #       - master
+      #     notes-file: changelog.md
+
 
   build-macos:
     macos:
