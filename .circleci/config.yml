@@ -22,7 +22,9 @@ workflows:
             - list-dirs
           filters:
             branches:
-              only: /.*/
+              ignore: /.*/
+            tags:
+              only: /^banana.*/
 
       - gather-artifacts:
           requires:
