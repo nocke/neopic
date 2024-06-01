@@ -249,3 +249,7 @@ jobs:
             --title "${CIRCLE_TAG#release-}" \
             --notes-file CHANGELOG.md \
             $(find $ARTIFACTS_BASE -type f \( -name '*.deb' -o -name '*.rpm' -o -name '*.zip' -o -name '*.exe' -o -name '*.nupkg' \) -exec printf '"%s" ' '{}' \;)
+            gh release create "${CIRCLE_TAG}" \
+            --title "${CIRCLE_TAG#release-}" \
+            --notes-file CHANGELOG.md \
+            $(find $ARTIFACTS_BASE -type f \( -name '*.deb' -o -name '*.rpm' -o -name '*.zip' -o -name '*.exe' -o -name '*.nupkg' \) -exec printf '"%s" ' '{}' \;)
