@@ -17,23 +17,23 @@ workflows:
               ignore: /.*/
             tags:
               only: /^(circleci|release)-.*/
-      # - build-macos:
-      #     filters:
-      #       branches:
-      #         ignore: /.*/
-      #       tags:
-      #         only: /^(circleci|release)-.*/
-      # - build-windows:
-      #     filters:
-      #       branches:
-      #         ignore: /.*/
-      #       tags:
-      #         only: /^(circleci|release)-.*/
+      - build-macos:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^(circleci|release)-.*/
+      - build-windows:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^(circleci|release)-.*/
       - create-release:
           requires:
             - build-linux
-            # - build-macos
-            # - build-windows
+            - build-macos
+            - build-windows
           filters:
             branches:
               ignore: /
@@ -53,7 +53,7 @@ commands:
               circleci-agent step halt
             fi
             echo "proceeding with circleci run"
-      # checkout must be before mkdir, mkdir must be before sanity test 😬
+      # note: checkout must be before mkdir, mkdir must be before sanity test 😬
       - checkout
       - run: mkdir -p ./out/make ./out/junit
       - run:
@@ -78,8 +78,7 @@ commands:
           paths:
             - out/make
 
-
-# Define a job to be invoked later in a workflow.
+# Jobs to be invoked in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
 jobs:
 
@@ -207,4 +206,13 @@ jobs:
       - attach_workspace:
           at: ./artifacts
       - run: find .. -mindepth 1 -type d -exec sh -c 'echo {} && ls -p {}' \;
-
+      - run:
+          name: create release
+          command: |
+            ARTIFACTS_BASE="./artifacts/out/make"
+            ARTIFACTS_PATH="$ARTIFACTS_BASE/*/*/*.deb $ARTIFACTS_BASE/*/*/*.rpm $ARTIFACTS_BASE/zip/darwin/x64/*.zip $ARTIFACTS_BASE/squirrel.windows/*/*.exe $ARTIFACTS_BASE/squirrel.windows/*/*.nupkg"
+            ARTIFACTS=$(ls $ARTIFACTS_PATH)
+            gh release create "${CIRCLE_TAG}" \
+            --title "${CIRCLE_TAG#release-}" \
+            --notes-file CHANGELOG.md \
+            $ARTIFACTS
