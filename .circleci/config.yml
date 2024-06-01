@@ -11,29 +11,36 @@ orbs:
 workflows:
   neopic-workflow:
     jobs:
-      - build-linux:
+      - create-mock:
           filters:
             branches:
               ignore: /.*/
             tags:
               only: /^(circleci|release)-.*/
-      - build-macos:
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^(circleci|release)-.*/
-      - build-windows:
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^(circleci|release)-.*/
+      # - build-linux:
+      #     filters:
+      #       branches:
+      #         ignore: /.*/
+      #       tags:
+      #         only: /^(circleci|release)-.*/
+      # - build-macos:
+      #     filters:
+      #       branches:
+      #         ignore: /.*/
+      #       tags:
+      #         only: /^(circleci|release)-.*/
+      # - build-windows:
+      #     filters:
+      #       branches:
+      #         ignore: /.*/
+      #       tags:
+      #         only: /^(circleci|release)-.*/
       - create-release:
           requires:
-            - build-linux
-            - build-macos
-            - build-windows
+            - create-mock
+            # - build-linux
+            # - build-macos
+            # - build-windows
           filters:
             branches:
               ignore: /
@@ -81,6 +88,21 @@ commands:
 # Jobs to be invoked in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
 jobs:
+  create-mock:
+    docker:
+      - image: cimg/node:20.10.0
+    steps:
+    - run: mkdir -p  \
+        ./out/make/deb/x64  \
+        ./out/make/rpm/x64  \
+        ./out/make/squirrel.windows/x64  \
+        ./out/make/zip/darwin/x64  \
+        ./out/make/squirrel.windows/x64
+    - run: echo "MOCK ARTIFACT" > "./project/out/make/deb/x64/neopic_0.13.0_amd64.deb"
+    - run: echo "MOCK ARTIFACT" > "./project/out/make/rpm/x64/neopic-0.13.0-1.x86_64.rpm"
+    - run: echo "MOCK ARTIFACT" > "./project/out/make/zip/darwin/x64/neopic-darwin-x64-0.13.0.zip"
+    - run: echo "MOCK ARTIFACT" > "./out/make/squirrel.windows/x64/neopic-0.13.0 Setup.exe"
+    - run: echo "MOCK ARTIFACT" > "./out/make/squirrel.windows/x64/neopic-0.13.0-full.nupkg"
 
   build-linux:
     docker:
@@ -214,6 +236,9 @@ jobs:
             ARTIFACTS_BASE="./artifacts/out/make"
             ARTIFACTS_PATH="$ARTIFACTS_BASE/*/*/*.deb $ARTIFACTS_BASE/*/*/*.rpm $ARTIFACTS_BASE/zip/darwin/x64/*.zip $ARTIFACTS_BASE/squirrel.windows/*/*.exe $ARTIFACTS_BASE/squirrel.windows/*/*.nupkg"
             ARTIFACTS=$(find $ARTIFACTS_BASE -type f \( -name '*.deb' -o -name '*.rpm' -o -name '*.zip' -o -name '*.exe' -o -name '*.nupkg' \) -print0 | xargs -0 echo)
+            echo "Files to be uploaded:"
+            printf '"%s"\n' "${ARTIFACTS[@]}"
+            echo "--------------------"
             gh release create "${CIRCLE_TAG}" \
             --title "${CIRCLE_TAG#release-}" \
             --notes-file CHANGELOG.md \
