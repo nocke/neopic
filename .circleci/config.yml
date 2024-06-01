@@ -9,6 +9,15 @@ orbs:
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
 workflows:
+  test-workflow:
+    jobs:
+      - list-dirs:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^banana.*/
+
   neopic-workflow:
     jobs:
       - build-linux:
@@ -36,7 +45,7 @@ workflows:
             # - build-windows
           filters:
             branches:
-              ignore: /.*/
+              ignore: /
             tags:
               only: /^release-.*/
 
@@ -64,6 +73,18 @@ commands:
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
 jobs:
+  list-dirs:
+    docker:
+      - image: cimg/node:20.10.0
+    steps:
+      - run: mkdir -p ./out/make ./out/junit
+      - run:
+          name: sanity test
+          command: |
+            echo "DUMMY pwd: $PWD   node version: $(node --version)  shell: $SHELL   uname: $(uname)"
+      - run: |
+          tree -L 3 -a -F ..
+
   build-linux:
     docker:
       - image: cimg/node:20.10.0
