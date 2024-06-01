@@ -34,6 +34,14 @@ workflows:
 commands:
   steps-before:
     steps:
+      - run:
+          name: release-build on github ONLY
+          command: |
+            if [[ "$CIRCLE_TAG" == release-* && "$CIRCLE_IS_GITHUB" != "true" ]]; then
+              echo "releases only on github. skipping on bitbucket."
+              circleci-agent step halt
+            fi
+            echo "proceeding with building release on github"
       # checkout must be before mkdir, mkdir must be before sanity test 😬
       - checkout
       - run: mkdir -p ./out/make ./out/junit
