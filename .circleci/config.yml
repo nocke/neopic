@@ -17,6 +17,13 @@ workflows:
               ignore: /.*/
             tags:
               only: /^banana.*/
+      - gather-artifacts:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^banana.*/
+
 
   neopic-workflow:
     jobs:
@@ -84,14 +91,22 @@ jobs:
           name: sanity test
           command: |
             echo "DUMMY pwd: $PWD   node version: $(node --version)  shell: $SHELL   uname: $(uname)"
-      - run: |
-          find .. -mindepth 1 -type d -exec sh -c 'echo {} && ls -p {}' \;
+      - run: find .. -mindepth 1 -type d -exec sh -c 'echo {} && ls -p {}' \;
       - store_artifacts:
           path: out/make
       - persist_to_workspace:
           root: .
           paths:
             - out/make
+
+  gather-artifacts:
+    docker:
+      - image: cimg/node:20.10.0
+    steps:
+      - attach_workspace:
+          at: .
+      - run: find .. -mindepth 1 -type d -exec sh -c 'echo {} && ls -p {}' \;
+
 
 
   build-linux:
