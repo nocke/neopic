@@ -18,11 +18,21 @@ workflows:
             tags:
               only: /^banana.*/
       - gather-artifacts:
+          requires:
+            - list-dirs
           filters:
             branches:
               ignore: /.*/
             tags:
               only: /^banana.*/
+      - never-matching:
+          filters:
+            branches:
+              ignore: /.*/
+      # testing unfullfillable ↑↓ (though itself not filtered)
+      - never-gonna-happen:
+          requires:
+            - never-matching
 
 
   neopic-workflow:
@@ -80,6 +90,16 @@ commands:
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
 jobs:
+  never-matching:
+    docker:
+      - image: cimg/node:20.10.0
+    steps:
+      - run: echo "NOT GOING TO HAPPEN"
+  never-gonna-happen:
+    docker:
+      - image: cimg/node:20.10.0
+    steps:
+      - run: echo "NOT GOING TO HAPPEN"
   list-dirs:
     docker:
       - image: cimg/node:20.10.0
