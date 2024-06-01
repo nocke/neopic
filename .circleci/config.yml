@@ -92,12 +92,13 @@ jobs:
     docker:
       - image: cimg/node:20.10.0
     steps:
-    - run: mkdir -pv  \
-        ./out/make/deb/x64  \
-        ./out/make/rpm/x64  \
-        ./out/make/squirrel.windows/x64  \
-        ./out/make/zip/darwin/x64  \
-        ./out/make/squirrel.windows/x64
+    - run: |
+        mkdir -pv \
+        "./out/make/deb/x64" \
+        "./out/make/rpm/x64" \
+        "./out/make/squirrel.windows/x64" \
+        "./out/make/zip/darwin/x64" \
+        "./out/make/squirrel.windows/x64"
     - run: find ./out -type d
     - run: echo "MOCK ARTIFACT" > "./out/make/deb/x64/neopic_0.13.0_amd64.deb"
     - run: echo "MOCK ARTIFACT" > "./out/make/rpm/x64/neopic-0.13.0-1.x86_64.rpm"
