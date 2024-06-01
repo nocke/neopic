@@ -1,4 +1,7 @@
 ## [0.24.4] - 2024-06-01
+Merge remote-tracking branch 'github/feature/publish-releases' into feature/publish-releases
+
+## [0.24.4] - 2024-06-01
 • trying shorter release notes file
 • foo bar doo
 
