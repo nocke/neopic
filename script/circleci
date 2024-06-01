@@ -34,7 +34,7 @@ try {
   }
 
   exec(`git tag -f ${tag}`)
-  exec(`git push ${remoteRepo} ${tag}`)
+  exec(`git push --force ${remoteRepo} ${tag}`)
 
 } catch (error) {
   console.error('failed to push changes:', error);
