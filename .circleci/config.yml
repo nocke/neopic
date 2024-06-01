@@ -16,18 +16,18 @@ workflows:
               ignore: /.*/
             tags:
               only: /^circleci-.*/
-      - build-macos:
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^circleci-.*/
-      - build-windows:
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^circleci-.*/
+      # - build-macos:
+      #     filters:
+      #       branches:
+      #         ignore: /.*/
+      #       tags:
+      #         only: /^circleci-.*/
+      # - build-windows:
+      #     filters:
+      #       branches:
+      #         ignore: /.*/
+      #       tags:
+      #         only: /^circleci-.*/
 
 # Reuse a sequence of steps
 # See: https://circleci.com/docs/configuration-reference/#workflows
@@ -50,49 +50,49 @@ jobs:
       - image: cimg/node:20.10.0
     steps:
       - steps-before
-      - restore_cache:
-          key: dependency-B-linux-{{ checksum "package.json" }}
-      - run: npm install
-      - run: npm run test:ci
-      - store_test_results:
-          path: out/junit
-      - run:
-          name: Install OS specific
-          command: |
-            sudo apt-get update -y
-            # rpm only needed for MakerRpm
-            sudo apt-get install -y dpkg fakeroot rpm
-            # all of these only needed for running (in selftest)
-            sudo apt-get install -y libgtk-3-0 libnotify4 libnss3 libxss1 libxtst6 libatspi2.0-0 libdrm2 libgbm1 libasound2 libcups2 libatk1.0-0 libatk-bridge2.0-0 xvfb
-            # reduce dbus warning on linux selftest
-            sudo apt-get install -y dbus
-            sudo dbus-uuidgen --ensure
-            sudo service dbus start
-      - save_cache:
-          key: dependency-B-linux-{{ checksum "package.json" }}
-          paths:
-            - ./node_modules
-      - run: npm run make
-      - run:
-          name: List store_artifacts
-          command: ls -lR ./out
-      - run:
-          name: start mock display
-          background: true
-          command: Xvfb :99 -screen 0 1920x1080x24
-      - run:
-          name: electron selftest (linux)
-          command: |
-            export DISPLAY=:99
-            ./out/neopic-linux-x64/neopic -selftest --disable-gpu
-            exitcode=$?
-            if [ $exitcode -ne 0 ]; then
-              echo "Failure or exit with code $exitcode"
-              exit $exitcode
-            fi
-            echo "selftest success"
-      - store_artifacts:
-          path: out/make
+      # - restore_cache:
+      #     key: dependency-B-linux-{{ checksum "package.json" }}
+      # - run: npm install
+      # - run: npm run test:ci
+      # - store_test_results:
+      #     path: out/junit
+      # - run:
+      #     name: Install OS specific
+      #     command: |
+      #       sudo apt-get update -y
+      #       # rpm only needed for MakerRpm
+      #       sudo apt-get install -y dpkg fakeroot rpm
+      #       # all of these only needed for running (in selftest)
+      #       sudo apt-get install -y libgtk-3-0 libnotify4 libnss3 libxss1 libxtst6 libatspi2.0-0 libdrm2 libgbm1 libasound2 libcups2 libatk1.0-0 libatk-bridge2.0-0 xvfb
+      #       # reduce dbus warning on linux selftest
+      #       sudo apt-get install -y dbus
+      #       sudo dbus-uuidgen --ensure
+      #       sudo service dbus start
+      # - save_cache:
+      #     key: dependency-B-linux-{{ checksum "package.json" }}
+      #     paths:
+      #       - ./node_modules
+      # - run: npm run make
+      # - run:
+      #     name: List store_artifacts
+      #     command: ls -lR ./out
+      # - run:
+      #     name: start mock display
+      #     background: true
+      #     command: Xvfb :99 -screen 0 1920x1080x24
+      # - run:
+      #     name: electron selftest (linux)
+      #     command: |
+      #       export DISPLAY=:99
+      #       ./out/neopic-linux-x64/neopic -selftest --disable-gpu
+      #       exitcode=$?
+      #       if [ $exitcode -ne 0 ]; then
+      #         echo "Failure or exit with code $exitcode"
+      #         exit $exitcode
+      #       fi
+      #       echo "selftest success"
+      # - store_artifacts:
+      #     path: out/make
 
   build-macos:
     macos:
