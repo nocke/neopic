@@ -251,12 +251,20 @@ jobs:
           name: update changelog # pull from (multi-line) description of label
           command: |
             TAG_MESSAGE=$(git tag -n10 --format='%(contents)' "${CIRCLE_TAG}")
+            #prepend last tag message to CHANGELOG.md
             echo -e "## [${CIRCLE_TAG#release-}] - $(date +'%Y-%m-%d')\n${TAG_MESSAGE}\n\n$(cat CHANGELOG.md)" > CHANGELOG.md
+
+            RELEASE_NOTES_FILE="release_notes_TEMP.txt"
+            echo -e "## [${CIRCLE_TAG#release-}] - $(date +'%Y-%m-%d')\n$TAG_MESSAGE" > $RELEASE_NOTES_FILE
+            echo -e "\n\n> ⚠️ Please ignore the Source Code files (`Source code(zip), Source code (tar.gz)`)\n" >> $RELEASE_NOTES_FILE
+            echo -e "<sub><sup>github [insists on creating them, for no good reason](https://github.com/orgs/community/discussions/6003).</sup></sub>\n" >> $RELEASE_NOTES_FILE
+
             git config --global user.email "git@nocke.de"
             git config --global user.name "Frank Nocke"
             git add CHANGELOG.md
             git commit -m "Update CHANGELOG for ${CIRCLE_TAG}" || echo "No changes to commit"
-            # grab branch name for current tag (sanitize, trim whitespace)
+
+            # since checkout unattached, grab branch name for current tag (sanitize, trim whitespace)
             BRANCH_NAME=$(git branch -r --contains tags/$CIRCLE_TAG | grep -v HEAD | sed 's/origin\///;s/^\s*//;s/\s*$//' | head -n 1)
             echo "████ branch name is X${BRANCH_NAME}Y"
             git push origin HEAD:$BRANCH_NAME
@@ -265,5 +273,5 @@ jobs:
           command: |
             gh release create "${CIRCLE_TAG}" \
               --title "${CIRCLE_TAG#release-}" \
-              --notes-file CHANGELOG.md \
+              --notes-file $RELEASE_NOTES_FILE \
               $ARTIFACTS
