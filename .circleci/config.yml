@@ -240,12 +240,12 @@ jobs:
           name: create release
           command: |
             ARTIFACTS_BASE="./artifacts/out/make"
-             # Use printf to properly quote each path
-            ARTIFACTS=$(find $ARTIFACTS_BASE -type f \( -name '*.deb' -o -name '*.rpm' -o -name '*.zip' -o -name '*.exe' -o -name '*.nupkg' \) -exec printf '"%s" ' '{}' \;)
+            # Collecting artifacts into an array
+            mapfile -t ARTIFACTS < <(find $ARTIFACTS_BASE -type f \( -name '*.deb' -o -name '*.rpm' -o -name '*.zip' -o -name '*.exe' -o -name '*.nupkg' \))
             echo "Files to be uploaded:"
-            echo $ARTIFACTS
+            printf "%q\n" "${ARTIFACTS[@]}"
             echo "--------------------"
             gh release create "${CIRCLE_TAG}" \
             --title "${CIRCLE_TAG#release-}" \
             --notes-file CHANGELOG.md \
-            $(find $ARTIFACTS_BASE -type f \( -name '*.deb' -o -name '*.rpm' -o -name '*.zip' -o -name '*.exe' -o -name '*.nupkg' \)
+            $(printf "%q " "${ARTIFACTS[@]}")
