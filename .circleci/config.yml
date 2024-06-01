@@ -256,6 +256,7 @@ jobs:
             git config --global user.name "Frank Nocke"
             git add CHANGELOG.md
             git commit -m "Update CHANGELOG for ${CIRCLE_TAG}" || echo "No changes to commit"
+            git push origin
       - run:
           name: create release
           command: |
