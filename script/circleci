@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 // REF usage to skip clean:  npm run circleci -- nocheck
+// REF usage to skip clean:  npm run release -- nocheck
 
 import { ensure, errLog, exec, log, warn } from './script-helpers.js'
 import packageJson from '../package.json' assert { type: 'json' }
