@@ -1,3 +1,10 @@
+## [0.24.4] - 2024-06-01
+• trying shorter release notes file
+• foo bar doo
+
+Ja. *Test* <b>Test2</b>
+----
+
 ## [0.24.3] - 2024-06-01
 0.24.3
 
