@@ -9,7 +9,7 @@ orbs:
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
 workflows:
-  test-and-build:
+  neopic-workflow:
     jobs:
       - build-linux:
           filters:
@@ -29,9 +29,6 @@ workflows:
       #         ignore: /.*/
       #       tags:
       #         only: /^(circleci|release)-.*/
-
-  release-on-github:
-    jobs:
       - create-release:
           requires:
             - build-linux
@@ -52,7 +49,7 @@ commands:
           name: release-build on github ONLY
           command: |
             if [[ "$CIRCLE_TAG" == release-* && "$CIRCLE_IS_GITHUB" != "true" ]]; then
-              echo "releases only on github. skipping on bitbucket."
+              echo "release runs only on github. skipping on bitbucket."
               circleci-agent step halt
             fi
             echo "proceeding with circleci run"
