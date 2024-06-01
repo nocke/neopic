@@ -89,7 +89,7 @@ jobs:
       - store_artifacts:
           path: out/make
       - persist_to_workspace:
-          root: workspace
+          root: .
           paths:
             - out/make
 
