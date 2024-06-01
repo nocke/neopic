@@ -74,6 +74,8 @@ commands:
           root: workspace
           paths:
             - out/make
+      - store_artifacts:
+          path: out/make
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
@@ -84,6 +86,7 @@ jobs:
     steps:
       - run: mkdir -p ./out/make ./out/junit
       - run: echo "MOCK ARTIFACT.txt" > ./out/make/MOCK_ARTIFACT.txt
+      - run: echo "MOCK ARTIFACT.txt" > ./out/make/MOCK_ARTIFACT2.txt
       - run:
           name: sanity test
           command: |
