@@ -241,6 +241,11 @@ jobs:
           command: |
             ARTIFACTS_BASE="./artifacts/out/make"
             find $ARTIFACTS_BASE -type f -name '* *' -exec bash -c 'mv "$0" "${0// /_}"' {} \;
+
+            find $ARTIFACTS_BASE -type f -name '*.rpm' -o -name '*.deb' -exec bash -c 'mv "$0" "${0%/*}/LINUX_${0##*/}"' {} \;
+            find $ARTIFACTS_BASE -type f -name '*.exe' -o -name '*.nupkg' -exec bash -c 'mv "$0" "${0%/*}/WIN_${0##*/}"' {} \;
+            find $ARTIFACTS_BASE -type f -name '*.zip' -o -name '*.dmg' -exec bash -c 'mv "$0" "${0%/*}/MAC_${0##*/}"' {} \;
+
             echo "files to be released (spaces converted to underscores)"
             find $ARTIFACTS_BASE -type f \( -name '*.deb' -o -name '*.rpm' -o -name '*.zip' -o -name '*.exe' -o -name '*.nupkg' \)
             ARTIFACTS=$(find $ARTIFACTS_BASE -type f \( -name '*.deb' -o -name '*.rpm' -o -name '*.zip' -o -name '*.exe' -o -name '*.nupkg' \))
