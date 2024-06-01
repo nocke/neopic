@@ -5,6 +5,8 @@
 import { ensure, errLog, exec, log, warn } from './script-helpers.js'
 import packageJson from '../package.json' assert { type: 'json' }
 
+const editor = process.env.EDITOR || 'code --wait' // default to vscode with blocking `--wait`
+
 try {
   const args = process.argv.slice(2)
 
@@ -23,12 +25,28 @@ try {
   const version = packageJson.version
   const branch = 'master'
   const remoteRepo = exec(`git config branch.${branch}.remote`).trim()
+  const releaseMode = args.includes('release')
   let tag
 
-  if (args.includes('release')) {
-    ensure(/^\d+\.\d+\.\d+$/.test(version), 'version sanity check');
+
+  if (releaseMode) {
+    ensure(/^\d+\.\d+\.\d+$/.test(version), 'version sanity check')
     tag = 'release-' + version
     log(`▶▶▶ building RELEASE ${tag}`)
+
+    // get the current commit message
+    const commitMessage = execSync('git log -1 --pretty=%B').toString()
+    const tempFilePath = path.join(os.tmpdir(), 'git_commit_editmsg')
+    fs.writeFileSync(tempFilePath, commitMessage)
+
+    spawnSync(editor, [tempFilePath], { stdio: 'inherit' })
+
+    // read the modified commit message back
+    const newCommitMessage = fs.readFileSync(tempFilePath, 'utf8')
+    fs.unlinkSync(tempFilePath)
+
+    // amend the commit with the new message
+    execSync(`git commit --amend -m "${newCommitMessage.replace(/"/g, '\\"')}"`)
   } else {
     tag = 'circleci-' + exec('git rev-parse --short=7 HEAD').toString().trim()
   }
@@ -36,7 +54,11 @@ try {
   exec(`git tag -f ${tag}`)
   exec(`git push --force ${remoteRepo} ${tag}`)
 
+  if (releaseMode) {
+    warn('remember to pull CHANGELOG updates...')
+  }
+
 } catch (error) {
-  console.error('failed to push changes:', error);
-  process.exit(1);
+  console.error('failed to push changes:', error)
+  process.exit(1)
 }
