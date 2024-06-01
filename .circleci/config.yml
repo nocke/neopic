@@ -65,7 +65,7 @@ commands:
       # checkout must be before mkdir, mkdir must be before sanity test 😬
       - checkout
       - run: mkdir -p ./out/make ./out/junit
-      - run: echo "SOME MOCK ARTIFACT" > ./out/make/MOCK_ARTIFACT
+      - run: echo "SOME MOCK ARTIFACT 123" > out/make/MOCK_ARTIFACT
       - run:
           name: sanity test
           command: |
