@@ -235,7 +235,7 @@ jobs:
       - gh/install
       - attach_workspace:
           at: ./artifacts
-      - run: find .. -mindepth 1 -type d -exec sh -c 'echo {} && ls -p {}' \;
+      - run: find ./artifacts -mindepth 1 -type d -exec sh -c 'echo {} && ls -p {}' \;
       - run:
           name: create release
           command: |
