@@ -83,6 +83,7 @@ jobs:
       - image: cimg/node:20.10.0
     steps:
       - run: mkdir -p ./out/make ./out/junit
+      - run: echo "MOCK ARTIFACT.txt" > ./out/make/MOCK_ARTIFACT.txt
       - run:
           name: sanity test
           command: |
