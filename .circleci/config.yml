@@ -9,42 +9,6 @@ orbs:
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
 workflows:
-  test-workflow:
-    jobs:
-      - list-dirs:
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^banana.*/
-      - another-artifact:
-          requires:
-            - list-dirs
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^banana.*/
-
-      - gather-artifacts:
-          requires:
-            - another-artifact
-            - list-dirs
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^banana.*/
-      - never-matching:
-          filters:
-            branches:
-              ignore: /.*/
-      # testing unfullfillable ↑↓ (though itself not filtered)
-      - never-gonna-happen:
-          requires:
-            - never-matching
-
-
   neopic-workflow:
     jobs:
       - build-linux:
@@ -85,7 +49,7 @@ commands:
           name: release-build on github ONLY
           command: |
             if [[ "$CIRCLE_TAG" == release-* && "$CIRCLE_IS_GITHUB" != "true" ]]; then
-              echo "release runs only on github. skipping on bitbucket."
+              echo "release-tag shall run only on github. skipping on bitbucket."
               circleci-agent step halt
             fi
             echo "proceeding with circleci run"
@@ -96,60 +60,28 @@ commands:
           name: sanity test
           command: |
             echo "pwd: $PWD   node version: $(node --version)  shell: $SHELL   uname: $(uname)"
+  steps-after:
+    steps:
+      - store_artifacts:
+          path: out/make
+      - run:
+          name: persist on tag release ONLY
+          command: |
+            if [[ "$CIRCLE_TAG" != release-* ]]; then
+              echo "github release only with tag release-*. thus ending here for $CIRCLE_TAG."
+              circleci-agent step halt
+            fi
+            echo 'export RELEASE_VERSION_NUMBER="${CIRCLE_TAG#release-}"' >> "$BASH_ENV"
+            echo "proceeding with release on github"
+      - persist_to_workspace:
+          root: .
+          paths:
+            - out/make
+
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
 jobs:
-  never-matching:
-    docker:
-      - image: cimg/node:20.10.0
-    steps:
-      - run: echo "NOT GOING TO HAPPEN"
-  never-gonna-happen:
-    docker:
-      - image: cimg/node:20.10.0
-    steps:
-      - run: echo "NOT GOING TO HAPPEN"
-  list-dirs:
-    docker:
-      - image: cimg/node:20.10.0
-    steps:
-      - run: mkdir -p ./out/make ./out/junit
-      - run: echo "MOCK ARTIFACT.txt" > ./out/make/MOCK_ARTIFACT.txt
-      - run: echo "MOCK ARTIFACT.txt" > ./out/make/MOCK_ARTIFACT2.txt
-      - run:
-          name: sanity test
-          command: |
-            echo "DUMMY pwd: $PWD   node version: $(node --version)  shell: $SHELL   uname: $(uname)"
-      - run: find .. -mindepth 1 -type d -exec sh -c 'echo {} && ls -p {}' \;
-      - store_artifacts:
-          path: out/make
-      - persist_to_workspace:
-          root: .
-          paths:
-            - out/make
-  another-artifact:
-    docker:
-      - image: cimg/node:20.10.0
-    steps:
-      - run: mkdir -p ./out/make
-      - run: echo "ANOTHER ARTIFACT HERE.txt" > ./out/make/ANOTHER_ARTIFACT_HERE.txt
-      - store_artifacts:
-          path: out/make
-      - persist_to_workspace:
-          root: .
-          paths:
-            - out/make
-
-  gather-artifacts:
-    docker:
-      - image: cimg/node:20.10.0
-    steps:
-      - attach_workspace:
-          at: ./artifacts
-      - run: find .. -mindepth 1 -type d -exec sh -c 'echo {} && ls -p {}' \;
-
-
 
   build-linux:
     docker:
@@ -197,21 +129,7 @@ jobs:
               exit $exitcode
             fi
             echo "selftest success"
-      - store_artifacts:
-          path: out/make
-      - run:
-          name: persist on tag release ONLY
-          command: |
-            if [[ "$CIRCLE_TAG" != release-* ]]; then
-              echo "release only with tag release-*. thus ending here for $CIRCLE_TAG."
-              circleci-agent step halt
-            fi
-            echo 'export RELEASE_VERSION_NUMBER="${CIRCLE_TAG#release-}"' >> "$BASH_ENV"
-            echo "proceeding with release on github"
-      - persist_to_workspace:
-          root: workspace
-          paths:
-            - out/make
+      - steps-after
 
   build-macos:
     macos:
@@ -248,8 +166,7 @@ jobs:
               exit $exitcode
             fi
             echo "selftest success"
-      - store_artifacts:
-          path: out/make
+      - steps-after
 
   build-windows:
     executor:
@@ -280,18 +197,14 @@ jobs:
               exit $exitcode
             fi
             echo "selftest success"
-      - store_artifacts:
-          path: out/make
+      - steps-after
 
   create-release:
     docker:
       - image: cimg/node:20.10.0
     steps:
-      - persist_to_workspace:
-          root: workspace
-          paths:
-            - out/make
       - gh/install
-      - run: |
-          echo "Listing all artifacts available for release..."
-          ls -lR /tmp/workspace
+      - attach_workspace:
+          at: ./artifacts
+      - run: find .. -mindepth 1 -type d -exec sh -c 'echo {} && ls -p {}' \;
+
