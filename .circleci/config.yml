@@ -241,7 +241,7 @@ jobs:
             #prepend last tag message to CHANGELOG.md
             echo -e "## [${CIRCLE_TAG#release-}] - $(date +'%Y-%m-%d')\n${TAG_MESSAGE}\n\n$(cat CHANGELOG.md)" > CHANGELOG.md
 
-            echo -e "\n\n⚠️ Please ignore the Source Code files (`Source code(zip), Source code (tar.gz)`)\n" > RELEASE_NOTES_TEMP.txt
+            echo -e "\n\n⚠️ Please ignore the Source Code files \(`Source code\(zip\), Source code \(tar.gz\)`\)\n" > RELEASE_NOTES_TEMP.txt
             echo -e "<sub><sup>github [insists on creating them, for no good reason](https://github.com/orgs/community/discussions/6003).</sup></sub>\n" >> RELEASE_NOTES_TEMP.txt
 
             git config --global user.email "git@nocke.de"
