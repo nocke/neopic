@@ -11,36 +11,36 @@ orbs:
 workflows:
   neopic-workflow:
     jobs:
-      - create-mock:
+      # - create-mock:
+      #     filters:
+      #       branches:
+      #         ignore: /.*/
+      #       tags:
+      #         only: /^(circleci|release)-.*/
+      - build-linux:
           filters:
             branches:
               ignore: /.*/
             tags:
               only: /^(circleci|release)-.*/
-      # - build-linux:
-      #     filters:
-      #       branches:
-      #         ignore: /.*/
-      #       tags:
-      #         only: /^(circleci|release)-.*/
-      # - build-macos:
-      #     filters:
-      #       branches:
-      #         ignore: /.*/
-      #       tags:
-      #         only: /^(circleci|release)-.*/
-      # - build-windows:
-      #     filters:
-      #       branches:
-      #         ignore: /.*/
-      #       tags:
-      #         only: /^(circleci|release)-.*/
+      - build-macos:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^(circleci|release)-.*/
+      - build-windows:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^(circleci|release)-.*/
       - create-release:
           requires:
-            - create-mock
-            # - build-linux
-            # - build-macos
-            # - build-windows
+            # - create-mock
+            - build-linux
+            - build-macos
+            - build-windows
           filters:
             branches:
               ignore: /
@@ -230,9 +230,10 @@ jobs:
     docker:
       - image: cimg/node:20.10.0
     environment:
-      CHANGELOG_NOTICE: |
+      SOURCE_CODE_NOTICE: |
         ⚠️ Please ignore the Source Code files (`Source code(zip), Source code (tar.gz)`)
-        <sub><sup>github [insists on creating them, for no good reason](https://github.com/orgs/community/discussions/6003).</sup></sub>
+
+        ( github [insists on creating them, for no good reason](https://github.com/orgs/community/discussions/6003). )
     steps:
       - checkout # CHANGELOG.md and `gh release create` need checkout
       - gh/install
@@ -272,11 +273,12 @@ jobs:
             ARTIFACTS=$(find $ARTIFACTS_BASE -type f \( -name '*.deb' -o -name '*.rpm' -o -name '*.zip' -o -name '*.exe' -o -name '*.nupkg' \))
 
             # allow overriding existing review (idempotency)
+            # this warning is ok (dealt with in scripts/circleci): ! Note that the release-….….… git tag still remains in the repository
             if gh release view "${CIRCLE_TAG}" > /dev/null 2>&1; then
               gh release delete "${CIRCLE_TAG}" -y
             fi
 
-            echo "${CHANGELOG_NOTICE}" > RELEASE_NOTES_TEMP.txt
+            echo "${SOURCE_CODE_NOTICE}" > RELEASE_NOTES_TEMP.txt
             gh release create "${CIRCLE_TAG}" \
               --title "${CIRCLE_TAG#release-}" \
               --notes-file RELEASE_NOTES_TEMP.txt \
