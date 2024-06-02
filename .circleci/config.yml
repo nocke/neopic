@@ -261,10 +261,6 @@ jobs:
             find $ARTIFACTS_BASE -type f \( -name '*.exe' -o -name '*.nupkg' \) -exec bash -c 'mv "$0" "${0%/*}/WIN_${0##*/}"' {} \;
             find $ARTIFACTS_BASE -type f \( -name '*.zip' -o -name '*.dmg' \) -exec bash -c 'mv "$0" "${0%/*}/MAC_${0##*/}"' {} \;
 
-            # prepare release notes
-            echo -e "\n\n⚠️ Please ignore the Source Code files \(`Source code\(zip\), Source code \(tar.gz\)`\)\n" > RELEASE_NOTES_TEMP.txt
-            echo -e "<sub><sup>github [insists on creating them, for no good reason](https://github.com/orgs/community/discussions/6003).</sup></sub>\n" >> RELEASE_NOTES_TEMP.txt
-
             # sanity preview
             echo "files to be released (spaces converted to underscores, platform prefixes)"
             find $ARTIFACTS_BASE -type f \( -name '*.deb' -o -name '*.rpm' -o -name '*.zip' -o -name '*.exe' -o -name '*.nupkg' \)
@@ -278,5 +274,9 @@ jobs:
 
             gh release create "${CIRCLE_TAG}" \
               --title "${CIRCLE_TAG#release-}" \
-              --notes-file RELEASE_NOTES_TEMP.txt \
+              --notes "{{ .Parameters.changelog_notice }}" \
               $ARTIFACTS
+
+changelog_notice: |
+  ⚠️ Please ignore the Source Code files (`Source code(zip), Source code (tar.gz)`)
+  <sub><sup>github [insists on creating them, for no good reason](https://github.com/orgs/community/discussions/6003).</sup></sub>
