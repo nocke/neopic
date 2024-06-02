@@ -3,7 +3,6 @@
 // REF usage to skip clean:  npm run release -- nocheck
 
 import { ensure, errLog, exec, log, warn } from './script-helpers.js'
-import packageJson from '../package.json' assert { type: 'json' }
 import { spawnSync } from 'child_process'
 
 import fs from 'fs'
@@ -12,10 +11,19 @@ import path from 'path'
 
 const editor = process.env.EDITOR || 'code --wait' // default to vscode with blocking `--wait`
 
+const getPackageJson = async () => {
+  const filePath = path.join(__dirname, '../package.json');
+  const jsonData = await readFile(filePath, 'utf8');
+  return JSON.parse(jsonData);
+}
+
+
 try {
   const args = process.argv.slice(2)
+  const nocheckMode = args.includes('nocheck')
+  const releaseMode = args.includes('release')
 
-  if (args.includes('nocheck')) {
+  if (nocheckMode) {
     warn('skipping clean state check (`nocheck`)')
   } else {
     try {
@@ -27,12 +35,10 @@ try {
     }
   }
 
-  const version = packageJson.version
+  const version = getPackageJson().version
   const branch = 'master'
   const remoteRepo = exec(`git config branch.${branch}.remote`).trim()
-  const releaseMode = args.includes('release')
   let tag
-
 
   if (releaseMode) {
     ensure(/^\d+\.\d+\.\d+$/.test(version), 'version sanity check')
@@ -53,12 +59,13 @@ try {
 
     // amend the commit with the new message
     exec(`git commit --amend -m "${newCommitMessage.replace(/"/g, '\\"')}"`)
+    exec(`git push --force ${remoteRepo} ${branch}`)
   } else {
     tag = 'circleci-' + exec('git rev-parse --short=7 HEAD').toString().trim()
   }
 
-  exec(`git tag -f ${tag}`)
-  exec(`git push --force ${remoteRepo} ${tag}`)
+  exec(`echo TEMPTEMP git tag -f ${tag}`)
+  exec(`echo TEMPTEMP git push --force ${remoteRepo} ${tag}`)
 
   if (releaseMode) {
     warn('remember to pull CHANGELOG updates...')
