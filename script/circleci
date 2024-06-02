@@ -3,14 +3,10 @@
 // REF usage to skip clean:  npm run release -- nocheck
 
 import { ensure, errLog, exec, log, warn } from './script-helpers.js'
-import { spawnSync } from 'child_process'
-
 import fs from 'fs'
-import os from 'os'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
-const editor = process.env.EDITOR || 'code --wait' // default to vscode with blocking `--wait`
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const getPackageJson = () => {
@@ -20,15 +16,14 @@ const getPackageJson = () => {
 }
 
 try {
-  const args = process.argv.slice(3) // yes, more than usual (throgh `npm run …`)
+  const args = process.argv.slice(2)
   const nocheckMode = args.includes('nocheck')
   const releaseMode = args.includes('release')
 
   const branch = 'master'
-  const remoteRepo = exec(`git config branch.${branch}.remote`).trim()
+  const remoteRepo = exec(`git config branch.${branch}.remote`)
   const version = getPackageJson().version
   let tag
-  let annotationMessage = ''
 
   ensure(/^\d+\.\d+\.\d+$/.test(version), `not a plausible version number in package.json: version ${version}`)
 
@@ -45,38 +40,17 @@ try {
   }
 
   if (releaseMode) { // release-*
-    log(`▶▶▶ building RELEASE ${tag}`)
     tag = 'release-' + version
-
-    const tagsList = exec(`git tag -l`) // pre-checking
-    if (tagsList.includes(tag)) {
-      annotationMessage = exec(`git tag -l ${tag} -n999`)
-    } else {
-      log('no prior annoation')
-    }
-
-    // write the (empty or not) annotationMessage to tempDir, allow editing, read back
-    const tempFilePath = path.join(os.tmpdir(), 'git_tag_annotation_message')
-    fs.writeFileSync(tempFilePath, annotationMessage)
-    spawnSync(editor, [tempFilePath], { stdio: 'inherit' })
-    const newAnnotationMessage = fs.readFileSync(tempFilePath, 'utf8')
-    fs.unlinkSync(tempFilePath)
-
-    log("OLD AnnotationMessage:", annotationMessage)
-    log("==================================")
-    log("new AnnotationMessage:", newAnnotationMessage)
-
-    exec(`echo ███ git tag -f -a ${tag} -m "${newAnnotationMessage.replace(/"/g, '\\"')}"`)
-    exec(`echo ███ git push --force ${remoteRepo} ${tag}`)
-  }
-  else // circleci-*
-  {
+    log(`▶▶▶ building RELEASE ${tag}`)
+    exec(`git tag -f ${tag}`)
+    exec(`git push --force ${remoteRepo} ${tag}`)
+  } else {
     tag = 'circleci-' + exec('git rev-parse --short=7 HEAD').toString().trim()
     exec(`echo ███ git tag -f ${tag}`)
     exec(`echo ███ git push --force ${remoteRepo} ${tag}`)
   }
 
 } catch (error) {
-  console.error('./scripts/circleci: failed to push changes:', error)
+  console.error('Failed to push changes:', error)
   process.exit(1)
 }
