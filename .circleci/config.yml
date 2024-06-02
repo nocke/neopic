@@ -234,37 +234,48 @@ jobs:
       - gh/install
       - attach_workspace:
           at: ./artifacts
-      - run:
-          name: update changelog # pull from (multi-line) description of label
-          command: |
-            TAG_MESSAGE=$(git tag -n10 --format='%(contents)' "${CIRCLE_TAG}")
-            #prepend last tag message to CHANGELOG.md
-            echo -e "## [${CIRCLE_TAG#release-}] - $(date +'%Y-%m-%d')\n${TAG_MESSAGE}\n\n$(cat CHANGELOG.md)" > CHANGELOG.md
+      # - run:
+      #     name: update changelog # pull from (multi-line) description of label
+      #     command: |
+      #       TAG_MESSAGE=$(git tag -n10 --format='%(contents)' "${CIRCLE_TAG}")
+      #       #prepend last tag message to CHANGELOG.md
+      #       echo -e "## [${CIRCLE_TAG#release-}] - $(date +'%Y-%m-%d')\n${TAG_MESSAGE}\n\n$(cat CHANGELOG.md)" > CHANGELOG.md
 
-            echo -e "\n\n⚠️ Please ignore the Source Code files \(`Source code\(zip\), Source code \(tar.gz\)`\)\n" > RELEASE_NOTES_TEMP.txt
-            echo -e "<sub><sup>github [insists on creating them, for no good reason](https://github.com/orgs/community/discussions/6003).</sup></sub>\n" >> RELEASE_NOTES_TEMP.txt
+      #       git config --global user.email "git@nocke.de"
+      #       git config --global user.name "Frank Nocke"
+      #       git add CHANGELOG.md
+      #       git commit -m "Update CHANGELOG for ${CIRCLE_TAG}" || echo "No changes to commit"
 
-            git config --global user.email "git@nocke.de"
-            git config --global user.name "Frank Nocke"
-            git add CHANGELOG.md
-            git commit -m "Update CHANGELOG for ${CIRCLE_TAG}" || echo "No changes to commit"
-
-            # since checkout unattached, grab branch name for current tag (sanitize, trim whitespace)
-            BRANCH_NAME=$(git branch -r --contains tags/$CIRCLE_TAG | grep -v HEAD | sed 's/origin\///;s/^\s*//;s/\s*$//' | head -n 1)
-            git push origin HEAD:$BRANCH_NAME
+      #       # since checkout unattached, grab branch name for current tag (sanitize, trim whitespace)
+      #       BRANCH_NAME=$(git branch -r --contains tags/$CIRCLE_TAG | grep -v HEAD | sed 's/origin\///;s/^\s*//;s/\s*$//' | head -n 1)
+      #       git push origin HEAD:$BRANCH_NAME
       - run:
           name: create release
           command: |
             ARTIFACTS_BASE="./artifacts/out/make"
+            # wipe out spaces for underscores (serious problem in github artifacts, and there is one, before `… setup.exe`)
             find $ARTIFACTS_BASE -type f -name '* *' -exec bash -c 'mv "$0" "${0// /_}"' {} \;
 
+            # prefix builds with they platform they are meant for, for clarity
             find $ARTIFACTS_BASE -type f \( -name '*.rpm' -o -name '*.deb' \) -exec bash -c 'mv "$0" "${0%/*}/LINUX_${0##*/}"' {} \;
             find $ARTIFACTS_BASE -type f \( -name '*.exe' -o -name '*.nupkg' \) -exec bash -c 'mv "$0" "${0%/*}/WIN_${0##*/}"' {} \;
             find $ARTIFACTS_BASE -type f \( -name '*.zip' -o -name '*.dmg' \) -exec bash -c 'mv "$0" "${0%/*}/MAC_${0##*/}"' {} \;
 
+            # prepare release notes
+            echo -e "\n\n⚠️ Please ignore the Source Code files \(`Source code\(zip\), Source code \(tar.gz\)`\)\n" > RELEASE_NOTES_TEMP.txt
+            echo -e "<sub><sup>github [insists on creating them, for no good reason](https://github.com/orgs/community/discussions/6003).</sup></sub>\n" >> RELEASE_NOTES_TEMP.txt
+
+            # sanity preview
             echo "files to be released (spaces converted to underscores, platform prefixes)"
             find $ARTIFACTS_BASE -type f \( -name '*.deb' -o -name '*.rpm' -o -name '*.zip' -o -name '*.exe' -o -name '*.nupkg' \)
+
             ARTIFACTS=$(find $ARTIFACTS_BASE -type f \( -name '*.deb' -o -name '*.rpm' -o -name '*.zip' -o -name '*.exe' -o -name '*.nupkg' \))
+
+            # allow overriding existing review (idempotency)
+            if gh release view "${CIRCLE_TAG}" > /dev/null 2>&1; then
+              gh release delete "${CIRCLE_TAG}" -y
+            fi
+
             gh release create "${CIRCLE_TAG}" \
               --title "${CIRCLE_TAG#release-}" \
               --notes-file RELEASE_NOTES_TEMP.txt \
