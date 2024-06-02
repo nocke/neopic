@@ -1,3 +1,6 @@
+## [0.24.6] - 2024-06-02
+Round Trip
+
 ## [0.24.4] - 2024-06-01
 Merge remote-tracking branch 'github/feature/publish-releases' into feature/publish-releases
 
