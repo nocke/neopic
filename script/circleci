@@ -1,13 +1,34 @@
 #!/usr/bin/env node
 // REF usage to skip clean:  npm run circleci -- nocheck
+// REF usage to skip clean:  npm run release -- nocheck
 
-import { errLog, exec, log, warn } from './script-helpers.js'
+import { ensure, errLog, exec, log, warn } from './script-helpers.js'
+import fs from 'fs'
+import path from 'path'
+import { fileURLToPath } from 'url'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+
+const getPackageJson = () => {
+  const filePath = path.join(__dirname, '../package.json')
+  const jsonData = fs.readFileSync(filePath, 'utf8')
+  return JSON.parse(jsonData)
+}
 
 try {
-
   const args = process.argv.slice(2)
-  if (args.includes('nocheck')) {
-    warn('skipping commit-check')
+  const nocheckMode = args.includes('nocheck')
+  const releaseMode = args.includes('release')
+
+  const branch = 'master'
+  const remoteRepo = exec(`git config branch.${branch}.remote`)
+  const version = getPackageJson().version
+  let tag
+
+  ensure(/^\d+\.\d+\.\d+$/.test(version), `not a plausible version number in package.json: version ${version}`)
+
+  if (nocheckMode) {
+    warn('skipping clean state check (`nocheck`)')
   } else {
     try {
       exec('git diff-index --quiet HEAD --')
@@ -18,14 +39,18 @@ try {
     }
   }
 
-  const branch = 'master'
-  const remoteRepo = exec(`git config branch.${branch}.remote`).trim()
-  const tag = 'circleci-' + exec('git rev-parse --short=7 HEAD').toString().trim()
-
-  exec(`git tag -f ${tag}`)
-  exec(`git push ${remoteRepo} ${tag}`)
+  if (releaseMode) { // release-*
+    tag = 'release-' + version
+    log(`▶▶▶ building RELEASE ${tag}`)
+    exec(`git tag -f ${tag}`)
+    exec(`git push --force ${remoteRepo} ${tag}`)
+  } else {
+    tag = 'circleci-' + exec('git rev-parse --short=7 HEAD').toString().trim()
+    exec(`echo ███ git tag -f ${tag}`)
+    exec(`echo ███ git push --force ${remoteRepo} ${tag}`)
+  }
 
 } catch (error) {
-  console.error('failed to push changes:', error);
-  process.exit(1);
+  console.error('Failed to push changes:', error)
+  process.exit(1)
 }

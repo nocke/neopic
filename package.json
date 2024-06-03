@@ -1,7 +1,7 @@
 {
   "name": "neopic",
   "productName": "neopic",
-  "version": "0.23.0",
+  "version": "0.24.6",
   "description": "electron based neopic - electron-forge 7.4 restart",
   "author": {
     "name": "Frank Nocke",
@@ -26,6 +26,7 @@
     "clean:small": "npx --yes rimraf .vite dist out .cache .next .nuxt .npm",
     "clean": "npx --yes rimraf node_modules .vite dist out .cache .next .nuxt .npm",
     "circleci": "node ./script/circleci",
+    "release": "node ./script/circleci -- release",
     "preversion": "node ./script/preversion",
     "postversion": "node ./script/postversion",
     "vite:renderer-testcompile": "vite build --config vite.renderer.config.mts"

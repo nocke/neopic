@@ -1,0 +1,123 @@
+#!/usr/bin/env node
+
+import { log, ensure } from './script-helpers.js'
+import https from 'https'
+
+const GITHUB_REPO = "nocke/neopic"
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN
+const RELEASE_ID = "0.23.6"
+const TAG_NAME = "release-0.23.6";
+
+function makeGitHubRequest(options, data) {
+    return new Promise((resolve, reject) => {
+      log
+        const req = https.request(options, (res) => {
+            log("options:", options)
+            let body = ''
+            res.on('data', (chunk) => body += chunk)
+            res.on('end', () => {
+                if (res.statusCode >= 200 && res.statusCode < 300) {
+                    resolve(JSON.parse(body))
+                } else {
+                    reject(new Error(`GitHub API responded with status code ${res.statusCode}: ${body}`))
+                }
+            })
+        })
+
+        req.on('error', (e) => reject(e))
+        if (data) {
+            req.write(data)
+        }
+        req.end()
+    })
+}
+
+async function deleteSourceArchives() {
+    try {
+        const options = {
+            hostname: 'api.github.com',
+            path: `/repos/${GITHUB_REPO}/releases/${RELEASE_ID}/assets`,
+            method: 'GET',
+            headers: {
+                'User-Agent': 'Node.js GitHub Client',
+                'Authorization': `token ${GITHUB_TOKEN}`
+            }
+        }
+
+        // Get the assets
+        const assets = await makeGitHubRequest(options)
+        const sourceCodeAssets = assets.filter(asset => asset.name.includes('source code'))
+
+        // Delete source code archives
+        for (const asset of sourceCodeAssets) {
+            const deleteOptions = {
+                hostname: 'api.github.com',
+                path: `/repos/${GITHUB_REPO}/releases/assets/${asset.id}`,
+                method: 'DELETE',
+                headers: {
+                    'User-Agent': 'Node.js GitHub Client',
+                    'Authorization': `token ${GITHUB_TOKEN}`
+                }
+            }
+            await makeGitHubRequest(deleteOptions)
+            console.log(`Deleted asset ${asset.name}`)
+        }
+    } catch (error) {
+        console.error('Failed to delete source code archives:', error)
+    }
+}
+
+// deleteSourceArchives()
+
+async function fetchReleaseByTag() {
+  const options = {
+      hostname: 'api.github.com',
+      path: `/repos/${GITHUB_REPO}/releases/tags/${TAG_NAME}`,
+      method: 'GET',
+      headers: {
+          'User-Agent': 'Node.js GitHub Client',
+          'Authorization': `token ${GITHUB_TOKEN}`
+      }
+  };
+
+  try {
+      const release = await makeGitHubRequest(options);
+      console.log('Release ID:', release.id);
+      return release.id;
+  } catch (error) {
+      console.error('Failed to fetch release by tag:', error);
+      return null;
+  }
+}
+
+async function listArtifacts(releaseId) {
+  const options = {
+      hostname: 'api.github.com',
+      path: `/repos/${GITHUB_REPO}/releases/${releaseId}/assets`,
+      method: 'GET',
+      headers: {
+          'User-Agent': 'Node.js GitHub Client',
+          'Authorization': `token ${GITHUB_TOKEN}`
+      }
+  };
+
+  try {
+      const assets = await makeGitHubRequest(options);
+      console.log('Assets:', assets);
+      return assets;
+  } catch (error) {
+      console.error('Failed to list assets:', error);
+  }
+}
+
+async function main() {
+  const releaseId = await fetchReleaseByTag();
+  log('releaseId:', releaseId)
+  ensure(!!releaseId, "reasonable release id")
+
+  // getting releaseId works
+  const artifacts = await listArtifacts(releaseId);
+  console.log('List of Artifacts:', artifacts);
+}
+
+main();
