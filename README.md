@@ -1,5 +1,7 @@
 # Neopic
 
+[![CircleCI](https://dl.circleci.com/status-badge/img/circleci/VhCvCvz3ongXYJBfioC4Lp/7hizfoyCVc48xde8tru8wG/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/circleci/VhCvCvz3ongXYJBfioC4Lp/7hizfoyCVc48xde8tru8wG/tree/master)
+
 Neopic is an image browser with focus on organizing, tagging, captioning, sorting of images. With a special focus on families (groups) of images.
 
 WORK IN PROGRESS.
