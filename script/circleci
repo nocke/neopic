@@ -46,8 +46,8 @@ try {
     exec(`git push --force ${remoteRepo} ${tag}`)
   } else {
     tag = 'circleci-' + exec('git rev-parse --short=7 HEAD').toString().trim()
-    exec(`echo ███ git tag -f ${tag}`)
-    exec(`echo ███ git push --force ${remoteRepo} ${tag}`)
+    exec(`git tag -f ${tag}`)
+    exec(`git push --force ${remoteRepo} ${tag}`)
   }
 
 } catch (error) {
