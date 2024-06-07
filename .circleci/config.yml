@@ -57,8 +57,6 @@ workflows:
               ignore: /.*/
             tags:
               only: /^(circleci|release)-.*/
-          when: always
-
 
 # Reuse a sequence of steps
 # See: https://circleci.com/docs/configuration-reference/#workflows
@@ -97,6 +95,17 @@ commands:
           root: .
           paths:
             - out/make
+      - run:
+          name: run on FAIL only
+          when: on_fail
+          command: |
+            echo "Weia, this one failed"
+      - run:
+          name: run on SUCCESS only
+          when: on_success
+          command: |
+            echo "Yeah, this one passed"
+
 
 # Jobs to be invoked in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
@@ -170,6 +179,11 @@ jobs:
             fi
             echo "selftest success"
       - steps-after
+      - run:
+          name: Custom EXTRA After Fail Step
+          when: on_fail
+          command: |
+            echo "This EXTRA step runs only if the previous steps fail"
 
   build-macos:
     macos:
