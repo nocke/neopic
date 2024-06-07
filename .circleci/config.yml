@@ -46,6 +46,19 @@ workflows:
               ignore: /
             tags:
               only: /^release-.*/
+      - update-badge:
+          requires:  # requiring create-release would mean, I get good news only
+            # - create-mock
+            - build-linux
+            - build-macos
+            - build-windows
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^(circleci|release)-.*/
+          when: always
+
 
 # Reuse a sequence of steps
 # See: https://circleci.com/docs/configuration-reference/#workflows
@@ -283,3 +296,25 @@ jobs:
               --title "${CIRCLE_TAG#release-}" \
               --notes-file RELEASE_NOTES_TEMP.txt \
               $ARTIFACTS
+
+  update-badge:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - run:
+          name: Update Badge Status
+          command: |
+            STATUS=$(curl -s "https://circleci.com/api/v1.1/project/github/nocke/neopic/tree/${CIRCLE_TAG}?circle-token=${CIRCLE_TOKEN}&limit=1&filter=completed" | jq -r '.[0].status')
+            COLOR="lightgrey"
+            if [ "$STATUS" == "success" ]; then
+              COLOR="brightgreen"
+              STATUS="passing"
+            elif [ "$STATUS" == "failed" ]; then
+              COLOR="red"
+              STATUS="failing"
+            elif [ "$STATUS" == "running" ]; then
+              COLOR="yellow"
+              STATUS="running"
+            fi
+            echo "{\"schemaVersion\": 1, \"label\": \"build\", \"message\": \"$STATUS\", \"color\": \"$COLOR\"}" | tee status.json
+            curl -X PATCH -H "Authorization: token ${GITHUB_TOKEN}" -H "Content-Type: application/json" -d @status.json "https://api.github.com/gists/${GITHUB_GIST}"
