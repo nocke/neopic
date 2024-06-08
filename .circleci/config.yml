@@ -67,11 +67,11 @@ commands:
           # i.e. resuilt-linux=PASS
           name: set PASS flag
           when: on_success
-          command: echo "export ${CIRCLE_JOB/build/result}=PASS"
+          command: echo "export ${CIRCLE_JOB/build/result}=PASS" >> "$BASH_ENV"
       - run:
           name: set FAIL flag
           when: on_fail
-          command: echo "export ${CIRCLE_JOB/build/result}=FAIL"
+          command: echo "export ${CIRCLE_JOB/build/result}=FAIL" >> "$BASH_ENV"
       - run:
           name: update-badge
           when: always
