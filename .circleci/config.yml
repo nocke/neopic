@@ -17,38 +17,28 @@ workflows:
               ignore: /.*/
             tags:
               only: /^(circleci|release)-.*/
-      # - build-macos:
-      #     filters:
-      #       branches:
-      #         ignore: /.*/
-      #       tags:
-      #         only: /^(circleci|release)-.*/
-      # - build-windows:
-      #     filters:
-      #       branches:
-      #         ignore: /.*/
-      #       tags:
-      #         only: /^(circleci|release)-.*/
+      - build-macos:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^(circleci|release)-.*/
+      - build-windows:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^(circleci|release)-.*/
       - create-release:
-          requires:
+          requires: # only release, if all the pass, naturally
             - build-linux
-            # TEMPTEMP - build-macos
-            # TEMPTEMP - build-windows
+            - build-macos
+            - build-windows
           filters:
             branches:
               ignore: /
             tags:
               only: /^release-.*/
-      # - update-badge:
-      #     requires:  # requiring create-release would mean, I get good news only
-      #       - build-linux
-      #       - build-macos
-      #       - build-windows
-      #     filters:
-      #       branches:
-      #         ignore: /.*/
-      #       tags:
-      #         only: /^(circleci|release)-.*/
 
 # Reuse a sequence of steps
 # See: https://circleci.com/docs/configuration-reference/#workflows
@@ -80,20 +70,23 @@ commands:
             echo "pwd: $PWD   node version: $(node --version)  shell: $SHELL   uname: $(uname)"
   steps-after:
     steps:
-      - store_artifacts:
-          path: out/make
       - run:
-          name: Update Badge Status
+          # i.e. resuilt-linux=PASS
+          name: set PASS flag
+          when: on_success
+          command: echo "export ${CIRCLE_JOB/build/result}=PASS"
+      - run:
+          name: set FAIL flag
+          when: on_success
+          command: echo "export ${CIRCLE_JOB/build/result}=FAIL"
+      - run:
+          name: update-badge
           when: always
           command: |
-            echo "TODO check if this is the third time..."
-            echo "TODO do that json writing here"
-      - run:
-          name: "ENVTEST TWO (generic - steps-after)"
-          command: |
-            echo "CIRCLE_JOB A: $CIRCLE_JOB"
-            echo "LINUX: $LINUX"
-            echo "export LINUX=AFTER" >> $BASH_ENV
+            echo "UPDATE BADGE"
+            cat $BASH_ENV
+      - store_artifacts:
+          path: out/make
       - run:
           name: persist on tag release ONLY
           command: |
@@ -107,26 +100,6 @@ commands:
           root: .
           paths:
             - out/make
-      - run:
-          name: run PASS
-          when: on_success
-          command: |
-            echo "yeah, sucess"
-      - run:
-          name: run FAIL
-          when: on_fail
-          command: |
-            echo "oops, it failed"
-      - run:
-          name: run ALWAYS
-          when: always
-          command: |
-            echo "Weia, this one failed"
-            echo "contents of BASH_ENV"
-            cat $BASH_ENV
-            echo "LINUX: $LINUX"
-
-
 
 # Jobs to be invoked in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
@@ -135,17 +108,7 @@ jobs:
     docker:
       - image: cimg/node:20.10.0
     steps:
-      - run:
-          name: "ENVTEST ONE 3"
-          command: |
-            echo "CIRCLE_JOB A: $CIRCLE_JOB"
-            echo "export LINUX=START" >> $BASH_ENV
       - steps-before
-      - run:
-          name: "ENVTEST THREE 3"
-          command: |
-            echo "CIRCLE_JOB A: $CIRCLE_JOB"
-            echo "LINUX: $LINUX"
       - restore_cache:
           key: dependency-B-linux-{{ checksum "package.json" }}
       - run: npm install
@@ -168,7 +131,7 @@ jobs:
           key: dependency-B-linux-{{ checksum "package.json" }}
           paths:
             - ./node_modules
-      - run: npm runBREAKINGmake
+      - run: npm run make
       - run:
           name: List store_artifacts
           command: ls -lR ./out
@@ -188,16 +151,14 @@ jobs:
             fi
             echo "selftest success"
       - steps-after
-      - run:
-          name: Custom EXTRA After Fail Step
-          when: on_fail
-          command: |
-            echo "This EXTRA step runs only if the previous steps fail"
 
   build-macos:
     macos:
       xcode: 15.1.0
     steps:
+      - run: # TEMPTEMP
+          name: Fail the job
+          command: exit 1
       - run: xcodebuild -version
       - steps-before
       - restore_cache:
@@ -236,6 +197,9 @@ jobs:
       name: win/default
       shell: bash
     steps:
+      - run: # TEMPTEMP
+          name: Fail the job
+          command: exit 1
       - steps-before
       - restore_cache:
           key: dependency-C-windows-{{ checksum "package.json" }}
@@ -304,31 +268,3 @@ jobs:
               --title "${CIRCLE_TAG#release-}" \
               --notes-file RELEASE_NOTES_TEMP.txt \
               $ARTIFACTS
-
-  update-badge:
-    docker:
-      - image: cimg/base:stable
-    steps:
-      - run:
-          name: Update Badge Status
-          command: |
-            STATUS=$(curl -s "https://circleci.com/api/v1.1/project/github/nocke/neopic/tree/${CIRCLE_TAG}?circle-token=${CIRCLE_TOKEN}&limit=1&filter=completed" | jq -r '.[0].status')
-            COLOR="lightgrey"
-            if [ "$STATUS" == "success" ]; then
-              COLOR="brightgreen"
-              STATUS="pass"
-            elif [ "$STATUS" == "failed" ]; then
-              COLOR="red"
-              STATUS="failed"
-            elif [ "$STATUS" == "running" ]; then
-              COLOR="yellow"
-              STATUS="running"
-            fi
-            LAST_RUN=$(TZ="Europe/Zurich" date '+%Y-%m-%d %H:%M:%S')
-            echo "{\"schemaVersion\": 1, \"label\": \"build\", \"message\": \"$STATUS\", \"color\": \"$COLOR\", \"lastRun\": \"$LAST_RUN\"}" | tee status.json
-            curl -L -X PATCH \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer $GITHUB_TOKEN" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            -d @status.json \
-            "https://api.github.com/gists/$GITHUB_GIST"
