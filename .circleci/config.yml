@@ -82,6 +82,13 @@ commands:
             echo "TODO check if this is the third time..."
             echo "TODO do that json writing here"
       - run:
+          name: "ENVTEST TWO 3 generic"
+          command: |
+            echo "CIRCLE_JOB A: $CIRCLE_JOB"
+            echo "LINUX: $LINUX"
+            echo "export LINUX=MIDDLE" >> $BASH_ENV
+            echo "LINUX: $LINUX"
+      - run:
           name: persist on tag release ONLY
           command: |
             if [[ "$CIRCLE_TAG" != release-* ]]; then
@@ -96,9 +103,13 @@ commands:
             - out/make
       - run:
           name: run on FAIL only
-          when: on_fail
+          when: always
           command: |
             echo "Weia, this one failed"
+            echo "contents of BASH_ENV"
+            echo "$BASH_ENV"
+            echo "LINUX: $LINUX"
+
 
 
 # Jobs to be invoked in a workflow.
@@ -109,21 +120,16 @@ jobs:
       - image: cimg/node:20.10.0
     steps:
       - run:
-          name: "ENVTEST ONE"
-          environment:
-            ENVIE: foo
+          name: "ENVTEST ONE 3"
           command: |
-            echo "CIRCLE_JOB A1: $CIRCLE_JOB"
-            echo "ENVIE: $ENVIE"
+            echo "CIRCLE_JOB A: $CIRCLE_JOB"
             echo "export LINUX=START" >> $BASH_ENV
       - steps-before
       - run:
-          name: "ENVTEST TWO"
+          name: "ENVTEST THREE 3"
           command: |
             echo "CIRCLE_JOB A: $CIRCLE_JOB"
-            echo "ENVIE: $ENVIE"
-            echo "LINUX try1: $LINUX"
-            echo "LINUX try2: $LINUX"
+            echo "LINUX: $LINUX"
       - restore_cache:
           key: dependency-B-linux-{{ checksum "package.json" }}
       - run: npm install
