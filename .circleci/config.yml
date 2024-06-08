@@ -11,12 +11,6 @@ orbs:
 workflows:
   neopic-workflow:
     jobs:
-      # - create-mock:
-      #     filters:
-      #       branches:
-      #         ignore: /.*/
-      #       tags:
-      #         only: /^(circleci|release)-.*/
       - build-linux:
           filters:
             branches:
@@ -37,26 +31,24 @@ workflows:
               only: /^(circleci|release)-.*/
       - create-release:
           requires:
-            # - create-mock
             - build-linux
-            - build-macos
-            - build-windows
+            # TEMPTEMP - build-macos
+            # TEMPTEMP - build-windows
           filters:
             branches:
               ignore: /
             tags:
               only: /^release-.*/
-      - update-badge:
-          requires:  # requiring create-release would mean, I get good news only
-            # - create-mock
-            - build-linux
-            - build-macos
-            - build-windows
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^(circleci|release)-.*/
+      # - update-badge:
+      #     requires:  # requiring create-release would mean, I get good news only
+      #       - build-linux
+      #       - build-macos
+      #       - build-windows
+      #     filters:
+      #       branches:
+      #         ignore: /.*/
+      #       tags:
+      #         only: /^(circleci|release)-.*/
 
 # Reuse a sequence of steps
 # See: https://circleci.com/docs/configuration-reference/#workflows
@@ -66,6 +58,7 @@ commands:
       - run:
           name: release-build on github ONLY
           command: |
+            echo "CIRCLE_JOB B: $CIRCLE_JOB"
             if [[ "$CIRCLE_TAG" == release-* && "$CIRCLE_IS_GITHUB" != "true" ]]; then
               echo "release-tag shall run only on github. skipping on bitbucket."
               circleci-agent step halt
@@ -82,6 +75,12 @@ commands:
     steps:
       - store_artifacts:
           path: out/make
+      - run:
+          name: Update Badge Status
+          when: always
+          command: |
+            echo "TODO check if this is the third time..."
+            echo "TODO do that json writing here"
       - run:
           name: persist on tag release ONLY
           command: |
@@ -100,43 +99,33 @@ commands:
           when: on_fail
           command: |
             echo "Weia, this one failed"
-      - run:
-          name: run on SUCCESS only
-          when: on_success
-          command: |
-            echo "Yeah, this one passed"
 
 
 # Jobs to be invoked in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
 jobs:
-  create-mock:
-    docker:
-      - image: cimg/node:20.10.0
-    steps:
-    - run: |
-        mkdir -pv \
-        "./out/make/deb/x64" \
-        "./out/make/rpm/x64" \
-        "./out/make/squirrel.windows/x64" \
-        "./out/make/zip/darwin/x64" \
-        "./out/make/squirrel.windows/x64"
-    - run: find ./out -type d
-    - run: echo "MOCK ARTIFACT" > "./out/make/deb/x64/neopic_0.13.0_amd64.deb"
-    - run: echo "MOCK ARTIFACT" > "./out/make/rpm/x64/neopic-0.13.0-1.x86_64.rpm"
-    - run: echo "MOCK ARTIFACT" > "./out/make/zip/darwin/x64/neopic-darwin-x64-0.13.0.zip"
-    - run: echo "MOCK ARTIFACT" > "./out/make/squirrel.windows/x64/neopic-0.13.0 Setup.exe"
-    - run: echo "MOCK ARTIFACT" > "./out/make/squirrel.windows/x64/neopic-0.13.0-full.nupkg"
-    - persist_to_workspace:
-        root: .
-        paths:
-          - out/make
-
   build-linux:
     docker:
       - image: cimg/node:20.10.0
     steps:
+      - run:
+          name: "ENVTEST ONE"
+          environment:
+            ENVIE: foo
+          command: |
+            echo "CIRCLE_JOB A: $CIRCLE_JOB"
+            echo "ENVIE: $ENVIE"
+            echo "export LINUX=START" >> $BASH_ENV
+            source "$BASH_ENV"
       - steps-before
+      - run:
+          name: "ENVTEST TWO"
+          command: |
+            echo "CIRCLE_JOB A: $CIRCLE_JOB"
+            echo "ENVIE: $ENVIE"
+            echo "LINUX try1: $LINUX"
+            source "$BASH_ENV"
+            echo "LINUX try2: $LINUX"
       - restore_cache:
           key: dependency-B-linux-{{ checksum "package.json" }}
       - run: npm install
@@ -266,21 +255,6 @@ jobs:
       - gh/install
       - attach_workspace:
           at: ./artifacts
-      # - run:
-      #     name: update changelog # pull from (multi-line) description of label
-      #     command: |
-      #       TAG_MESSAGE=$(git tag -n10 --format='%(contents)' "${CIRCLE_TAG}")
-      #       #prepend last tag message to CHANGELOG.md
-      #       echo -e "## [${CIRCLE_TAG#release-}] - $(date +'%Y-%m-%d')\n${TAG_MESSAGE}\n\n$(cat CHANGELOG.md)" > CHANGELOG.md
-
-      #       git config --global user.email "git@nocke.de"
-      #       git config --global user.name "Frank Nocke"
-      #       git add CHANGELOG.md
-      #       git commit -m "Update CHANGELOG for ${CIRCLE_TAG}" || echo "No changes to commit"
-
-      #       # since checkout unattached, grab branch name for current tag (sanitize, trim whitespace)
-      #       BRANCH_NAME=$(git branch -r --contains tags/$CIRCLE_TAG | grep -v HEAD | sed 's/origin\///;s/^\s*//;s/\s*$//' | head -n 1)
-      #       git push origin HEAD:$BRANCH_NAME
       - run:
           name: create release
           command: |
@@ -317,7 +291,6 @@ jobs:
     steps:
       - run:
           name: Update Badge Status
-          when: always
           command: |
             STATUS=$(curl -s "https://circleci.com/api/v1.1/project/github/nocke/neopic/tree/${CIRCLE_TAG}?circle-token=${CIRCLE_TOKEN}&limit=1&filter=completed" | jq -r '.[0].status')
             COLOR="lightgrey"
