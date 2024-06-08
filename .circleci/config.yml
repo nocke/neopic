@@ -330,7 +330,8 @@ jobs:
               COLOR="yellow"
               STATUS="running"
             fi
-            echo "{\"schemaVersion\": 1, \"label\": \"build\", \"message\": \"$STATUS\", \"color\": \"$COLOR\"}" | tee status.json
+            LAST_RUN=$(TZ="Europe/Zurich" date '+%Y-%m-%d %H:%M:%S')
+            echo "{\"schemaVersion\": 1, \"label\": \"build\", \"message\": \"$STATUS\", \"color\": \"$COLOR\", \"lastRun\": \"$LAST_RUN\"}" | tee status.json
             curl -L -X PATCH \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer $GITHUB_TOKEN" \
