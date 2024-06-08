@@ -17,18 +17,18 @@ workflows:
               ignore: /.*/
             tags:
               only: /^(circleci|release)-.*/
-      - build-macos:
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^(circleci|release)-.*/
-      - build-windows:
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^(circleci|release)-.*/
+      # - build-macos:
+      #     filters:
+      #       branches:
+      #         ignore: /.*/
+      #       tags:
+      #         only: /^(circleci|release)-.*/
+      # - build-windows:
+      #     filters:
+      #       branches:
+      #         ignore: /.*/
+      #       tags:
+      #         only: /^(circleci|release)-.*/
       - create-release:
           requires:
             - build-linux
