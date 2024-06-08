@@ -322,13 +322,17 @@ jobs:
             COLOR="lightgrey"
             if [ "$STATUS" == "success" ]; then
               COLOR="brightgreen"
-              STATUS="passing"
+              STATUS="pass"
             elif [ "$STATUS" == "failed" ]; then
               COLOR="red"
-              STATUS="failing"
+              STATUS="failed"
             elif [ "$STATUS" == "running" ]; then
               COLOR="yellow"
               STATUS="running"
             fi
-            echo "{\"schemaVersion\": 1, \"label\": \"build\", \"message\": \"$STATUS\", \"color\": \"$COLOR\"}" | tee status.json
-            curl -X PATCH -H "Authorization: token ${GITHUB_TOKEN}" -H "Content-Type: application/json" -d @status.json "https://api.github.com/gists/${GITHUB_GIST}"
+            curl -L -X PATCH \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/gists/$GITHUB_GIST \
+            -d '{"files":{"neopic-status.json":{"content":"{\"schemaVersion\":\"1\",\"label\":\"build\",\"message\":\"$STATUS\",\"color\":\"$COLOR\"}"}}}'
