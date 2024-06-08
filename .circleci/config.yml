@@ -58,13 +58,6 @@ commands:
       - checkout
       - run: mkdir -p ./out/make ./out/junit
       - run:
-          name: "ENVTEST TWO (generic - steps-before)"
-          command: |
-            echo "CIRCLE_JOB A: $CIRCLE_JOB"
-            echo "LINUX: $LINUX"
-            echo "export LINUX=AFTER" >> $BASH_ENV
-            echo "LINUX: $LINUX"
-      - run:
           name: sanity test
           command: |
             echo "pwd: $PWD   node version: $(node --version)  shell: $SHELL   uname: $(uname)"
@@ -77,7 +70,7 @@ commands:
           command: echo "export ${CIRCLE_JOB/build/result}=PASS"
       - run:
           name: set FAIL flag
-          when: on_success
+          when: on_fail
           command: echo "export ${CIRCLE_JOB/build/result}=FAIL"
       - run:
           name: update-badge
