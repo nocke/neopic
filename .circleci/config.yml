@@ -159,7 +159,7 @@ jobs:
           key: dependency-B-linux-{{ checksum "package.json" }}
           paths:
             - ./node_modules
-      - run: npm run make
+      - run: npm runBREAKINGmake
       - run:
           name: List store_artifacts
           command: ls -lR ./out
