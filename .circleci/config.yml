@@ -94,7 +94,6 @@ commands:
             echo "CIRCLE_JOB A: $CIRCLE_JOB"
             echo "LINUX: $LINUX"
             echo "export LINUX=AFTER" >> $BASH_ENV
-            echo "LINUX: $LINUX"
       - run:
           name: persist on tag release ONLY
           command: |
@@ -109,12 +108,22 @@ commands:
           paths:
             - out/make
       - run:
-          name: run on FAIL only
+          name: run PASS
+          when: on_success
+          command: |
+            echo "yeah, sucess"
+      - run:
+          name: run FAIL
+          when: on_fail
+          command: |
+            echo "oops, it failed"
+      - run:
+          name: run ALWAYS
           when: always
           command: |
             echo "Weia, this one failed"
             echo "contents of BASH_ENV"
-            echo "$BASH_ENV"
+            cat $BASH_ENV
             echo "LINUX: $LINUX"
 
 
