@@ -113,10 +113,9 @@ jobs:
           environment:
             ENVIE: foo
           command: |
-            echo "CIRCLE_JOB A: $CIRCLE_JOB"
+            echo "CIRCLE_JOB A1: $CIRCLE_JOB"
             echo "ENVIE: $ENVIE"
             echo "export LINUX=START" >> $BASH_ENV
-            source "$BASH_ENV"
       - steps-before
       - run:
           name: "ENVTEST TWO"
@@ -124,7 +123,6 @@ jobs:
             echo "CIRCLE_JOB A: $CIRCLE_JOB"
             echo "ENVIE: $ENVIE"
             echo "LINUX try1: $LINUX"
-            source "$BASH_ENV"
             echo "LINUX try2: $LINUX"
       - restore_cache:
           key: dependency-B-linux-{{ checksum "package.json" }}
