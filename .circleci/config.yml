@@ -317,6 +317,7 @@ jobs:
     steps:
       - run:
           name: Update Badge Status
+          when: always
           command: |
             STATUS=$(curl -s "https://circleci.com/api/v1.1/project/github/nocke/neopic/tree/${CIRCLE_TAG}?circle-token=${CIRCLE_TOKEN}&limit=1&filter=completed" | jq -r '.[0].status')
             COLOR="lightgrey"
