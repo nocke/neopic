@@ -121,7 +121,7 @@ commands:
           command: |
             cat $BASH_ENV
             echo '----------------'
-            ll -lR /tmp/workspace
+            ls -lR /tmp/workspace
 
       - store_artifacts:
           path: out/make
