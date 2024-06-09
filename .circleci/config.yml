@@ -107,7 +107,7 @@ commands:
             echo PASS > workspace/${CIRCLE_JOB/build-/result_}
       - when:
           condition:
-            equal: [ true, true ] # always run other steps
+            equal: [ 42, 42 ]
           steps:
             - run:
                 name: "Ja, digge WHEN"
