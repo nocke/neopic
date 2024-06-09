@@ -111,6 +111,7 @@ commands:
           steps:
             - run:
                 name: "Ja, digge WHEN"
+                when: always
                 command: echo "Ja, digge WHEN"
             - persist_to_workspace:
                 root: workspace
