@@ -105,23 +105,29 @@ commands:
             mkdir -p workspace
             echo "export THIS_RUN=FAIL" >> "$BASH_ENV"
             echo PASS > workspace/${CIRCLE_JOB/build-/result_}
-      - persist_to_workspace:
-          root: workspace
-          paths:
-            - workspace/${CIRCLE_JOB/build-/result_}
-      - attach_workspace:
-          at: /tmp/workspace
-      # - write-badge: # writes the singular-result badge
-      #     when: always
-      #     json_file: ${CIRCLE_JOB/build-/neopic-status-}
-      #     status: $THIS_RUN
-      - run:
-          name: update-global-badge
-          when: always
-          command: |
-            cat $BASH_ENV
-            echo '----------------'
-            ls -lR /tmp/workspace
+      - when:
+          condition:
+            equal: [ true, true ] # always run other steps
+          steps:
+            - run:
+                name: "Ja, digge WHEN"
+                command: echo "Ja, digge WHEN"
+            - persist_to_workspace:
+                root: workspace
+                paths:
+                  - workspace/${CIRCLE_JOB/build-/result_}
+            - attach_workspace:
+                at: /tmp/workspace
+            - write-badge: # writes the singular-result badge
+                json_file: ${CIRCLE_JOB/build-/neopic-status-}
+                status: $THIS_RUN
+            - run:
+                name: update-global-badge
+                when: always
+                command: |
+                  cat $BASH_ENV
+                  echo '----------------'
+                  ls -lR /tmp/workspace
 
       - store_artifacts:
           path: out/make
