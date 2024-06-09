@@ -105,6 +105,10 @@ commands:
             mkdir -p workspace
             echo "export THIS_RUN=FAIL" >> "$BASH_ENV"
             echo PASS > workspace/${CIRCLE_JOB/build-/result_}
+      - run:
+          when: always
+          name: fan-in job
+          command: write-badge
       - when:
           condition:
             equal: [ 42, 42 ]
