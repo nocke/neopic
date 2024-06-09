@@ -39,18 +39,6 @@ workflows:
               ignore: /
             tags:
               only: /^release-.*/
-      - always-do:
-          when: always
-          requires:
-            - build-linux
-            - build-macos
-            - build-windows
-          filters:
-            branches:
-              ignore: /
-            tags:
-              only: /^release-.*/
-
 
 # Reuse a sequence of steps
 # See: https://circleci.com/docs/configuration-reference/#workflows
@@ -129,11 +117,6 @@ commands:
 # Jobs to be invoked in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
 jobs:
-  always-do:
-    docker:
-      - image: cimg/node:20.10.0
-    steps:
-      - run: echo "a l w a y s"
   build-linux:
     docker:
       - image: cimg/node:20.10.0
