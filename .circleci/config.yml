@@ -84,7 +84,7 @@ commands:
             echo "proceeding with circleci run"
       # note: checkout must be before mkdir, mkdir must be before sanity test 😬
       - checkout
-      - run: mkdir -p ./out/make ./out/junit
+      - run: mkdir -p ./out/make ./out/junit workspace
       - run:
           name: sanity test
           command: |
@@ -96,13 +96,13 @@ commands:
           when: on_success
           command: |
             echo "export THIS_RUN=PASS" >> "$BASH_ENV"
-            echo PASS > workspace/${CIRCLE_JOB/build-/result_}
+            echo PASS > results/${CIRCLE_JOB/build-/result_}
       - run:
           name: set FAIL flag
           when: on_fail
           command: |
             echo "export THIS_RUN=FAIL" >> "$BASH_ENV"
-            echo PASS > workspace/${CIRCLE_JOB/build-/result_}
+            echo PASS > results/${CIRCLE_JOB/build-/result_}
       - persist_to_workspace:
           root: workspace
           paths:
