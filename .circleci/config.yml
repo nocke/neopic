@@ -109,26 +109,24 @@ commands:
           when: always
           name: fan-in job
           command: circleci local execute --job write-badge -e json_file=neopic-status-linux -e status=PASS
-      - when:
-          condition:
-            equal: [ 42, 42 ]
-          steps:
-            - persist_to_workspace:
-                root: workspace
-                paths:
-                  - workspace/${CIRCLE_JOB/build-/result_}
-            - attach_workspace:
-                at: /tmp/workspace
-            - write-badge: # writes the singular-result badge
-                json_file: ${CIRCLE_JOB/build-/neopic-status-}
-                status: $THIS_RUN
-            - run:
-                name: update-global-badge
-                when: always
-                command: |
-                  cat $BASH_ENV
-                  echo '----------------'
-                  ls -lR /tmp/workspace
+      - persist_to_workspace:
+          when: always
+          root: workspace
+          paths:
+            - workspace/${CIRCLE_JOB/build-/result_}
+      - attach_workspace:
+          when: always
+          at: /tmp/workspace
+      - write-badge: # writes the singular-result badge
+          json_file: ${CIRCLE_JOB/build-/neopic-status-}
+          status: $THIS_RUN
+      - run:
+          name: update-global-badge
+          when: always
+          command: |
+            cat $BASH_ENV
+            echo '----------------'
+            ls -lR /tmp/workspace
 
       - store_artifacts:
           path: out/make
