@@ -30,7 +30,18 @@ workflows:
             tags:
               only: /^(circleci|release)-.*/
       - create-release:
-          requires: # only release, if all the pass, naturally
+          requires: # only release, if all 3 pass, naturally
+            - build-linux
+            - build-macos
+            - build-windows
+          filters:
+            branches:
+              ignore: /
+            tags:
+              only: /^release-.*/
+      - always-do:
+          when: always
+          requires:
             - build-linux
             - build-macos
             - build-windows
@@ -40,37 +51,11 @@ workflows:
             tags:
               only: /^release-.*/
 
+
 # Reuse a sequence of steps
 # See: https://circleci.com/docs/configuration-reference/#workflows
 commands:
-  write-badge:
-    parameters:
-      json_file:
-        type: string
-      status:
-        type: string
-    steps:
-      - run:
-          name: "write badge-gist"
-          command: |
-            echo "Params: →→→ {{ json_file }} | {{  status  }}"
-            COLOR="unclear"
-            STATUS="unclear"
-            if [ "{{ status }}" == "PASS" ]; then
-            COLOR="brightgreen"
-            STATUS="pass"
-            elif [ "{{ status }}" == "FAIL" ]; then
-            COLOR="red"
-            STATUS="failed"
-            fi
-            LAST_RUN=$(TZ="Europe/Zurich" date '+%Y-%m-%d %H:%M:%S')
-            echo "{\"files\": { \"{{ json_file }}.json\" : {\"schemaVersion\": 1, \"label\": \"build\", \"message\": \"{{ status }}\", \"color\": \"$COLOR\", \"lastRun\": \"$LAST_RUN\"}}}" | tee status.json
-            curl -L -X PATCH \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer $GITHUB_TOKEN" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            -d @status.json \
-            "https://api.github.com/gists/$GITHUB_GIST"
+
   steps-before:
     steps:
       - run:
@@ -106,28 +91,25 @@ commands:
             echo "export THIS_RUN=FAIL" >> "$BASH_ENV"
             echo PASS > workspace/${CIRCLE_JOB/build-/result_}
       - run:
-          when: always
-          name: fan-in job
-          command: circleci local execute --job write-badge -e json_file=neopic-status-linux -e status=PASS
-      - persist_to_workspace:
-          when: always
-          root: workspace
-          paths:
-            - workspace/${CIRCLE_JOB/build-/result_}
-      - attach_workspace:
-          when: always
-          at: /tmp/workspace
-      - write-badge: # writes the singular-result badge
-          json_file: ${CIRCLE_JOB/build-/neopic-status-}
-          status: $THIS_RUN
-      - run:
-          name: update-global-badge
-          when: always
+          name: "write badge to gist"
           command: |
-            cat $BASH_ENV
-            echo '----------------'
-            ls -lR /tmp/workspace
-
+            COLOR="unclear"
+            STATUS="unclear"
+            if [ "$THIS_RUN" == "PASS" ]; then
+            COLOR="brightgreen"
+            STATUS="pass"
+            elif [ "$THIS_RUN" == "FAIL" ]; then
+            COLOR="red"
+            STATUS="failed"
+            fi
+            LAST_RUN=$(TZ="Europe/Zurich" date '+%Y-%m-%d %H:%M:%S')
+            echo "{\"files\": { \"${CIRCLE_JOB/build-/neopic-status-}.json\" : {\"schemaVersion\": 1, \"label\": \"build\", \"message\": \"$STATUS\", \"color\": \"$COLOR\", \"lastRun\": \"$LAST_RUN\"}}}" | tee status.json
+            curl -L -X PATCH \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            -d @status.json \
+            "https://api.github.com/gists/$GITHUB_GIST"
       - store_artifacts:
           path: out/make
       - run:
@@ -147,6 +129,11 @@ commands:
 # Jobs to be invoked in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
 jobs:
+  always-do:
+    docker:
+      - image: cimg/node:20.10.0
+    steps:
+      - run: echo "a l w a y s"
   build-linux:
     docker:
       - image: cimg/node:20.10.0
