@@ -108,15 +108,11 @@ commands:
       - run:
           when: always
           name: fan-in job
-          command: write-badge
+          command: circleci local execute --job write-badge -e json_file=neopic-status-linux -e status=PASS
       - when:
           condition:
             equal: [ 42, 42 ]
           steps:
-            - run:
-                name: "Ja, digge WHEN"
-                when: always
-                command: echo "Ja, digge WHEN"
             - persist_to_workspace:
                 root: workspace
                 paths:
