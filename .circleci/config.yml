@@ -80,6 +80,7 @@ commands:
             echo PASS > workspace/${CIRCLE_JOB/build-/result_}
       - run:
           name: "write badge to gist"
+          when: always
           command: |
             COLOR="unclear"
             STATUS="unclear"
