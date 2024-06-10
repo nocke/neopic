@@ -90,9 +90,8 @@ commands:
             COLOR="red"
             STATUS="failed"
             fi
-            LAST_RUN=$(TZ="Europe/Zurich" date '+%Y-%m-%d %H:%M:%S')
 
-            JSON_PAYLOAD='{"files": { "'"${CIRCLE_JOB/build-/neopic-status-}.json"'": {"content": "{\"schemaVersion\": 1, \"label\": \"build\", \"message\": \"'"$STATUS"'\", \"color\": \"'"$COLOR"'\", \"lastRun\": \"'"$LAST_RUN"'\"}"}}}'
+            JSON_PAYLOAD='{"files": { "'"${CIRCLE_JOB/build-/neopic-status-}.json"'": {"content": "{\"schemaVersion\": 1, \"label\": \" ${CIRCLE_JOB/build-/} build \", \"message\": \"'"$STATUS"'\", \"color\": \"'"$COLOR"'\"}"}}}'
 
             curl -L -X PATCH \
               -H "Accept: application/vnd.github+json" \
