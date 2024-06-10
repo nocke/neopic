@@ -1,6 +1,15 @@
 # Neopic
+[![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnocke%2Fneopic%2Fmaster%2Fpackage.json&query=version&label=neopic%20version&color=%232ae)](https://github.com/nocke/neopic/releases/latest)
+![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnocke%2Fneopic%2Fmaster%2Fpackage.json&query=%24.devDependencies%5B%22%40electron-forge%2Fcli%22%5D&label=electron%20forge&color=%2325f)
+![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnocke%2Fneopic%2Fmaster%2Fpackage.json&query=%24.devDependencies%5B%22vite%22%5D&label=vite&color=%23c2c)
 
-![CircleCI](https://img.shields.io/endpoint?url=https%3A%2F%2Fgist.githubusercontent.com%2Fnocke%2F97a83e6cf7b344163697f59ed3758713%2Fraw%2F87270dcf55b4b2e02824b81528890c08e440ffb4%2Fneopic-status.json)
+
+
+
+![Endpoint Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fgist.githubusercontent.com%2Fnocke%2F435d13deb82fabccdfffa1df7db49269%2Fraw%2F8771f82d81ec27e6d03025588cd22552dd03b97a%2Fneopic-status-linux.json)
+![Endpoint Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fgist.githubusercontent.com%2Fnocke%2F435d13deb82fabccdfffa1df7db49269%2Fraw%2F8771f82d81ec27e6d03025588cd22552dd03b97a%2Fneopic-status-macos.json)
+![Endpoint Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fgist.githubusercontent.com%2Fnocke%2F435d13deb82fabccdfffa1df7db49269%2Fraw%2F5d70516eb25b250e73b0d7af533b5329158c44af%2Fneopic-status-windows.json)
+
 
 <img src="./docs/img/preview.png" style="width: 100%; max-width:800px">
 
