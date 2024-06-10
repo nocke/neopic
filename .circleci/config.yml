@@ -91,7 +91,7 @@ commands:
             STATUS="failed"
             fi
 
-            JSON_PAYLOAD='{"files": { "'"${CIRCLE_JOB/build-/neopic-status-}.json"'": {"content": "{\"schemaVersion\": 1, \"label\": \" ${CIRCLE_JOB/build-/} build \", \"message\": \"'"$STATUS"'\", \"color\": \"'"$COLOR"'\"}"}}}'
+            JSON_PAYLOAD='{"files": { "'"${CIRCLE_JOB/build-/neopic-status-}.json"'": {"content": "{\"schemaVersion\": 1, \"label\": \" ${CIRCLE_JOB#build-} build \", \"message\": \"'"$STATUS"'\", \"color\": \"'"$COLOR"'\"}"}}}'
 
             curl -L -X PATCH \
               -H "Accept: application/vnd.github+json" \
@@ -279,4 +279,3 @@ jobs:
               --title "${CIRCLE_TAG#release-}" \
               --notes-file RELEASE_NOTES_TEMP.txt \
               $ARTIFACTS
-
