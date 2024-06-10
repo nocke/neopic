@@ -170,9 +170,6 @@ jobs:
     macos:
       xcode: 15.1.0
     steps:
-      - run: # TEMPTEMP
-          name: Fail the job
-          command: exit 1
       - run: xcodebuild -version
       - steps-before
       - restore_cache:
