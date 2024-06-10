@@ -279,3 +279,4 @@ jobs:
               --title "${CIRCLE_TAG#release-}" \
               --notes-file RELEASE_NOTES_TEMP.txt \
               $ARTIFACTS
+
