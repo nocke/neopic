@@ -92,7 +92,7 @@ commands:
             fi
             LAST_RUN=$(TZ="Europe/Zurich" date '+%Y-%m-%d %H:%M:%S')
             echo "{\"files\": { \"${CIRCLE_JOB/build-/neopic-status-}.json\" : {\"schemaVersion\": 1, \"label\": \"build\", \"message\": \"$STATUS\", \"color\": \"$COLOR\", \"lastRun\": \"$LAST_RUN\"}}}" | tee status.json
-            curl -L -X PATCH \
+            echo curl -L -X PATCH \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer $GITHUB_TOKEN" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
