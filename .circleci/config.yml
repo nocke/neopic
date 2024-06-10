@@ -95,7 +95,7 @@ commands:
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer $GITHUB_TOKEN" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
-            "https://api.github.com/gists/$GITHUB_GIST"
+            "https://api.github.com/gists/$GITHUB_GIST" \
             -d "{\"files\": { \"${CIRCLE_JOB/build-/neopic-status-}.json\" : {\"schemaVersion\": 1, \"label\": \"build\", \"message\": \"$STATUS\", \"color\": \"$COLOR\", \"lastRun\": \"$LAST_RUN\"}}}" \
             echo "result: $?"
       - store_artifacts:
