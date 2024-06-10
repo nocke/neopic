@@ -7,7 +7,8 @@
 
 
 ![Endpoint Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fgist.githubusercontent.com%2Fnocke%2F435d13deb82fabccdfffa1df7db49269%2Fraw%2F8771f82d81ec27e6d03025588cd22552dd03b97a%2Fneopic-status-linux.json)
-![Endpoint Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fgist.githubusercontent.com%2Fnocke%2F435d13deb82fabccdfffa1df7db49269%2Fraw%2F8771f82d81ec27e6d03025588cd22552dd03b97a%2Fneopic-status-macos.json)
+[![Endpoint Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fgist.githubusercontent.com%2Fnocke%2F435d13deb82fabccdfffa1df7db49269%2Fraw%2F8771f82d81ec27e6d03025588cd22552dd03b97a%2Fneopic-status-macos.json)
+](https://gist.githubusercontent.com/nocke/435d13deb82fabccdfffa1df7db49269/raw/64d4e68dc922b74e4fc4f7caf5a89156c99e14a2/neopic-status-macos.json)
 ![Endpoint Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fgist.githubusercontent.com%2Fnocke%2F435d13deb82fabccdfffa1df7db49269%2Fraw%2F5d70516eb25b250e73b0d7af533b5329158c44af%2Fneopic-status-windows.json)
 
 
