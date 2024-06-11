@@ -1,10 +1,6 @@
-<img src="src/img/icons/icon.png" width="128" height="128">
+<img src="src/img/icons/icon.png" alt="ja" width="64" height="64" align="center" />
 
-# Neopic
-
-![Endpoint Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fgist.githubusercontent.com%2Fnocke%2F435d13deb82fabccdfffa1df7db49269%2Fraw%2Fneopic-status-linux.json)
-![Endpoint Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fgist.githubusercontent.com%2Fnocke%2F435d13deb82fabccdfffa1df7db49269%2Fraw%2Fneopic-status-macos.json)
-![Endpoint Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fgist.githubusercontent.com%2Fnocke%2F435d13deb82fabccdfffa1df7db49269%2Fraw%2Fneopic-status-windows.json)
+# Neopic ![Endpoint Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fgist.githubusercontent.com%2Fnocke%2F435d13deb82fabccdfffa1df7db49269%2Fraw%2Fneopic-status-linux.json) ![Endpoint Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fgist.githubusercontent.com%2Fnocke%2F435d13deb82fabccdfffa1df7db49269%2Fraw%2Fneopic-status-macos.json) ![Endpoint Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fgist.githubusercontent.com%2Fnocke%2F435d13deb82fabccdfffa1df7db49269%2Fraw%2Fneopic-status-windows.json)
 
 
 [![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnocke%2Fneopic%2Fmaster%2Fpackage.json&query=version&label=neopic%20version)](https://github.com/nocke/neopic/releases/latest)
@@ -39,9 +35,10 @@ I use [vscode] as my [IDE](https://code.visualstudio.com/). Some recommended ext
 | shields.io | for build status badges (quite a battle) |
 
 
+
 ### Testing
 
-I am using vitest ( [config](https://vitest.dev/config/) | [guide](https://vitest.dev/guide/) ). (much faster than mocha in this environment and a lot „cjs vs. ES6“ trouble…).
+I am using vitest ( [config](https://vitest.dev/config/) | [guide](https://vitest.dev/guide/) ). Faster than mocha in this environment and a lot „cjs vs. ES6“ trouble…
 
     npm run test -- test/selftest.spec.ts
 
@@ -53,17 +50,21 @@ I am using vitest ( [config](https://vitest.dev/config/) | [guide](https://vites
 
     npm version minor
 
+There is a small preversion hook, testing for clean git status.
+
 ## testing
 
     npm run test
 
-Running single tests:
+Runs the vitest suite locally
+
+### Running single tests:
 
     npm run test -- test/selftest.spec.ts
     npm run test:watch -- test/selftest.spec.ts
     npm run test:debug -- test/selftest.spec.ts
 
-Tests may be in `test/` folder or in `src/` alongside application code
+most tests are in `src/` alongside application code, some more generic ones are in `test/`
 
     npm run test -- src\main\handlers\ipcHandlers.spec.ts
 
@@ -87,9 +88,9 @@ Running
 
     npm run release
 
-will do everything `npm run circleci` does and create a github release.
+will do everything `npm run circleci` does and, upon success an all 3 platforms, create a github release.
 
-If you are fiddling with something and don't mind some open pending changes, skip the specific check against that (note: there is a space after `--`):
+If you are fiddling with something and don't mind some open pending changes, skip the specific check for pending changes (note: there is a space after `--`. These are params looped through by npm):
 
     npm run circleci -- nocheck
     npm run releases -- nocheck
