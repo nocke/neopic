@@ -38,7 +38,20 @@
     "type": "git",
     "url": "bitbucket.org:fnocke/neopic.git"
   },
-  "keywords": [],
+  "keywords": [
+    "electron",
+    "electron-forge",
+    "template",
+    "boilerplate",
+    "svelte",
+    "es6",
+    "typescript",
+    "image tagging",
+    "photo",
+    "metadata",
+    "golden layout",
+    "circleci"
+  ],
   "license": "MIT",
   "devDependencies": {
     "@electron-forge/cli": "^7.4.0",
