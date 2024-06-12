@@ -1,4 +1,7 @@
-{
+
+    // REF https://code.visualstudio.com/remote/advancedcontainers/overview
+    // REF https://code.visualstudio.com/docs/devcontainers/containers
+    {
     "name": "neopic-codespace",
     // "build": {
     //     // "dockerfile": "Dockerfile",
@@ -31,7 +34,6 @@
                 "editorconfig.editorconfig",
                 "vitest.explorer"
             ],
-            "devPort": 0
         }
     },
     "containerEnv": {
