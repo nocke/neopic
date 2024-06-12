@@ -2,20 +2,19 @@
 
 # Neopic ![Endpoint Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fgist.githubusercontent.com%2Fnocke%2F435d13deb82fabccdfffa1df7db49269%2Fraw%2Fneopic-status-linux.json) ![Endpoint Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fgist.githubusercontent.com%2Fnocke%2F435d13deb82fabccdfffa1df7db49269%2Fraw%2Fneopic-status-macos.json) ![Endpoint Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fgist.githubusercontent.com%2Fnocke%2F435d13deb82fabccdfffa1df7db49269%2Fraw%2Fneopic-status-windows.json)
 
-
 [![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnocke%2Fneopic%2Fmaster%2Fpackage.json&query=version&label=neopic%20version)](https://github.com/nocke/neopic/releases/latest)
 ![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnocke%2Fneopic%2Fmaster%2Fpackage.json&query=%24.devDependencies%5B%22%40electron-forge%2Fcli%22%5D&label=electron%20forge&color=%2325f)
 
 
 <img src="./docs/img/preview.png" style="width: 100%; max-width:800px">
 
-Neopic is an image browser with focus on organizing, tagging, captioning, sorting of images. With a special focus on families (groups) of images.
+Neopic will be an image browser with focus on organizing, tagging, captioning, sorting of images in efficient, straightforward ways. Always with a special focus on families (groups) of images, i.e. shots of same basename, Raw, (derived) JPGs, crops and alerations...
+
+Neopic is based on Electron-Forge, using the Vite bundler, Svelte, Sass, Typescript, NodeJS with ES6.
 
 ## Development
 
-WORK IN PROGRESS clearly, but I think I already have some pretty nice groundwork.
-
-Some structural [Development Notes](./docs/DEVELOPMENT.md)
+WORK IN PROGRESS clearly, but I think I got some pretty nice foundations.
 
 ## Tools used
 
@@ -34,6 +33,7 @@ I use [vscode] as my [IDE](https://code.visualstudio.com/). Some recommended ext
 | build pipeline   | I found [circleci](https://circleci.com/) to be the _( only? )_ platform to do triple-platform builds free of charge. Made builds and github releases tag-triggered rather than commit-triggered, to consume less minutes, such that the free tier suffices.  |
 | shields.io | for build status badges (quite a battle) |
 
+[Development Notes (wip)](./docs/DEVELOPMENT.md)
 
 
 ### Testing
