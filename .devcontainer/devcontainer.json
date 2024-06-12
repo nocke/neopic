@@ -1,0 +1,49 @@
+{
+    "name": "neopic-codespace",
+    // "build": {
+    //     // "dockerfile": "Dockerfile",
+    //     // "context": "..",
+    //     // "args": {
+    //     //     "VARIANT": "20"
+    //     // }
+    // },
+    "runArgs": [
+        //
+        // "--network",
+        // "host"
+    ],
+    "customizations": {
+        "codespaces": {
+
+        },
+        "vscode": {
+            "settings": {
+                "terminal.integrated.shell.linux": "/bin/bash"
+            },
+            "extensions": [
+                // pretty useful to not accidentally close codespace with ctrl-W/ctrl-Q
+                "artdiniz.quitcontrol-vscode",
+                // consider keeping in sync with `.vscode/settings.json`
+                "syler.sass-indented",
+                "svelte.svelte-vscode",
+                "dbaeumer.vscode-eslint",
+                "circleci.circleci",
+                "editorconfig.editorconfig",
+                "vitest.explorer"
+            ],
+            "devPort": 0
+        }
+    },
+    "containerEnv": {
+        "MY_CONTAINER_VAR": "some-value-here",
+        "MY_CONTAINER_VAR2": "${localEnv:SOME_LOCAL_VAR}"
+    },
+    "remoteEnv": {
+        "PATH": "${containerEnv:PATH}:/some/other/path",
+        "MY_REMOTE_VARIABLE": "some-other-value-here",
+        "MY_REMOTE_VARIABLE2": "${localEnv:SOME_LOCAL_VAR}"
+    },
+    // "postCreateCommand": "npm install && npm install -g electron-forge vite svelte",
+    "postCreateCommand": "npm install",
+    "remoteUser": "node"
+}
