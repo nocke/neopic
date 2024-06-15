@@ -1,3 +1,4 @@
+// src/renderer/goldenLayout/layout-types.d.ts
 import { JsonValue } from 'golden-layout'
 
 type Bounds = {

@@ -2,8 +2,9 @@
 
 # Neopic ![Endpoint Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fgist.githubusercontent.com%2Fnocke%2F435d13deb82fabccdfffa1df7db49269%2Fraw%2Fneopic-status-linux.json) ![Endpoint Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fgist.githubusercontent.com%2Fnocke%2F435d13deb82fabccdfffa1df7db49269%2Fraw%2Fneopic-status-macos.json) ![Endpoint Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fgist.githubusercontent.com%2Fnocke%2F435d13deb82fabccdfffa1df7db49269%2Fraw%2Fneopic-status-windows.json)
 
-[![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnocke%2Fneopic%2Fmaster%2Fpackage.json&query=version&label=neopic%20version)](https://github.com/nocke/neopic/releases/latest)
-![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnocke%2Fneopic%2Fmaster%2Fpackage.json&query=%24.devDependencies%5B%22%40electron-forge%2Fcli%22%5D&label=electron%20forge&color=%2325f)
+
+[![neopic version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnocke%2Fneopic%2Fmaster%2Fpackage.json&query=version&label=neopic%20version)](https://github.com/nocke/neopic/releases/latest)
+[![electron-forge version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnocke%2Fneopic%2Fmaster%2Fpackage.json&query=%24.devDependencies%5B%22%40electron-forge%2Fcli%22%5D&label=electron%20forge&color=%2325f)](https://github.com/nocke/neopic/blob/master/package.json)
 
 
 <img src="./docs/img/preview.png" style="width: 100%; max-width:800px">
