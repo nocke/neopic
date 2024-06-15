@@ -4,22 +4,9 @@
 <script lang="ts">
   import type { ComponentConfig } from './layout-types'
   import { SvelteComponent } from 'svelte'
-
-  import TestComponent from '../test/Test.svelte'
-  import ExplorerBar from '../explorerBar/ExplorerBar.svelte'
-  import ViewPort from '../viewPort/ViewPort.svelte'
+  import { getComponent } from './ComponentRegistry'
 
   let instance: SvelteComponent
-
-  interface ComponentMap {
-    [key: string]: typeof TestComponent | typeof ExplorerBar | typeof ViewPort | undefined
-  }
-
-  const componentMap: ComponentMap = {
-    testComponent: TestComponent,
-    explorerBar: ExplorerBar,
-    viewPort: ViewPort,
-  }
 
   export let componentConfig: ComponentConfig
 
@@ -45,10 +32,6 @@
     return style
   }
 
-  function getComponent(typeName: string): typeof TestComponent | typeof ExplorerBar | typeof ViewPort | null {
-    return componentMap[typeName] || null
-  }
-
   function oneLevelStringify(obj: unknown): string {
     return JSON.stringify(obj, function (k, v) {
       return k && v && typeof v !== 'number' ? (Array.isArray(v) ? '[object Array]' : '' + v) : v
@@ -67,8 +50,7 @@
     componentState: {oneLevelStringify(componentConfig.componentState)}<br/>
   </div>
   <!-- deferred (if needed anyhow)  id="{componentConfig.id}" -->
-  <svelte:component
-   this="{getComponent(componentConfig.componentTypeName)}"
-   bind:this="{instance}"
-   componentState="{componentConfig.componentState}"/>
+
+  <!--                                                              NEXT ↓ -->
+  <svelte:component this="{getComponent(componentConfig.componentTypeName)}" bind:this="{instance}" componentState="{componentConfig.componentState}"/>
 </section>
