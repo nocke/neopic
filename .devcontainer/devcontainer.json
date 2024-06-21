@@ -1,0 +1,48 @@
+// REF https://code.visualstudio.com/remote/advancedcontainers/overview
+// REF https://code.visualstudio.com/docs/devcontainers/containers
+{
+    "name": "neopic-codespace",
+    // "build": {
+    //     // "dockerfile": "Dockerfile",
+    //     // "context": "..",
+    //     // "args": {
+    //     //     "VARIANT": "20"
+    //     // }
+    // },
+    "runArgs": [
+        //
+        // "--network",
+        // "host"
+    ],
+    "customizations": {
+        "codespaces": {},
+        "vscode": {
+            "settings": {
+                "terminal.integrated.shell.linux": "/bin/bash"
+            },
+            "extensions": [
+                // pretty useful to not accidentally close codespace with ctrl-W/ctrl-Q
+                "artdiniz.quitcontrol-vscode",
+                // consider keeping in sync with `.vscode/settings.json`
+                "syler.sass-indented",
+                "svelte.svelte-vscode",
+                "dbaeumer.vscode-eslint",
+                "circleci.circleci",
+                "editorconfig.editorconfig",
+                "vitest.explorer"
+            ],
+        }
+    },
+    "containerEnv": {
+        "LANG": "en_US.UTF-8",
+        "LC_CTYPE": "en_US.UTF-8",
+        "LC_ALL": "en_US.UTF-8"
+    },
+    "remoteEnv": {
+        "LANG": "en_US.UTF-8",
+        "LC_CTYPE": "en_US.UTF-8",
+        "LC_ALL": "en_US.UTF-8"
+    },
+    // "postCreateCommand": "npm install && npm install -g electron-forge vite svelte",
+    "postCreateCommand": "npm install"
+}
