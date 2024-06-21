@@ -1,7 +1,6 @@
-
-    // REF https://code.visualstudio.com/remote/advancedcontainers/overview
-    // REF https://code.visualstudio.com/docs/devcontainers/containers
-    {
+// REF https://code.visualstudio.com/remote/advancedcontainers/overview
+// REF https://code.visualstudio.com/docs/devcontainers/containers
+{
     "name": "neopic-codespace",
     // "build": {
     //     // "dockerfile": "Dockerfile",
@@ -16,9 +15,7 @@
         // "host"
     ],
     "customizations": {
-        "codespaces": {
-
-        },
+        "codespaces": {},
         "vscode": {
             "settings": {
                 "terminal.integrated.shell.linux": "/bin/bash"
@@ -37,15 +34,15 @@
         }
     },
     "containerEnv": {
-        "MY_CONTAINER_VAR": "some-value-here",
-        "MY_CONTAINER_VAR2": "${localEnv:SOME_LOCAL_VAR}"
+        "LANG": "en_US.UTF-8",
+        "LC_CTYPE": "en_US.UTF-8",
+        "LC_ALL": "en_US.UTF-8"
     },
     "remoteEnv": {
-        "PATH": "${containerEnv:PATH}:/some/other/path",
-        "MY_REMOTE_VARIABLE": "some-other-value-here",
-        "MY_REMOTE_VARIABLE2": "${localEnv:SOME_LOCAL_VAR}"
+        "LANG": "en_US.UTF-8",
+        "LC_CTYPE": "en_US.UTF-8",
+        "LC_ALL": "en_US.UTF-8"
     },
     // "postCreateCommand": "npm install && npm install -g electron-forge vite svelte",
-    "postCreateCommand": "npm install",
-    "remoteUser": "node"
+    "postCreateCommand": "npm install"
 }
