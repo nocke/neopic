@@ -36,6 +36,20 @@ I use [vscode] as my [IDE](https://code.visualstudio.com/). Some recommended ext
 
 [Development Notes (wip)](./docs/DEVELOPMENT.md)
 
+### Setup for development
+
+    npm i
+    npm start
+
+If you encounter under linux a message like
+
+> The SUID sandbox helper binary was found, but is not configured correctly. Rather than run without#
+> sandboxing I'm aborting now. You need to make sure that
+> (your-repo-folder)/neopic/node_modules/electron/dist/chrome-sandbox is owned by root and has mode 4755.
+
+    sudo chown root:root (your-repo-folder)/neopic/node_modules/electron/dist/chrome-sandbox
+    sudo chmod 4755 (your-repo-folder)/neopic/node_modules/electron/dist/chrome-sandbox
+
 
 ### Testing
 
